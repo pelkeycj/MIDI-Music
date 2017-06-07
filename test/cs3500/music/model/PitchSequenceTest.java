@@ -97,4 +97,8 @@ public class PitchSequenceTest {
     assertTrue(p1A.compareTo(p1D) > 0);
   }
 
+  //TODO test merge
+
+  //TODO test append
+
 }

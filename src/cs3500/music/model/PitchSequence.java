@@ -71,6 +71,31 @@ class PitchSequence implements Comparable<PitchSequence> {
     }
   }
 
+
+  /**
+   * Adds all {@link Note}s from the provided {@code PitchSequence} to this one.
+   * If {@code merge} is {@code true}, the notes are merged, otherwise they are appended to the end
+   * of this sequence.
+   * @param p the pitch sequence to merge with
+   * @param merge indicates whether notes are merged or appended
+   * @return the combined {@code PitchSequence}s
+   */
+  PitchSequence addAll(PitchSequence p, boolean merge) {
+     int lastBeat;
+     Note n;
+     while (!p.isEmpty()) {
+       n = p.notes.remove(0);
+       if (merge) {
+         this.addNote(p.notes.remove(0));
+       }
+       else {
+         lastBeat = this.getLastBeat();
+         this.addNote(new Note(n.getStart() + lastBeat, n.getEnd() + lastBeat));
+       }
+     }
+     return this;
+  }
+
   @Override
   public String toString() {
      if (this.isEmpty()) {
@@ -129,4 +154,6 @@ class PitchSequence implements Comparable<PitchSequence> {
       return this.noteType.getValue() - p.noteType.getValue();
     }
   }
+
+
 }

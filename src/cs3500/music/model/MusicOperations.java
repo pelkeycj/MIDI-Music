@@ -43,9 +43,21 @@ public interface MusicOperations {
 
 
   /**
-   * Appends the sheet of notes represented in {@code m} to the end of this
+   * Merges the sheet of notes represented in {@code m}.
    * {@code MusicOperation}s sheet.
+   * @param m the sheet of notes to merge
+   */
+  void mergeSheet(MusicOperations m);
+
+  /**
+   * Appends the sheet of notes represented in {@code m} to the end of this sheet.
    * @param m the sheet of notes to append
    */
   void appendSheet(MusicOperations m);
+
+  /**
+   * Gets the string representation of this music player's sheet of notes.
+   * @return a string representing this music player's sheet of notes.
+   */
+  String getSheet();
 }
