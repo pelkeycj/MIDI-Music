@@ -45,7 +45,7 @@ class Note implements Comparable<Note> {
     StringBuilder s = new StringBuilder();
     s.append("X");
 
-    for (int i = start + 1; i < end; i++) {
+    for (int i = start; i < end; i++) {
       s.append("|");
     }
     return s.toString();
