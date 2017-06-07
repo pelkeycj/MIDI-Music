@@ -24,8 +24,30 @@ class PitchSequence<O, N> implements Comparable<PitchSequence<O, N>> {
     notes = new ArrayList<Note>();
   }
 
-  //TODO isEmpty()
-  //TODO getLastBeat()
+  /**
+   * Determines if this {@code PitchSequence} has no {@link Note}s.
+   * @return true if {@code notes} is empty
+   */
+  boolean isEmpty() {
+    return this.notes.isEmpty();
+  }
+
+
+  /**
+   * Gets the index of the last beat in this sequence of notes.
+   * @return the index of the last beat
+   */
+  int getLastBeat() {
+    int last = 0;
+    for (Note n : this.notes) {
+      if (n.getEnd() > last) {
+        last = n.getEnd();
+      }
+    }
+    return last;
+  }
+
+
   //TODO add note
   //TODO remove note
   //TODO toString
