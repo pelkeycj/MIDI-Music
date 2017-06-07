@@ -60,4 +60,18 @@ class Note implements Comparable<Note> {
       return this.start - n.start;
     }
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Note)) {
+      return false;
+    }
+    Note n = (Note) o;
+    return this.start == n.start && this.end == n.end;
+  }
+
+  @Override
+  public int hashCode() {
+    return 10000 * start + end;
+  }
 }

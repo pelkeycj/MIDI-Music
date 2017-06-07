@@ -63,5 +63,17 @@ public class NoteTest {
     assertTrue(big.compareTo(small) > 0);
   }
 
+  @Test
+  public void testEquals() {
+    assertTrue(tiny.equals(tiny));
+    assertTrue(tiny.equals(new Note(0,0)));
+    assertFalse(tiny.equals(big));
+  }
+
+  @Test
+  public void testHashCode() {
+    assertEquals(0, tiny.hashCode());
+    assertEquals(5, small.hashCode());
+  }
 
 }
