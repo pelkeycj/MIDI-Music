@@ -56,7 +56,17 @@ public class MIDI implements MusicOperations {
     return "";
   }
 
-  //TODO remove empty pitches
+
+  /**
+   * Removes empty {@link PitchSequence}s from {@code pitches}.
+   */
+  private void removeEmpty() {
+    for (PitchSequence p : this.pitches) {
+      if (p.isEmpty()) {
+        this.pitches.remove(p);
+      }
+    }
+  }
 
   /**
    * Determines if there is a {@link PitchSequence} in {@code pitches} that matches the
