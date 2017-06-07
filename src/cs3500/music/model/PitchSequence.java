@@ -1,6 +1,7 @@
 package cs3500.music.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Representation of a sequence of notes at a pitch.
@@ -72,20 +73,43 @@ class PitchSequence implements Comparable<PitchSequence> {
 
   @Override
   public String toString() {
-    //TODO
-    return "";
+     if (this.isEmpty()) {
+       return "";
+     }
+
+    Collections.sort(this.notes);
+    StringBuilder s = new StringBuilder();
+    for (int i = 0; i <= this.getLastBeat(); i++) {
+      s.append(' ');
+    }
+
+    String noteString;
+    int current;
+    for (Note n : this.notes) {
+      noteString = n.toString();
+      current = n.getStart();
+
+      for (char c : noteString.toCharArray()) {
+        s.setCharAt(current, c);
+        current++;
+      }
+    }
+
+    return s.toString();
   }
 
   @Override
   public boolean equals(Object o) {
-    //TODO
-    return false;
+    if (!(o instanceof PitchSequence)) {
+      return false;
+    }
+    PitchSequence p = (PitchSequence) o;
+    return this.getHeader().equals(p.getHeader());
   }
 
   @Override
   public int hashCode() {
-    //TODO
-    return 0;
+    return this.getHeader().hashCode();
   }
 
   /**

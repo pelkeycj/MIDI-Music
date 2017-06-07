@@ -10,18 +10,18 @@ import static org.junit.Assert.*;
  * Tests for the {@link PitchSequence} class.
  */
 public class PitchSequenceTest {
-  PitchSequence<OctaveNumber1To10, NoteTypeWestern> p1D;
-  PitchSequence<OctaveNumber1To10, NoteTypeWestern> p1A;
-  PitchSequence<OctaveNumber1To10, NoteTypeWestern> p2C;
+  PitchSequence p1D;
+  PitchSequence p1A;
+  PitchSequence p2C;
 
   /**
    * Initialize and reset.
    */
   @Before
   public void init() {
-    p1D = new PitchSequence<>(OctaveNumber1To10.O1, NoteTypeWestern.D);
-    p1A = new PitchSequence<>(OctaveNumber1To10.O1, NoteTypeWestern.A);
-    p2C = new PitchSequence<>(OctaveNumber1To10.O2, NoteTypeWestern.C);
+    p1D = new PitchSequence(OctaveNumber1To10.O1, NoteTypeWestern.D);
+    p1A = new PitchSequence(OctaveNumber1To10.O1, NoteTypeWestern.A);
+    p2C = new PitchSequence(OctaveNumber1To10.O2, NoteTypeWestern.C);
   }
 
   @Test
@@ -75,7 +75,7 @@ public class PitchSequenceTest {
   //equals
   public void testEquals() {
     assertFalse(p1A.equals(p1D));
-    assertTrue(p1A.equals(new PitchSequence<>(OctaveNumber1To10.O1, NoteTypeWestern.A)));
+    assertTrue(p1A.equals(new PitchSequence(OctaveNumber1To10.O1, NoteTypeWestern.A)));
   }
 
   @Test
@@ -94,7 +94,7 @@ public class PitchSequenceTest {
   //test compareTO
   public void testCompareTo() {
     assertTrue(p1A.compareTo(p2C) < 0);
-    assertTrue(p1A.compareTo(p1D) < 0);
+    assertTrue(p1A.compareTo(p1D) > 0);
   }
 
 }
