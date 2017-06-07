@@ -99,6 +99,4 @@ public class PitchSequenceTest {
 
   //TODO test merge
 
-  //TODO test append
-
 }

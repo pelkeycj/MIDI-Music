@@ -8,9 +8,11 @@ import java.util.ArrayList;
  */
 public class MIDI implements MusicOperations {
   private ArrayList<PitchSequence> pitches;
+  private ArrayList<MIDI> appendedSheets;
 
   public MIDI() {
     this.pitches = new ArrayList<PitchSequence>();
+    this.appendedSheets = new ArrayList<MIDI>();
   }
 
   @Override
