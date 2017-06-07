@@ -39,7 +39,7 @@ public class PitchSequenceTest {
   public void testRemoveFail() {
     Note n = new Note(5, 100);
     p1A.addNote(n);
-    p1A.remove(new Note(0, 1));
+    p1A.removeNote(new Note(0, 1));
   }
 
   @Test
@@ -61,7 +61,7 @@ public class PitchSequenceTest {
   // overlap
   public void testOverlapToString() {
     p1D.addNote(new Note(0, 2)).addNote(new Note(1, 3));
-    assertEquals("XX||" p1D.toString());
+    assertEquals("XX||", p1D.toString());
   }
 
   @Test
@@ -89,4 +89,12 @@ public class PitchSequenceTest {
   public void testGetHeader() {
     assertEquals("A1", p1A.getHeader());
   }
+
+  @Test
+  //test compareTO
+  public void testCompareTo() {
+    assertTrue(p1A.compareTo(p2C) < 0);
+    assertTrue(p1A.compareTo(p1D) < 0);
+  }
+
 }

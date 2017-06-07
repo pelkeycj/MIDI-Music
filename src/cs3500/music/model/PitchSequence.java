@@ -5,12 +5,10 @@ import java.util.ArrayList;
 /**
  * Representation of a sequence of notes at a pitch.
  * A pitch is characterized as a note at an octave.
- * @param <O> the generic octave number enumeration
- * @param <N> the generic note type enumeration
  */
-class PitchSequence<O, N> implements Comparable<PitchSequence<O, N>> {
-  O octaveNum;
-  N noteType;
+class PitchSequence implements Comparable<PitchSequence> {
+  Octave octaveNum;
+  NoteType noteType;
   ArrayList<Note> notes;
 
   /**
@@ -18,7 +16,7 @@ class PitchSequence<O, N> implements Comparable<PitchSequence<O, N>> {
    * @param octaveNum the octave number of this pitch
    * @param noteType the note type of this pitch
    */
-  PitchSequence(O octaveNum, N noteType) {
+  PitchSequence(Octave octaveNum, NoteType noteType) {
     this.octaveNum = octaveNum;
     this.noteType = noteType;
     notes = new ArrayList<Note>();
@@ -47,18 +45,64 @@ class PitchSequence<O, N> implements Comparable<PitchSequence<O, N>> {
     return last;
   }
 
+  /**
+   * Adds the provided note to this {@code PitchSequence}.
+   * @param n the note to add
+   * @return the modified{@code PitchSequence}
+   */
+   PitchSequence addNote(Note n) {
+    this.notes.add(n);
+    return this;
+  }
 
-  //TODO add note
-  //TODO remove note
-  //TODO toString
-  //TODO equals
-  //TODO hashcode
-  //TODO getHeader
-
+  /**
+   * Removes the specified note from this {@code PitchSequence}.
+   * @param n the {@link Note} to remove
+   * @return the modified {@code PitchSequence}
+   * @throws IllegalArgumentException if {@code n} does not exist in {@code notes}
+   */
+   PitchSequence removeNote(Note n) throws IllegalArgumentException {
+    if (this.notes.remove(n)) {
+      return this;
+    }
+    else {
+      throw new IllegalArgumentException("Note does not exist: " + n);
+    }
+  }
 
   @Override
-  //TODO
-  public int compareTo(PitchSequence<O, N> o) {
+  public String toString() {
+    //TODO
+    return "";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    //TODO
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    //TODO
     return 0;
+  }
+
+  /**
+   * Gets the header for this pitch in the form of note type + octave number.
+   * @return the header for this pitch
+   */
+  String getHeader() {
+    return this.noteType.toString() + this.octaveNum.toString();
+  }
+
+  @Override
+  public int compareTo(PitchSequence p) {
+    if (this.octaveNum.getValue() < p.octaveNum.getValue()) {
+      return this.octaveNum.getValue() - p.octaveNum.getValue();
+    }
+    else {
+      return this.noteType.getValue() - p.noteType.getValue();
+    }
   }
 }
