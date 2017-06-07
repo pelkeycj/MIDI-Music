@@ -24,10 +24,14 @@ class PitchSequence<O, N> implements Comparable<PitchSequence<O, N>> {
     notes = new ArrayList<Note>();
   }
 
+  //TODO isEmpty()
+  //TODO getLastBeat()
   //TODO add note
   //TODO remove note
   //TODO toString
-  //TODO
+  //TODO equals
+  //TODO hashcode
+  //TODO getHeader
 
 
   @Override
