@@ -68,4 +68,9 @@ public interface MusicOperations {
    * @return a list of pitch sequences
    */
   ArrayList<PitchSequence> getPitches();
+
+  /**
+   * Renders the sheet of music notes to the console.
+   */
+  void consoleRender();
 }

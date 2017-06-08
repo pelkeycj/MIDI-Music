@@ -9,8 +9,8 @@ import static org.junit.Assert.assertEquals;
  * Tests for the {@link MIDI} class.
  */
 public class MIDITest {
-  MIDI m1;
-  MIDI m2;
+  MusicOperations m1;
+  MusicOperations m2;
 
   String addNoteString =
             "  C1   A#2 \n"
@@ -36,6 +36,23 @@ public class MIDITest {
           + "3          \n"
           + "4       X  \n"
           + "5       |  \n";
+
+  String L_O_N_G_B_O_Y_E =
+            "   C1   A#1  D#5 \n"
+          + " 0  X            \n"
+          + " 1  |            \n"
+          + " 2               \n"
+          + " 3               \n"
+          + " 4               \n"
+          + " 5               \n"
+          + " 6            X  \n"
+          + " 7            |  \n"
+          + " 8            X  \n"
+          + " 9            |  \n"
+          + "10       X    |  \n";
+
+
+
 
 
   /**
@@ -109,4 +126,17 @@ public class MIDITest {
     //note from n2 placed at 3-4 on m1
     assertEquals(appendSheetString, m1.getSheet());
   }
+
+  @Test
+  // get sheet
+  public void testGetSheet() {
+    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 1);
+    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP, 10, 10);
+    m1.addNote(OctaveNumber1To10.O5, NoteTypeWestern.D_SHARP, 6, 9);
+    m2.addNote(OctaveNumber1To10.O5, NoteTypeWestern.D_SHARP, 8, 10);
+    m1.mergeSheet(m2);
+
+    assertEquals(L_O_N_G_B_O_Y_E, m1.getSheet());
+  }
+
 }

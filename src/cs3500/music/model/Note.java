@@ -6,6 +6,7 @@ package cs3500.music.model;
  * Implements comparable to allow for sorting.
  */
 class Note implements Comparable<Note> {
+  //INVARIANT: end >= start
   private int start;
   private int end;
 

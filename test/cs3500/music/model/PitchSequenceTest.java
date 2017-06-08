@@ -36,6 +36,13 @@ public class PitchSequenceTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
+  // add note -> already exists
+  public void testAddNoteFails() {
+    p1A.addNote(new Note(0, 1));
+    p1A.addNote(new Note(0, 1));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
   // remove note that does not exist
   public void testRemoveFail() {
     Note n = new Note(5, 100);

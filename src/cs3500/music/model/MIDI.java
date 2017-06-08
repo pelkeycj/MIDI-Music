@@ -14,6 +14,12 @@ public class MIDI implements MusicOperations {
     this.pitches = new ArrayList<PitchSequence>();
   }
 
+  //FOR GRADER'S USE
+  @Override
+  public void consoleRender() {
+    System.out.print(this.getSheet());
+  }
+
   @Override
   public void addNote(Octave o, NoteType nt, int start, int end) {
     if (this.hasPitch(o, nt)) {
@@ -90,6 +96,7 @@ public class MIDI implements MusicOperations {
     if (this.pitches.isEmpty()) {
       return "";
     }
+
     Collections.sort(this.pitches);
     ArrayList<String> pitchStrings = new ArrayList<String>();
 
@@ -197,5 +204,4 @@ public class MIDI implements MusicOperations {
     }
     throw new IllegalArgumentException("No such PitchSequence.");
   }
-
 }

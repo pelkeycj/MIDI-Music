@@ -50,11 +50,15 @@ class PitchSequence implements Comparable<PitchSequence> {
    * Adds the provided note to this {@code PitchSequence}.
    * @param n the note to add
    * @return the modified{@code PitchSequence}
+   * @throws IllegalArgumentException if the note already exists
    */
-   PitchSequence addNote(Note n) {
-    this.notes.add(n);
-    return this;
-  }
+   PitchSequence addNote(Note n) throws IllegalArgumentException {
+     if (this.notes.contains(n)) {
+       throw new IllegalArgumentException("Note already exists.");
+     }
+     this.notes.add(n);
+     return this;
+   }
 
   /**
    * Removes the specified note from this {@code PitchSequence}.
@@ -143,7 +147,7 @@ class PitchSequence implements Comparable<PitchSequence> {
 
   @Override
   public int compareTo(PitchSequence p) {
-    if (this.octaveNum.getValue() < p.octaveNum.getValue()) {
+    if (this.octaveNum.getValue() != p.octaveNum.getValue()) {
       return this.octaveNum.getValue() - p.octaveNum.getValue();
     }
     else {
