@@ -21,6 +21,23 @@ public class MIDITest {
           + "4  |       \n"
           + "5  |       \n";
 
+  String mergeSheetString =
+            "  C1    A5  \n"
+          + "0  X        \n"
+          + "1  |        \n"
+          + "2        X  \n"
+          + "3        |  \n";
+
+  String appendSheetString =
+            "  C1   A#2 \n"
+          + "0  X       \n"
+          + "1  |       \n"
+          + "2          \n"
+          + "3          \n"
+          + "4       X  \n"
+          + "5       |  \n";
+
+
   /**
    * Initialize and reset fields.
    */
@@ -55,17 +72,41 @@ public class MIDITest {
   }
 
 
-  //TODO
-  // change note has
-  //change note doesnt have
 
+  @Test(expected = IllegalArgumentException.class)
+  // change-> no such note
+  public void testChangeNoNote() {
+    m1.changeNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP, 0, 7,
+            5, 10);
+  }
 
-  //TODO
-  //merge sheet
+  @Test
+  // change note
+  public void testChangeNote() {
+    m1.addNote(OctaveNumber1To10.O2, NoteTypeWestern.C_SHARP, 0, 5);
+    m1.changeNote(OctaveNumber1To10.O2, NoteTypeWestern.C_SHARP,
+            0, 5, 0, 0);
+    assertEquals("  C#2 \n0  X  ", m1.getSheet());
+  }
 
-  //TODO
-  // append sheet
+  @Test
+  // merge sheets
+  public void testMergeSheet() {
+    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 1);
+    m2.addNote(OctaveNumber1To10.O5, NoteTypeWestern.A, 2, 3);
 
-  //TODO
-  // getSheet
+    m1.mergeSheet(m2);
+    assertEquals(mergeSheetString, m1.getSheet());
+  }
+
+  @Test
+  //append sheet
+  public void testAppendSheet() {
+    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 1);
+    m2.addNote(OctaveNumber1To10.O5, NoteTypeWestern.A, 2, 3);
+    m1.mergeSheet(m2);
+
+    //note from n2 placed at 3-4 on m1
+    assertEquals(appendSheetString, m1.getSheet());
+  }
 }
