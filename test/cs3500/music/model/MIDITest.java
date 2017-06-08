@@ -3,7 +3,7 @@ package cs3500.music.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for the {@link MIDI} class.
@@ -22,14 +22,14 @@ public class MIDITest {
           + "5  |       \n";
 
   String mergeSheetString =
-            "  C1    A5  \n"
-          + "0  X        \n"
-          + "1  |        \n"
-          + "2        X  \n"
-          + "3        |  \n";
+            "  C1   A5  \n"
+          + "0  X       \n"
+          + "1  |       \n"
+          + "2       X  \n"
+          + "3       |  \n";
 
   String appendSheetString =
-            "  C1   A5 \n"
+            "  C1   A5  \n"
           + "0  X       \n"
           + "1  |       \n"
           + "2          \n"
@@ -104,7 +104,7 @@ public class MIDITest {
   public void testAppendSheet() {
     m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 1);
     m2.addNote(OctaveNumber1To10.O5, NoteTypeWestern.A, 2, 3);
-    m1.mergeSheet(m2);
+    m1.appendSheet(m2);
 
     //note from n2 placed at 3-4 on m1
     assertEquals(appendSheetString, m1.getSheet());

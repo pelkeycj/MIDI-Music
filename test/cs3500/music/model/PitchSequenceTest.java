@@ -2,9 +2,10 @@ package cs3500.music.model;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.notification.RunListener;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Tests for the {@link PitchSequence} class.

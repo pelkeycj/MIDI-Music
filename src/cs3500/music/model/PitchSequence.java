@@ -8,9 +8,9 @@ import java.util.Collections;
  * A pitch is characterized as a note at an octave.
  */
 class PitchSequence implements Comparable<PitchSequence> {
-  Octave octaveNum;
-  NoteType noteType;
-  ArrayList<Note> notes;
+  private final Octave octaveNum;
+  private final NoteType noteType;
+  private ArrayList<Note> notes;
 
   /**
    * Constructs an instance of {@code PitchSequence}.
@@ -83,6 +83,7 @@ class PitchSequence implements Comparable<PitchSequence> {
     if (delta < 0) {
       throw new IllegalArgumentException("Delta must be > 0");
     }
+
      Note n;
      while (!p.isEmpty()) {
        n = p.notes.remove(0);

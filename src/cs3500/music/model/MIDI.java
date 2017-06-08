@@ -28,6 +28,7 @@ public class MIDI implements MusicOperations {
   public void removeNote(Octave o, NoteType nt, int start, int end) throws IllegalArgumentException {
     if (this.hasPitch(o, nt)) {
       this.getPitch(o, nt).removeNote(new Note(start ,end));
+      this.removeEmpty();
     }
     else {
       throw new IllegalArgumentException("No such PitchSequence.");
@@ -59,7 +60,7 @@ public class MIDI implements MusicOperations {
   /**
    * Adds the provided music sheet with the given offset.
    * @param m the music sheet to add
-   * @param delta
+   * @param delta the offset to shift the sheet by
    * @throws IllegalArgumentException if {@code delta} is less than 0
    */
   private void addSheet(MusicOperations m, int delta) throws IllegalArgumentException {
@@ -69,10 +70,11 @@ public class MIDI implements MusicOperations {
 
     for (PitchSequence mPitch : m.getPitches()) {
       if (this.hasPitch(mPitch.getOctave(), mPitch.getNoteType())) {
-        this.getPitch(mPitch.getOctave(), mPitch.getNoteType()).addAll(mPitch, 0);
+        this.getPitch(mPitch.getOctave(), mPitch.getNoteType()).addAll(mPitch, delta);
       }
       else {
-        this.pitches.add(mPitch);
+        this.pitches.add(new PitchSequence(mPitch.getOctave(),
+                mPitch.getNoteType()).addAll(mPitch, delta));
       }
     }
   }
@@ -85,6 +87,9 @@ public class MIDI implements MusicOperations {
     int padToSize = (lastBeat + "").length();
 
     this.removeEmpty();
+    if (this.pitches.isEmpty()) {
+      return "";
+    }
     Collections.sort(this.pitches);
     ArrayList<String> pitchStrings = new ArrayList<String>();
 
@@ -151,11 +156,13 @@ public class MIDI implements MusicOperations {
    * Removes empty {@link PitchSequence}s from {@code pitches}.
    */
   private void removeEmpty() {
+    ArrayList<PitchSequence> removed = new ArrayList<PitchSequence>();
     for (PitchSequence p : this.pitches) {
-      if (p.isEmpty()) {
-        this.pitches.remove(p);
+      if (!p.isEmpty()) {
+        removed.add(p);
       }
     }
+    this.pitches = removed;
   }
 
   /**
