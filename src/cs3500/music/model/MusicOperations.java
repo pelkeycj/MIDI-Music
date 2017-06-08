@@ -1,5 +1,7 @@
 package cs3500.music.model;
 
+import java.util.ArrayList;
+
 /**
  * Interface to represent specifications for required methods for a music playler model.
  */
@@ -60,4 +62,10 @@ public interface MusicOperations {
    * @return a string representing this music player's sheet of notes.
    */
   String getSheet();
+
+  /**
+   * Get the list of {@link PitchSequence}s.
+   * @return a list of pitch sequences
+   */
+  ArrayList<PitchSequence> getPitches();
 }

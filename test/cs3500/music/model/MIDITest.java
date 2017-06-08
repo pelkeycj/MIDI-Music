@@ -29,7 +29,7 @@ public class MIDITest {
           + "3        |  \n";
 
   String appendSheetString =
-            "  C1   A#2 \n"
+            "  C1   A5 \n"
           + "0  X       \n"
           + "1  |       \n"
           + "2          \n"
@@ -86,7 +86,7 @@ public class MIDITest {
     m1.addNote(OctaveNumber1To10.O2, NoteTypeWestern.C_SHARP, 0, 5);
     m1.changeNote(OctaveNumber1To10.O2, NoteTypeWestern.C_SHARP,
             0, 5, 0, 0);
-    assertEquals("  C#2 \n0  X  ", m1.getSheet());
+    assertEquals("  C#2 \n0  X  \n", m1.getSheet());
   }
 
   @Test

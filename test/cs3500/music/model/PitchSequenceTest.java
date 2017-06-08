@@ -97,6 +97,19 @@ public class PitchSequenceTest {
     assertTrue(p1A.compareTo(p1D) > 0);
   }
 
-  //TODO test merge
+  @Test(expected = IllegalArgumentException.class)
+  // test merge with bad args
+  public void testMergeInvalidDelta() {
+    p1D.addAll(new PitchSequence(OctaveNumber1To10.O1, NoteTypeWestern.D), -9);
+  }
+
+  @Test
+  //test valid merge
+  public void testMergeValidDelta() {
+    p1D.addNote(new Note(0,1));
+    p1A.addNote(new Note(0,1));
+    p1D.addAll(p1A, 2);
+    assertEquals("X|X|", p1D.toString());
+  }
 
 }

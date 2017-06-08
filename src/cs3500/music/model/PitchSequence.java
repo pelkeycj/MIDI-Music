@@ -75,14 +75,18 @@ class PitchSequence implements Comparable<PitchSequence> {
   /**
    * Adds all {@link Note}s from the provided {@code PitchSequence} to this one.
    * @param p the pitch sequence to merge with
+   * @param delta the amount to shift each number
    * @return the combined {@code PitchSequence}s
+   * @throws IllegalArgumentException if {@code delta} is less than 0
    */
-  PitchSequence merge(PitchSequence p) {
-     int lastBeat;
+  PitchSequence addAll(PitchSequence p, int delta) throws IllegalArgumentException {
+    if (delta < 0) {
+      throw new IllegalArgumentException("Delta must be > 0");
+    }
      Note n;
      while (!p.isEmpty()) {
        n = p.notes.remove(0);
-       this.addNote(p.notes.remove(0));
+       this.addNote(new Note(n.getStart() + delta, n.getEnd() + delta));
      }
      return this;
   }
@@ -146,5 +150,19 @@ class PitchSequence implements Comparable<PitchSequence> {
     }
   }
 
+  /**
+   * Gets the Octave of this pitch sequence.
+   * @return the octave of this pitch sequence
+   */
+  Octave getOctave() {
+    return this.octaveNum;
+  }
 
+  /**
+   * Gets the note type of this pitch sequence.
+   * @return the note type of this pitch sequence
+   */
+  NoteType getNoteType() {
+    return this.noteType;
+  }
 }
