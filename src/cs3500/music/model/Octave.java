@@ -12,5 +12,6 @@ public interface Octave {
    */
   int getValue();
 
+  @Override
   String toString();
 }
