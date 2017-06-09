@@ -37,7 +37,7 @@ public class MIDITest {
           + "4       X  \n"
           + "5       |  \n";
 
-  String L_O_N_G_B_O_Y_E =
+  String longBoye =
             "   C1   A#1  D#5 \n"
           + " 0  X            \n"
           + " 1  |            \n"
@@ -136,7 +136,7 @@ public class MIDITest {
     m2.addNote(OctaveNumber1To10.O5, NoteTypeWestern.D_SHARP, 8, 10);
     m1.mergeSheet(m2);
 
-    assertEquals(L_O_N_G_B_O_Y_E, m1.getSheet());
+    assertEquals(longBoye, m1.getSheet());
   }
 
 }

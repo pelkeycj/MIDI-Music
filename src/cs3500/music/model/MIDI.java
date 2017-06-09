@@ -31,7 +31,8 @@ public class MIDI implements MusicOperations {
   }
 
   @Override
-  public void removeNote(Octave o, NoteType nt, int start, int end) throws IllegalArgumentException {
+  public void removeNote(Octave o, NoteType nt, int start, int end)
+          throws IllegalArgumentException {
     if (this.hasPitch(o, nt)) {
       this.getPitch(o, nt).removeNote(new Note(start ,end));
       this.removeEmpty();
@@ -42,7 +43,8 @@ public class MIDI implements MusicOperations {
   }
 
   @Override
-  public void changeNote(Octave o, NoteType nt, int oldStart, int oldEnd, int newStart, int newEnd) throws IllegalArgumentException {
+  public void changeNote(Octave o, NoteType nt, int oldStart, int oldEnd, int newStart, int newEnd)
+          throws IllegalArgumentException {
     if (this.hasPitch(o, nt)) {
       PitchSequence p = this.getPitch(o, nt);
       p.removeNote(new Note(oldStart, oldEnd));

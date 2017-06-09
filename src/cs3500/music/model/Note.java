@@ -22,7 +22,7 @@ class Note implements Comparable<Note> {
       throw new IllegalArgumentException("Invalid start and/or end beats.");
     }
     this.start = start;
-    this.end= end;
+    this.end = end;
   }
 
   /**
