@@ -10,6 +10,7 @@ import java.util.Collections;
 class PitchSequence implements Comparable<PitchSequence> {
   private final Octave octaveNum;
   private final NoteType noteType;
+  //INVARIANT: notes never contains a PitchSequence with the same Octave and NoteType as another
   private ArrayList<Note> notes;
 
   /**
