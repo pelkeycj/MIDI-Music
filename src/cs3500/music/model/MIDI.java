@@ -9,7 +9,7 @@ import java.util.Collections;
  */
 public class MIDI implements MusicOperations {
   private ArrayList<PitchSequence> pitches;
-  
+
   public MIDI() {
     this.pitches = new ArrayList<PitchSequence>();
   }
@@ -157,7 +157,13 @@ public class MIDI implements MusicOperations {
 
   @Override
   public ArrayList<PitchSequence> getPitches() {
-    return this.pitches;
+    this.removeEmpty();
+    ArrayList<PitchSequence> copy = new ArrayList<PitchSequence>();
+
+    for (PitchSequence p : this.pitches) {
+      copy.add(p.copy());
+    }
+    return copy;
   }
 
 

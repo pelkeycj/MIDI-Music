@@ -172,4 +172,18 @@ public class PitchSequence implements Comparable<PitchSequence> {
   NoteType getNoteType() {
     return this.noteType;
   }
+
+
+  /**
+   * Makes a deep copy of this {@code PitchSequence}.
+   * @return a deep copy of this {@code PitchSequence}
+   */
+  public PitchSequence copy() {
+    PitchSequence copy = new PitchSequence(this.octaveNum, this.noteType);
+
+    for (Note n : this.notes) {
+      copy.addNote(n.copy());
+    }
+    return copy;
+  }
 }

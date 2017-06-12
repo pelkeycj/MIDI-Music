@@ -75,4 +75,12 @@ public class Note implements Comparable<Note> {
   public int hashCode() {
     return 10000 * start + end;
   }
+
+  /**
+   * Makes a copy of this {@code Note}.
+   * @return a deep copy of this {@code Note}
+   */
+  public Note copy() {
+    return new Note(this.start, this.end);
+  }
 }
