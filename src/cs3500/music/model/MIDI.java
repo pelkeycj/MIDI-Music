@@ -3,13 +3,13 @@ package cs3500.music.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 /**
  * Representation of a MIDI music player. <br>
  * Public facing class that implements the {@link MusicOperations} interface.
  */
 public class MIDI implements MusicOperations {
   private ArrayList<PitchSequence> pitches;
+  private int currentBeat;
 
   public MIDI() {
     this.pitches = new ArrayList<PitchSequence>();
