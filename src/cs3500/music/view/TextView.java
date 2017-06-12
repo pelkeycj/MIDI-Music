@@ -1,0 +1,103 @@
+package cs3500.music.view;
+
+import cs3500.music.model.PitchSequence;
+import cs3500.music.model.StringUtilities;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Presents a textual representation of the notes.
+ */
+public class TextView implements IView {
+
+  List<PitchSequence> pitches;
+
+
+
+  @Override
+  public void setNotes(List<PitchSequence> pitches) {
+    this.pitches = pitches;
+  }
+
+  @Override
+  public void makeVisible() {
+    System.out.println(drawNotes());
+  }
+
+  @Override
+  public void setCurrentBeat(int beat) throws IllegalArgumentException {
+    //do nothing
+  }
+
+  @Override
+  public void refresh() {
+   makeVisible();
+  }
+
+
+  private String drawNotes() {
+    StringBuilder s = new StringBuilder();
+    int lastBeat = this.getLastBeat();
+    int padToSize = (lastBeat + "").length();
+
+    if (this.pitches.isEmpty()) {
+      return "";
+    }
+
+    Collections.sort(this.pitches);
+    ArrayList<String> pitchStrings = new ArrayList<String>();
+
+    // get string representations of pitch sequences
+    // to avoid repeated toString() calls
+    for (PitchSequence p : this.pitches) {
+      pitchStrings.add(p.toString());
+    }
+
+    // make header
+    for (int i = 0; i < padToSize; i++) {
+      s.append(" ");
+    }
+    for (PitchSequence p : this.pitches) {
+      s.append(StringUtilities.center(p.getHeader(), 5));
+    }
+    s.append("\n");
+
+    //add all beats
+    int padDelta;
+    String noteAtBeat;
+    for (int i = 0; i <= lastBeat; i++) {
+      // add beat index
+      padDelta = padToSize - (i + "").length();
+      s.append(StringUtilities.padLeft(i + "", padDelta));
+
+      // add beat at each note
+      for (String ps : pitchStrings) {
+        if (i >= ps.length()) {
+          noteAtBeat = " ";
+        }
+        else {
+          noteAtBeat = ps.charAt(i) + "";
+        }
+        s.append(StringUtilities.center(noteAtBeat, 5));
+      }
+      s.append("\n");
+    }
+
+    return s.toString();
+  }
+
+  /**
+   * Gets the last beat of this sheet.
+   * @return the index of the last beat of this sheet
+   */
+  private int getLastBeat() {
+    int lastBeat = 0;
+    for (PitchSequence p : this.pitches) {
+      if (p.getLastBeat() > lastBeat) {
+        lastBeat = p.getLastBeat();
+      }
+    }
+    return lastBeat;
+  }
+}

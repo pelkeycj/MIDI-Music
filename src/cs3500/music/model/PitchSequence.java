@@ -37,7 +37,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    * Gets the index of the last beat in this sequence of notes.
    * @return the index of the last beat
    */
-  int getLastBeat() {
+  public int getLastBeat() {
     int last = 0;
     for (Note n : this.notes) {
       if (n.getEnd() > last) {
@@ -143,7 +143,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    * Gets the header for this pitch in the form of note type + octave number.
    * @return the header for this pitch
    */
-  String getHeader() {
+  public String getHeader() {
     return this.noteType.toString() + this.octaveNum.toString();
   }
 
