@@ -5,7 +5,7 @@ package cs3500.music.model;
  * Stores basic information such as start beat and end beat (inclusive).
  * Implements comparable to allow for sorting.
  */
-class Note implements Comparable<Note> {
+public class Note implements Comparable<Note> {
   //INVARIANT: end >= start
   private int start;
   private int end;

@@ -9,8 +9,7 @@ import java.util.Collections;
  */
 public class MIDI implements MusicOperations {
   private ArrayList<PitchSequence> pitches;
-  private int currentBeat;
-
+  
   public MIDI() {
     this.pitches = new ArrayList<PitchSequence>();
   }

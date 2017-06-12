@@ -10,7 +10,7 @@ import javax.sound.midi.InvalidMidiDataException;
 public class MusicEditor {
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     GuiViewFrame view = new GuiViewFrame();
-    MidiViewImpl midiView = new MidiViewImpl();
+   // MidiViewImpl midiView = new MidiViewImpl();
     // You probably need to connect these views to your model, too...
   }
 }

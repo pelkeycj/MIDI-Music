@@ -7,7 +7,7 @@ import java.util.Collections;
  * Representation of a sequence of notes at a pitch.
  * A pitch is characterized as a note at an octave.
  */
-class PitchSequence implements Comparable<PitchSequence> {
+public class PitchSequence implements Comparable<PitchSequence> {
   private final Octave octaveNum;
   private final NoteType noteType;
   //INVARIANT: notes never contains a PitchSequence with the same Octave and NoteType as another
