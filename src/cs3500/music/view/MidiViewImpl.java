@@ -1,11 +1,13 @@
 package cs3500.music.view;
 
+import cs3500.music.model.PitchSequence;
+import java.util.List;
 import javax.sound.midi.*;
 
 /**
  * A skeleton for MIDI playback
  */
-public class MidiViewImpl implements YourViewInterfaceHere {
+public class MidiViewImpl extends AView {
   private final Synthesizer synth;
   private final Receiver receiver;
 
@@ -62,5 +64,20 @@ public class MidiViewImpl implements YourViewInterfaceHere {
     in the subsequent assignments.
     */
     this.receiver.close(); // Only call this once you're done playing *all* notes
+  }
+
+  @Override
+  public void makeVisible() {
+
+  }
+
+  @Override
+  public void setCurrentBeat(int beat) throws IllegalArgumentException {
+
+  }
+
+  @Override
+  public void refresh() {
+
   }
 }
