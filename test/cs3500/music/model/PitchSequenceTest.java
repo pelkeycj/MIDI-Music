@@ -53,10 +53,10 @@ public class PitchSequenceTest {
   @Test
   //remove note
   public void testRemovePass() {
-   Note n = new Note(0, 1);
-   p1D.addNote(n);
-   p1D.removeNote(n);
-   assertTrue(p1D.isEmpty());
+    Note n = new Note(0, 1);
+    p1D.addNote(n);
+    p1D.removeNote(n);
+    assertTrue(p1D.isEmpty());
   }
 
   @Test

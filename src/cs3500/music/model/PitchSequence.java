@@ -10,6 +10,7 @@ import java.util.Collections;
 class PitchSequence implements Comparable<PitchSequence> {
   private final Octave octaveNum;
   private final NoteType noteType;
+  //INVARIANT: notes never contains a PitchSequence with the same Octave and NoteType as another
   private ArrayList<Note> notes;
 
   /**
@@ -51,14 +52,15 @@ class PitchSequence implements Comparable<PitchSequence> {
    * @param n the note to add
    * @return the modified{@code PitchSequence}
    * @throws IllegalArgumentException if the note already exists
+   *
    */
-   PitchSequence addNote(Note n) throws IllegalArgumentException {
-     if (this.notes.contains(n)) {
-       throw new IllegalArgumentException("Note already exists.");
-     }
-     this.notes.add(n);
-     return this;
-   }
+  PitchSequence addNote(Note n) throws IllegalArgumentException {
+    if (this.notes.contains(n)) {
+      throw new IllegalArgumentException("Note already exists.");
+    }
+    this.notes.add(n);
+    return this;
+  }
 
   /**
    * Removes the specified note from this {@code PitchSequence}.
@@ -66,7 +68,7 @@ class PitchSequence implements Comparable<PitchSequence> {
    * @return the modified {@code PitchSequence}
    * @throws IllegalArgumentException if {@code n} does not exist in {@code notes}
    */
-   PitchSequence removeNote(Note n) throws IllegalArgumentException {
+  PitchSequence removeNote(Note n) throws IllegalArgumentException {
     if (this.notes.remove(n)) {
       return this;
     }
@@ -88,19 +90,19 @@ class PitchSequence implements Comparable<PitchSequence> {
       throw new IllegalArgumentException("Delta must be > 0");
     }
 
-     Note n;
-     while (!p.isEmpty()) {
-       n = p.notes.remove(0);
-       this.addNote(new Note(n.getStart() + delta, n.getEnd() + delta));
-     }
-     return this;
+    Note n;
+    while (!p.isEmpty()) {
+      n = p.notes.remove(0);
+      this.addNote(new Note(n.getStart() + delta, n.getEnd() + delta));
+    }
+    return this;
   }
 
   @Override
   public String toString() {
-     if (this.isEmpty()) {
-       return "";
-     }
+    if (this.isEmpty()) {
+      return "";
+    }
 
     Collections.sort(this.notes);
     StringBuilder s = new StringBuilder();
