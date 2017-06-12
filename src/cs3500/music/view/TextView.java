@@ -13,8 +13,6 @@ public class TextView implements IView {
 
   List<PitchSequence> pitches;
 
-
-
   @Override
   public void setNotes(List<PitchSequence> pitches) {
     this.pitches = pitches;
@@ -35,7 +33,10 @@ public class TextView implements IView {
    makeVisible();
   }
 
-
+  /**
+   * Format the pitches data into a string output.
+   * @return a string representing the notes given to the view.
+   */
   private String drawNotes() {
     StringBuilder s = new StringBuilder();
     int lastBeat = this.getLastBeat();
