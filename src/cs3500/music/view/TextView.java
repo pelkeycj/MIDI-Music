@@ -9,14 +9,9 @@ import java.util.List;
 /**
  * Presents a textual representation of the notes.
  */
-public class TextView implements IView {
+public class TextView extends AView {
 
-  List<PitchSequence> pitches;
-
-  @Override
-  public void setNotes(List<PitchSequence> pitches) {
-    this.pitches = pitches;
-  }
+  private List<PitchSequence> pitches;
 
   @Override
   public void makeVisible() {
