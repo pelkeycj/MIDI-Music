@@ -14,8 +14,8 @@ public class TextView extends AView {
   private List<PitchSequence> pitches;
 
   @Override
-  public void makeVisible() {
-    System.out.println(drawNotes());
+  public void initialize() {
+    //do nothing to initialize this view
   }
 
   @Override
@@ -24,8 +24,14 @@ public class TextView extends AView {
   }
 
   @Override
+  public void setNotes(List<PitchSequence> pitches) {
+    super.setNotes(pitches);
+    System.out.println(drawNotes());
+  }
+
+  @Override
   public void refresh() {
-   makeVisible();
+   initialize();
   }
 
   /**

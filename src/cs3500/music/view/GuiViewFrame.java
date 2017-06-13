@@ -20,11 +20,22 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
    * Creates new GuiView
    */
   public GuiViewFrame() {
-    this.pianoPanel = new PianoPanel();
-    this.sheetPanel = new SheetPanel();
+    super();
 
+    this.setTitle("GUI view");
+    this.setSize(500,500);
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-    this.getContentPane().add(displayPanel);
+
+    //use a border layout with a note panel up top and a piano panel south
+    this.setLayout(new BorderLayout());
+    pianoPanel = new PianoPanel();
+    pianoPanel.setPreferredSize(new Dimension(500,250));
+    this.add(pianoPanel, BorderLayout.SOUTH);
+
+    this.sheetPanel = new SheetPanel();
+    this.add(sheetPanel, BorderLayout.NORTH);
+
+    //this.getContentPane().add(displayPanel);
     this.pack();
   }
 
@@ -40,11 +51,6 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
   @Override
   public void setNotes(List<PitchSequence> pitches) {
-
-  }
-
-  @Override
-  public void makeVisible() {
 
   }
 
