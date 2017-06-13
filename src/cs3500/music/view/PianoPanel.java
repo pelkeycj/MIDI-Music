@@ -9,9 +9,9 @@ import java.util.Objects;
 import javax.swing.*;
 
 /**
- * A dummy view that simply draws a string
+ * Displays a piano with keys that highlight to show the currently playing notes.
  */
-public class ConcreteGuiViewPanel extends JPanel {
+public class PianoPanel extends JPanel {
 
   @Override
   public void paintComponent(Graphics g){
