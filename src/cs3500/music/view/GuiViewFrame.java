@@ -1,22 +1,28 @@
 package cs3500.music.view;
 
+import cs3500.music.model.PitchSequence;
 import java.awt.*;
-import java.awt.event.MouseListener; // Possibly of interest for handling mouse events
 
+import java.util.*;
+import java.util.List;
 import javax.swing.*;
 
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
-public class GuiViewFrame extends javax.swing.JFrame implements YourViewInterfaceHere {
+public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
-  private final JPanel displayPanel; // You may want to refine this to a subtype of JPanel
+
+  private SheetPanel sheetPanel;
+  private PianoPanel pianoPanel;
 
   /**
    * Creates new GuiView
    */
   public GuiViewFrame() {
-    this.displayPanel = new ConcreteGuiViewPanel();
+    this.pianoPanel = new PianoPanel();
+    this.sheetPanel = new SheetPanel();
+
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
     this.pack();
@@ -32,4 +38,23 @@ public class GuiViewFrame extends javax.swing.JFrame implements YourViewInterfac
     return new Dimension(100, 100);
   }
 
+  @Override
+  public void setNotes(List<PitchSequence> pitches) {
+
+  }
+
+  @Override
+  public void makeVisible() {
+
+  }
+
+  @Override
+  public void setCurrentBeat(int beat) throws IllegalArgumentException {
+
+  }
+
+  @Override
+  public void refresh() {
+
+  }
 }
