@@ -3,6 +3,7 @@ package cs3500.music.view;
 import cs3500.music.model.PitchSequence;
 import java.awt.*;
 
+import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -11,7 +12,6 @@ import javax.swing.*;
  * A skeleton Frame (i.e., a window) in Swing
  */
 public class GuiViewFrame extends javax.swing.JFrame implements IView {
-
 
   private SheetPanel sheetPanel;
   private PianoPanel pianoPanel;
@@ -62,5 +62,10 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
   @Override
   public void refresh() {
 
+  }
+
+  @Override
+  public void setKeyListener(KeyListener keyListener) {
+    this.addKeyListener(keyListener);
   }
 }

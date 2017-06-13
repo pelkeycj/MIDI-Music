@@ -2,6 +2,8 @@ package cs3500.music.view;
 
 import cs3500.music.model.PitchSequence;
 import cs3500.music.model.StringUtilities;
+
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +34,11 @@ public class TextView extends AView {
   @Override
   public void refresh() {
    initialize();
+  }
+
+  @Override
+  public void setKeyListener(KeyListener keyListener) {
+    this.setKeyListener(keyListener);
   }
 
   /**
