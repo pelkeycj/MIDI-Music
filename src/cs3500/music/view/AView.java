@@ -1,7 +1,13 @@
 package cs3500.music.view;
 
 import cs3500.music.model.PitchSequence;
+
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.security.Key;
 import java.util.List;
+
+import javax.swing.*;
 
 /**
  * Abstract class for view implementations that defines shared fields and methods.

@@ -2,6 +2,9 @@ package cs3500.music.view;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import cs3500.music.model.*;
+
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.util.List;
 
 /**
@@ -32,4 +35,11 @@ public interface IView {
    * Signal to the view to redraw itself.
    */
   void refresh();
+
+  /**
+   * Provide the view with a key listener to allow the program to
+   * process key input
+   * @param keyListener the key listener to set
+   */
+  void setKeyListener(KeyListener keyListener);
 }
