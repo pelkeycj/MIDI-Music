@@ -67,7 +67,7 @@ public class MidiViewImpl extends AView {
   }
 
   @Override
-  public void makeVisible() {
+  public void initialize() {
 
   }
 

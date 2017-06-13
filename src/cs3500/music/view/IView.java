@@ -21,7 +21,7 @@ public interface IView {
   /**
    * Make the view visible.
    */
-  void makeVisible();
+  void initialize();
 
   /**
    * Set the view to a certain beat.
