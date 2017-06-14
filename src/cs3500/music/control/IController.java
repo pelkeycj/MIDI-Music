@@ -7,8 +7,10 @@ package cs3500.music.control;
  */
 public interface IController {
 
-  //TODO indicate which notes to highlight?
-    // IView -> toggle notes?
+  /**
+   * Pass the sheet of notes from the model to the view.
+   */
+  void setViewNotes();
 
   /**
    * Provide the controller with control, start the program.

@@ -15,6 +15,8 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
   private SheetPanel sheetPanel;
   private PianoPanel pianoPanel;
+  private int currentBeat;
+  private List<PitchSequence> pitches;
 
   /**
    * Creates new GuiView
@@ -22,14 +24,17 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
   public GuiViewFrame() {
     super();
 
+    this.currentBeat = 0;
+    this.pitches = new ArrayList<PitchSequence>();
+
     this.setTitle("GUI view");
     this.setSize(500,500);
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
     //use a border layout with a note panel up top and a piano panel south
     this.setLayout(new BorderLayout());
-    pianoPanel = new PianoPanel();
-    pianoPanel.setPreferredSize(new Dimension(500,250));
+    this.pianoPanel = new PianoPanel();
+    this.pianoPanel.setPreferredSize(new Dimension(500,250));
     this.add(pianoPanel, BorderLayout.SOUTH);
 
     this.sheetPanel = new SheetPanel();
@@ -51,12 +56,12 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
   @Override
   public void setNotes(List<PitchSequence> pitches) {
-
+    this.pitches = pitches;
   }
 
   @Override
-  public void setCurrentBeat(int beat) throws IllegalArgumentException {
-
+  public void setCurrentBeat(int beat) {
+    this.currentBeat = beat;
   }
 
   @Override

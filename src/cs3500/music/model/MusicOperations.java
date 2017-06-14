@@ -70,6 +70,12 @@ public interface MusicOperations {
   ArrayList<PitchSequence> getPitches();
 
   /**
+   * Gets the last beat of this sheet.
+   * @return the index of the last beat of this sheet
+   */
+  int getLastBeat();
+
+  /**
    * Renders the sheet of music notes to the console.
    */
   void consoleRender();
