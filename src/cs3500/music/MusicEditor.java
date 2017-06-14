@@ -19,5 +19,7 @@ public class MusicEditor {
     //TODO read input and create notes in model.
     //TODO connect views, models in controller and launch
 
+   // MidiViewImpl midiView = new MidiViewImpl();
+    // You probably need to connect these views to your model, too...
   }
 }
