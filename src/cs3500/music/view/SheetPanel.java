@@ -3,6 +3,7 @@ package cs3500.music.view;
 import com.sun.corba.se.impl.orbutil.graph.Graph;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,18 +15,16 @@ import cs3500.music.model.PitchSequence;
  * Displays the sheet of music.
  */
 
+
 //TODO JScrollPane
-//TODO test that this draws correctly
+  //TODO set current beat method : draw red line
 public class SheetPanel extends JPanel {
-  // constants subject to change TODO
-  private final int DEFAULT_WIDTH = 500;
+  // constants subject to change
+  private final int DEFAULT_WIDTH = 1000;
   private final int DEFAULT_HEIGHT = 250;
 
-  private final int NUMBER_OF_MEASURES = 10;
-  private final int NUMBER_OF_BEATS = NUMBER_OF_MEASURES * 4;
-
-  private final int BEAT_WIDTH = 10;
-  private final int BEAT_HEIGHT = 6;
+  private final int BEAT_WIDTH = 20;
+  private final int BEAT_HEIGHT = 14;
   private final int MEASURE_WIDTH = BEAT_WIDTH * 4;
 
   private final int BORDER_WIDTH = 1;
@@ -34,20 +33,25 @@ public class SheetPanel extends JPanel {
   private final int MEASURE_BORDER_WIDTH = MEASURE_WIDTH + 2 * BORDER_WIDTH;
   private final int MEASURE_BORDER_HEIGHT = BEAT_BORDER_HEIGHT;
 
+  // x,y coords of top left corner of sheet
+  private final int SHEET_START_X = 50;
+  private final int SHEET_START_Y = 50;
 
-  private final int SHEET_START_X = 100; // x,y coords of top left corner of sheet
-  private final int SHEET_START_Y = 100;
+  private final int HEADER_FONT_SIZE = BEAT_HEIGHT - 2;
 
   private List<PitchSequence> pitches;
   private int lastBeat;
+  private int numMeasures;
+  private int panelWidth;
+  private int panelHeight;
+  private int currentBeat;
 
   /**
    * Constructs a sheet panel.
-   * @param pitches list of pitches to display.
    */
-  public SheetPanel(List<PitchSequence> pitches) {
-    this.pitches = pitches;
-    this.lastBeat = getLastBeat();
+  //TODO sizing, measures, headers, beats
+  public SheetPanel() {
+    this.pitches = new ArrayList<PitchSequence>();
   }
 
   @Override
@@ -55,23 +59,46 @@ public class SheetPanel extends JPanel {
     super.paintComponent(g);
 
     Graphics2D g2d = (Graphics2D) g;
+    g2d.setBackground(Color.white);
 
+    this.setLastBeat();
     this.drawBeatCount(g2d);
 
+    Collections.sort(pitches);
     Collections.reverse(this.pitches); // so that higher pitches are on top
     for (int i = 0; i < this.pitches.size(); i++) {
       this.drawPitch(g2d, this.pitches.get(i), i);
     }
+
+    this.drawCursor(g2d);
   }
 
+  /**
+   * Sets the notes for this panel to display.
+   * @param pitches the sheet of notes
+   */
+  public void setNotes(List<PitchSequence> pitches) {
+    this.pitches = pitches;
+  }
+
+  /**
+   * Sets the current beat to place the cursor at.
+   * @param beat the beat to place the cursor at
+   */
+  public void setCurrentBeat(int beat) {
+    if (beat < 0 || beat > this.numMeasures * 4) {
+      return;
+    }
+    this.currentBeat = beat;
+  }
   /**
    * Draws the beat count above the sheet of notes.
    * @param g2d the 2d graphics object to draw on
    */
   private void drawBeatCount(Graphics2D g2d) {
-    int numMeasures = (int) Math.ceil(this.lastBeat / 4);
 
-    for (int i = 0; i < numMeasures; i++) {
+    g2d.setColor(Color.black);
+    for (int i = 0; i <= this.numMeasures; i++) {
       g2d.drawString((i * 4) + "", SHEET_START_X + MEASURE_BORDER_WIDTH * i,
               SHEET_START_Y - 10);
     }
@@ -85,8 +112,9 @@ public class SheetPanel extends JPanel {
    * @param row the row to place the pitch at
    */
   private void drawPitch(Graphics2D g2d, PitchSequence p, int row) {
-    //TODO correct Y offset?
-    g2d.drawString(p.getHeader(), 5, SHEET_START_Y + row * BEAT_BORDER_HEIGHT);
+    g2d.setColor(Color.black);
+    g2d.setFont(new Font("TimesRoman", Font.PLAIN, HEADER_FONT_SIZE));
+    g2d.drawString(p.getHeader(), 5, SHEET_START_Y + (row + 1) * MEASURE_BORDER_HEIGHT - 4);
 
     // place measures
     this.drawMeasures(g2d, row);
@@ -113,8 +141,8 @@ public class SheetPanel extends JPanel {
     int remainingBeats = beat - measureNum * 4;
 
     int xPos = SHEET_START_X + MEASURE_BORDER_WIDTH * measureNum
-            + BEAT_WIDTH * remainingBeats;
-    int yPos = SHEET_START_Y + BEAT_BORDER_HEIGHT * row;
+            + BEAT_WIDTH * remainingBeats + BORDER_WIDTH + 1;
+    int yPos = SHEET_START_Y + BEAT_BORDER_HEIGHT * row + BORDER_WIDTH;
 
     Color color;
 
@@ -126,11 +154,11 @@ public class SheetPanel extends JPanel {
         color = Color.green;
         break;
       default:
-        color = Color.white;
+        return;
     }
 
     g2d.setColor(color);
-    g2d.drawRect(xPos, yPos, BEAT_WIDTH, BEAT_HEIGHT);
+    g2d.fillRect(xPos, yPos, BEAT_WIDTH, BEAT_HEIGHT + 1);
   }
 
   /**
@@ -139,7 +167,6 @@ public class SheetPanel extends JPanel {
    * @param row the row to draw at
    */
   private void drawMeasures(Graphics2D g2d, int row) {
-    int numMeasures = (int) Math.ceil(this.lastBeat / 4);
     int xPos;
     int yPos;
 
@@ -151,28 +178,44 @@ public class SheetPanel extends JPanel {
       g2d.setColor(Color.black);
       g2d.drawRect(xPos, yPos, MEASURE_BORDER_WIDTH, BEAT_BORDER_HEIGHT);
 
+      /*
       // draw white inside
       xPos++;
       yPos++;
       g2d.setColor(Color.white);
-      g2d.drawRect(xPos, yPos, MEASURE_WIDTH, BEAT_HEIGHT);
+      g2d.fillRect(xPos, yPos, MEASURE_WIDTH, BEAT_HEIGHT);
+      */
     }
   }
 
   /**
-   * Determines the index of the last beat
-   * for the sheet of music to be displayed.
-   * @return index of last beat
+   * Place the cursor to mark the current beat.
+   * @param g2d the graphics 2d object to draw to
    */
-  private int getLastBeat() {
+  private void drawCursor(Graphics2D g2d) {
+    int measureNum = this.currentBeat / 4;
+    int remainingBeat = currentBeat - measureNum * 4;
+    int startX = SHEET_START_X + measureNum * MEASURE_BORDER_WIDTH
+            + remainingBeat * BEAT_WIDTH;
+    int endX = startX;
+    int startY = SHEET_START_Y;
+    int endY = SHEET_START_Y + this.pitches.size() * MEASURE_BORDER_HEIGHT;
+    g2d.setColor(Color.red);
+    g2d.drawLine(startX, startY, endX, endY);
+  }
+
+  /**
+   * Sets the index of the last beat in the sheet.
+   */
+  private void setLastBeat() {
     int lastBeat = 0;
     for (PitchSequence p : this.pitches) {
       if (p.getLastBeat() > lastBeat) {
         lastBeat = p.getLastBeat();
       }
     }
-    return lastBeat;
+    this.lastBeat = lastBeat;
+    this.numMeasures = (int) Math.ceil(this.lastBeat / 4) + 1;
   }
-
 
 }

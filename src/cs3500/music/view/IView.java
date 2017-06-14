@@ -29,7 +29,6 @@ public interface IView {
    */
   void setCurrentBeat(int beat);
 
-
   /**
    * Signal to the view to redraw itself.
    */
