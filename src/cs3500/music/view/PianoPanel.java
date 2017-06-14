@@ -74,6 +74,7 @@ public class PianoPanel extends JPanel {
   public void paintComponent(Graphics g){
     // Handle the default painting
     super.paintComponent(g);
+    this.setBackground(Color.LIGHT_GRAY);
 
     Graphics2D g2d = (Graphics2D) g;
 
@@ -140,15 +141,11 @@ public class PianoPanel extends JPanel {
     boolean largeKey;
 
     boolean pressed;
-    Color pressedColor = Color.yellow;
+    Color pressedColor = Color.ORANGE;
 
     PianoKey (int noteValue, int octaveValue) {
       this.pitch = new Pitch(NoteTypeWestern.intToNote(noteValue), OctaveNumber1To10.intToOctave(octaveValue));
-      if (pitch.toString().contains("#")) {
-        this.largeKey = false;
-      } else {
-        this.largeKey = true;
-      }
+      this.largeKey = !(pitch.toString().contains("#"));
       this.pressed = false;
     }
 
