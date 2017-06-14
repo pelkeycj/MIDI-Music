@@ -17,15 +17,14 @@ import cs3500.music.model.PitchSequence;
 
 
 //TODO JScrollPane
-//TODO test that this draws correctly
   //TODO set current beat method : draw red line
 public class SheetPanel extends JPanel {
-  // constants subject to change TODO
+  // constants subject to change
   private final int DEFAULT_WIDTH = 1000;
   private final int DEFAULT_HEIGHT = 250;
 
   private final int BEAT_WIDTH = 20;
-  private final int BEAT_HEIGHT = 10;
+  private final int BEAT_HEIGHT = 14;
   private final int MEASURE_WIDTH = BEAT_WIDTH * 4;
 
   private final int BORDER_WIDTH = 1;
@@ -38,8 +37,11 @@ public class SheetPanel extends JPanel {
   private final int SHEET_START_X = 50; // x,y coords of top left corner of sheet
   private final int SHEET_START_Y = 50;
 
+  private final int HEADER_FONT_SIZE = BEAT_HEIGHT - 2;
+
   private List<PitchSequence> pitches;
   private int lastBeat;
+  private int numMeasures;
   private int panelWidth;
   private int panelHeight;
 
@@ -58,7 +60,7 @@ public class SheetPanel extends JPanel {
     Graphics2D g2d = (Graphics2D) g;
     g2d.setBackground(Color.white);
 
-    this.lastBeat = getLastBeat();
+    this.setLastBeat();
     this.drawBeatCount(g2d);
 
     Collections.sort(pitches);
@@ -81,10 +83,9 @@ public class SheetPanel extends JPanel {
    * @param g2d the 2d graphics object to draw on
    */
   private void drawBeatCount(Graphics2D g2d) {
-    int numMeasures = (int) Math.ceil(this.lastBeat / 4);
 
     g2d.setColor(Color.black);
-    for (int i = 0; i < numMeasures; i++) {
+    for (int i = 0; i <= this.numMeasures; i++) {
       g2d.drawString((i * 4) + "", SHEET_START_X + MEASURE_BORDER_WIDTH * i,
               SHEET_START_Y - 10);
     }
@@ -101,7 +102,8 @@ public class SheetPanel extends JPanel {
     //TODO correct Y offset?
 
     g2d.setColor(Color.black);
-    g2d.drawString(p.getHeader(), 5, SHEET_START_Y + (row + 1) * BEAT_BORDER_HEIGHT);
+    g2d.setFont(new Font("TimesRoman", Font.PLAIN, HEADER_FONT_SIZE));
+    g2d.drawString(p.getHeader(), 5, SHEET_START_Y + (row + 1) * MEASURE_BORDER_HEIGHT - 4);
 
     // place measures
     this.drawMeasures(g2d, row);
@@ -154,7 +156,6 @@ public class SheetPanel extends JPanel {
    * @param row the row to draw at
    */
   private void drawMeasures(Graphics2D g2d, int row) {
-    int numMeasures = (int) Math.ceil(this.lastBeat / 4);
     int xPos;
     int yPos;
 
@@ -175,18 +176,17 @@ public class SheetPanel extends JPanel {
   }
 
   /**
-   * Determines the index of the last beat
-   * for the sheet of music to be displayed.
-   * @return index of last beat
+   * Sets the index of the last beat in the sheet.
    */
-  private int getLastBeat() {
+  private void setLastBeat() {
     int lastBeat = 0;
     for (PitchSequence p : this.pitches) {
       if (p.getLastBeat() > lastBeat) {
         lastBeat = p.getLastBeat();
       }
     }
-    return lastBeat;
+    this.lastBeat = lastBeat;
+    this.numMeasures = (int) Math.ceil(this.lastBeat / 4) + 1;
   }
 
 }
