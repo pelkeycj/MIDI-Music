@@ -130,8 +130,8 @@ public class SheetPanel extends JPanel {
     int remainingBeats = beat - measureNum * 4;
 
     int xPos = SHEET_START_X + MEASURE_BORDER_WIDTH * measureNum
-            + BEAT_WIDTH * remainingBeats;
-    int yPos = SHEET_START_Y + BEAT_BORDER_HEIGHT * row;
+            + BEAT_WIDTH * remainingBeats + BORDER_WIDTH + 1;
+    int yPos = SHEET_START_Y + BEAT_BORDER_HEIGHT * row + BORDER_WIDTH;
 
     Color color;
 
@@ -143,11 +143,11 @@ public class SheetPanel extends JPanel {
         color = Color.green;
         break;
       default:
-        color = Color.white;
+        return;
     }
 
     g2d.setColor(color);
-    g2d.fillRect(xPos, yPos, BEAT_WIDTH, BEAT_HEIGHT);
+    g2d.fillRect(xPos, yPos, BEAT_WIDTH, BEAT_HEIGHT + 1);
   }
 
   /**
@@ -165,13 +165,15 @@ public class SheetPanel extends JPanel {
 
       // draw black outline
       g2d.setColor(Color.black);
-      g2d.fillRect(xPos, yPos, MEASURE_BORDER_WIDTH, BEAT_BORDER_HEIGHT);
+      g2d.drawRect(xPos, yPos, MEASURE_BORDER_WIDTH, BEAT_BORDER_HEIGHT);
 
+      /*
       // draw white inside
       xPos++;
       yPos++;
       g2d.setColor(Color.white);
       g2d.fillRect(xPos, yPos, MEASURE_WIDTH, BEAT_HEIGHT);
+      */
     }
   }
 
