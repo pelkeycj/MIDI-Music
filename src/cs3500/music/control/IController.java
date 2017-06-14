@@ -7,8 +7,8 @@ package cs3500.music.control;
  */
 public interface IController {
 
-  //TODO process input?
-
+  //TODO indicate which notes to highlight?
+    // IView -> toggle notes?
 
   /**
    * Provide the controller with control, start the program.
