@@ -33,8 +33,8 @@ public class SheetPanel extends JPanel {
   private final int MEASURE_BORDER_WIDTH = MEASURE_WIDTH + 2 * BORDER_WIDTH;
   private final int MEASURE_BORDER_HEIGHT = BEAT_BORDER_HEIGHT;
 
-
-  private final int SHEET_START_X = 50; // x,y coords of top left corner of sheet
+  // x,y coords of top left corner of sheet
+  private final int SHEET_START_X = 50;
   private final int SHEET_START_Y = 50;
 
   private final int HEADER_FONT_SIZE = BEAT_HEIGHT - 2;
@@ -44,6 +44,7 @@ public class SheetPanel extends JPanel {
   private int numMeasures;
   private int panelWidth;
   private int panelHeight;
+  private int currentBeat;
 
   /**
    * Constructs a sheet panel.
@@ -67,6 +68,8 @@ public class SheetPanel extends JPanel {
     for (int i = 0; i < this.pitches.size(); i++) {
       this.drawPitch(g2d, this.pitches.get(i), i);
     }
+
+    this.drawCursor(g2d);
   }
 
   /**
@@ -79,6 +82,16 @@ public class SheetPanel extends JPanel {
     this.setPreferredSize(new Dimension(DEFAULT_WIDTH, pitchHeight));
   }
 
+  /**
+   * Sets the current beat to place the cursor at.
+   * @param beat the beat to place the cursor at
+   */
+  public void setCurrentBeat(int beat) {
+    if (beat < 0 || beat > this.numMeasures * 4) {
+      return;
+    }
+    this.currentBeat = beat;
+  }
   /**
    * Draws the beat count above the sheet of notes.
    * @param g2d the 2d graphics object to draw on
@@ -129,7 +142,7 @@ public class SheetPanel extends JPanel {
     int remainingBeats = beat - measureNum * 4;
 
     int xPos = SHEET_START_X + MEASURE_BORDER_WIDTH * measureNum
-            + BEAT_WIDTH * remainingBeats + BORDER_WIDTH + 1;
+            + BEAT_WIDTH * remainingBeats + BORDER_WIDTH;
     int yPos = SHEET_START_Y + BEAT_BORDER_HEIGHT * row + BORDER_WIDTH;
 
     Color color;
@@ -146,7 +159,7 @@ public class SheetPanel extends JPanel {
     }
 
     g2d.setColor(color);
-    g2d.fillRect(xPos, yPos, BEAT_WIDTH, BEAT_HEIGHT + 1);
+    g2d.fillRect(xPos, yPos, BEAT_WIDTH + 1, BEAT_HEIGHT + 1);
   }
 
   /**
@@ -174,6 +187,22 @@ public class SheetPanel extends JPanel {
       g2d.fillRect(xPos, yPos, MEASURE_WIDTH, BEAT_HEIGHT);
       */
     }
+  }
+
+  /**
+   * Place the cursor to mark the current beat.
+   * @param g2d the graphics 2d object to draw to
+   */
+  private void drawCursor(Graphics2D g2d) {
+    int measureNum = this.currentBeat / 4;
+    int remainingBeat = currentBeat - measureNum * 4;
+    int startX = SHEET_START_X + measureNum * MEASURE_BORDER_WIDTH
+            + remainingBeat * BEAT_WIDTH;
+    int endX = startX;
+    int startY = SHEET_START_Y;
+    int endY = SHEET_START_Y + this.pitches.size() * MEASURE_BORDER_HEIGHT;
+    g2d.setColor(Color.red);
+    g2d.drawLine(startX, startY, endX, endY);
   }
 
   /**

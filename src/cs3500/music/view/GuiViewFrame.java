@@ -45,6 +45,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
     this.scrollingSheet = new ScrollingSheet(sheetPanel);
     this.add(scrollingSheet, BorderLayout.NORTH);
 
+
     //this.getContentPane().add(displayPanel);
     this.pack();
   }
@@ -76,7 +77,8 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
       }
     }
     pianoPanel.setOnKeys(playingPitches);
-    
+
+    sheetPanel.setCurrentBeat(beat);
   }
 
   @Override
