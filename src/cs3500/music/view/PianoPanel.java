@@ -1,7 +1,6 @@
 package cs3500.music.view;
 
 import cs3500.music.model.NoteTypeWestern;
-import cs3500.music.model.Octave;
 import cs3500.music.model.OctaveNumber1To10;
 import cs3500.music.model.Pitch;
 import java.awt.*;
@@ -87,9 +86,10 @@ public class PianoPanel extends JPanel {
     int xPos = SIDE_BUFFER;
     for (PianoKey p : this.keys) {
       if (p.isLargeKey()) {
-        g2d.setColor(p.getOutlineColor());
-        g2d.setBackground(p.getBackGroundColor());
         Shape key = new Rectangle(xPos, yPos, whiteKeyWidth, whiteKeyHeight);
+        g2d.setColor(p.getBackGroundColor());
+        g2d.fill(key);
+        g2d.setColor(p.getOutlineColor());
         g2d.draw(key);
         xPos += this.whiteKeyWidth;
       }
@@ -142,7 +142,7 @@ public class PianoPanel extends JPanel {
     Color pressedColor = Color.yellow;
 
     PianoKey (int noteValue, int octaveValue) {
-      this.pitch = new Pitch(NoteTypeWestern.valueToNote(noteValue), OctaveNumber1To10.intToOctave(octaveValue));
+      this.pitch = new Pitch(NoteTypeWestern.intToNote(noteValue), OctaveNumber1To10.intToOctave(octaveValue));
       if (pitch.toString().contains("#")) {
         this.largeKey = false;
       } else {

@@ -1,6 +1,7 @@
 package cs3500.music.view;
 
 import cs3500.music.model.PitchSequence;
+import java.awt.event.KeyListener;
 import java.util.List;
 import javax.sound.midi.*;
 
@@ -79,5 +80,10 @@ public class MidiViewImpl extends AView {
   @Override
   public void refresh() {
 
+  }
+
+  @Override
+  public void setKeyListener(KeyListener keyListener) {
+    
   }
 }

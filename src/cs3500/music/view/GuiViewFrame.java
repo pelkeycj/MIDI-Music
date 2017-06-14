@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
-import javax.swing.*;
 
 /**
  * A skeleton Frame (i.e., a window) in Swing
@@ -20,15 +19,14 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
   private SheetPanel sheetPanel;
   private PianoPanel pianoPanel;
 
-  private List<PitchSequence> sheetInfo;
+  private List<PitchSequence> pitches;
 
   /**
    * Creates new GuiView
    */
   public GuiViewFrame() {
     super();
-
-    this.sheetInfo = new ArrayList<>();
+    this.pitches = new ArrayList<>();
 
     this.setTitle("GUI view");
     this.setSize(MIN_WIDTH,MIN_HEIGHT);
@@ -41,7 +39,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
     pianoPanel.setPreferredSize(new Dimension(MIN_WIDTH,MIN_HEIGHT / 2));
     this.add(pianoPanel, BorderLayout.SOUTH);
 
-    this.sheetPanel = new SheetPanel();
+    this.sheetPanel = new SheetPanel(this.pitches);
     this.add(sheetPanel, BorderLayout.NORTH);
 
     //this.getContentPane().add(displayPanel);
@@ -60,7 +58,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
   @Override
   public void setNotes(List<PitchSequence> pitches) {
-    this.sheetInfo = pitches;
+    this.pitches = pitches;
     //TODO should we make this copy its input so that it can't be mutated from the outside?
   }
 
@@ -68,7 +66,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
     //check which beats are current playing to toggle them on
     HashSet<Pitch> playingPitches = new HashSet<>();
-    for (PitchSequence p : this.sheetInfo) {
+    for (PitchSequence p : this.pitches) {
       if (p.playingAt(beat)) {
         playingPitches.add(p.getPitchCopy());
       }
@@ -78,7 +76,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
   @Override
   public void refresh() {
-
+    this.repaint();
   }
 
   @Override
