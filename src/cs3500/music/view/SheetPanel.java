@@ -3,6 +3,7 @@ package cs3500.music.view;
 import com.sun.corba.se.impl.orbutil.graph.Graph;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,18 +15,17 @@ import cs3500.music.model.PitchSequence;
  * Displays the sheet of music.
  */
 
+
 //TODO JScrollPane
 //TODO test that this draws correctly
+  //TODO set current beat method : draw red line
 public class SheetPanel extends JPanel {
   // constants subject to change TODO
-  private final int DEFAULT_WIDTH = 500;
+  private final int DEFAULT_WIDTH = 1000;
   private final int DEFAULT_HEIGHT = 250;
 
-  private final int NUMBER_OF_MEASURES = 10;
-  private final int NUMBER_OF_BEATS = NUMBER_OF_MEASURES * 4;
-
-  private final int BEAT_WIDTH = 10;
-  private final int BEAT_HEIGHT = 6;
+  private final int BEAT_WIDTH = 20;
+  private final int BEAT_HEIGHT = 10;
   private final int MEASURE_WIDTH = BEAT_WIDTH * 4;
 
   private final int BORDER_WIDTH = 1;
@@ -35,19 +35,20 @@ public class SheetPanel extends JPanel {
   private final int MEASURE_BORDER_HEIGHT = BEAT_BORDER_HEIGHT;
 
 
-  private final int SHEET_START_X = 100; // x,y coords of top left corner of sheet
-  private final int SHEET_START_Y = 100;
+  private final int SHEET_START_X = 50; // x,y coords of top left corner of sheet
+  private final int SHEET_START_Y = 50;
 
   private List<PitchSequence> pitches;
   private int lastBeat;
+  private int panelWidth;
+  private int panelHeight;
 
   /**
    * Constructs a sheet panel.
-   * @param pitches list of pitches to display.
    */
-  public SheetPanel(List<PitchSequence> pitches) {
-    this.pitches = pitches;
-    this.lastBeat = getLastBeat();
+  //TODO sizing, measures, headers, beats
+  public SheetPanel() {
+    this.pitches = new ArrayList<PitchSequence>();
   }
 
   @Override
@@ -55,13 +56,24 @@ public class SheetPanel extends JPanel {
     super.paintComponent(g);
 
     Graphics2D g2d = (Graphics2D) g;
+    g2d.setBackground(Color.white);
 
+    this.lastBeat = getLastBeat();
     this.drawBeatCount(g2d);
 
+    Collections.sort(pitches);
     Collections.reverse(this.pitches); // so that higher pitches are on top
     for (int i = 0; i < this.pitches.size(); i++) {
       this.drawPitch(g2d, this.pitches.get(i), i);
     }
+  }
+
+  /**
+   * Sets the notes for this panel to display.
+   * @param pitches the sheet of notes
+   */
+  public void setNotes(List<PitchSequence> pitches) {
+    this.pitches = pitches;
   }
 
   /**
@@ -71,6 +83,7 @@ public class SheetPanel extends JPanel {
   private void drawBeatCount(Graphics2D g2d) {
     int numMeasures = (int) Math.ceil(this.lastBeat / 4);
 
+    g2d.setColor(Color.black);
     for (int i = 0; i < numMeasures; i++) {
       g2d.drawString((i * 4) + "", SHEET_START_X + MEASURE_BORDER_WIDTH * i,
               SHEET_START_Y - 10);
@@ -86,7 +99,9 @@ public class SheetPanel extends JPanel {
    */
   private void drawPitch(Graphics2D g2d, PitchSequence p, int row) {
     //TODO correct Y offset?
-    g2d.drawString(p.getHeader(), 5, SHEET_START_Y + row * BEAT_BORDER_HEIGHT);
+
+    g2d.setColor(Color.black);
+    g2d.drawString(p.getHeader(), 5, SHEET_START_Y + (row + 1) * BEAT_BORDER_HEIGHT);
 
     // place measures
     this.drawMeasures(g2d, row);
@@ -130,7 +145,7 @@ public class SheetPanel extends JPanel {
     }
 
     g2d.setColor(color);
-    g2d.drawRect(xPos, yPos, BEAT_WIDTH, BEAT_HEIGHT);
+    g2d.fillRect(xPos, yPos, BEAT_WIDTH, BEAT_HEIGHT);
   }
 
   /**
@@ -149,13 +164,13 @@ public class SheetPanel extends JPanel {
 
       // draw black outline
       g2d.setColor(Color.black);
-      g2d.drawRect(xPos, yPos, MEASURE_BORDER_WIDTH, BEAT_BORDER_HEIGHT);
+      g2d.fillRect(xPos, yPos, MEASURE_BORDER_WIDTH, BEAT_BORDER_HEIGHT);
 
       // draw white inside
       xPos++;
       yPos++;
       g2d.setColor(Color.white);
-      g2d.drawRect(xPos, yPos, MEASURE_WIDTH, BEAT_HEIGHT);
+      g2d.fillRect(xPos, yPos, MEASURE_WIDTH, BEAT_HEIGHT);
     }
   }
 
@@ -173,6 +188,5 @@ public class SheetPanel extends JPanel {
     }
     return lastBeat;
   }
-
 
 }

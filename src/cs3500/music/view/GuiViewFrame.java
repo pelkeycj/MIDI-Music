@@ -39,7 +39,8 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
     pianoPanel.setPreferredSize(new Dimension(MIN_WIDTH,MIN_HEIGHT / 2));
     this.add(pianoPanel, BorderLayout.SOUTH);
 
-    this.sheetPanel = new SheetPanel(this.pitches);
+    this.sheetPanel = new SheetPanel();
+    this.sheetPanel.setPreferredSize(new Dimension(MIN_WIDTH, MIN_HEIGHT / 2));
     this.add(sheetPanel, BorderLayout.NORTH);
 
     //this.getContentPane().add(displayPanel);
@@ -59,6 +60,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
   @Override
   public void setNotes(List<PitchSequence> pitches) {
     this.pitches = pitches;
+    this.sheetPanel.setNotes(pitches);
     //TODO should we make this copy its input so that it can't be mutated from the outside?
   }
 
