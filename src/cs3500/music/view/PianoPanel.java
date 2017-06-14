@@ -13,9 +13,9 @@ import javax.swing.*;
  */
 public class PianoPanel extends JPanel {
 
-  final int SIDE_BUFFER = 25;
-  final int NUMBER_OF_OCTAVES = 10;
-  final int BOTTOM_BUFFER = 25;
+  private final int SIDE_BUFFER = 25;
+  private final int NUMBER_OF_OCTAVES = 10;
+  private final int BOTTOM_BUFFER = 25;
 
   //non-final components
   private int panelWidth;

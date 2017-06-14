@@ -25,8 +25,6 @@ public class MusicEditor {
 
     Scanner scanner = new Scanner(System.in);
 
-    model.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 2);
-
     Random rand = new Random();
 
     for (int i = 0; i < 100; i++) {
