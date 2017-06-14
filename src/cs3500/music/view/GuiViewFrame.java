@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
 import java.awt.*;
 
@@ -19,11 +20,15 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
   private SheetPanel sheetPanel;
   private PianoPanel pianoPanel;
 
+  private List<PitchSequence> sheetInfo;
+
   /**
    * Creates new GuiView
    */
   public GuiViewFrame() {
     super();
+
+    this.sheetInfo = new ArrayList<>();
 
     this.setTitle("GUI view");
     this.setSize(MIN_WIDTH,MIN_HEIGHT);
@@ -55,12 +60,20 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
   @Override
   public void setNotes(List<PitchSequence> pitches) {
-
+    this.sheetInfo = pitches;
+    //TODO should we make this copy its input so that it can't be mutated from the outside?
   }
 
   @Override
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
-
+    //check which beats are current playing to toggle them on
+    HashSet<Pitch> playingPitches = new HashSet<>();
+    for (PitchSequence p : this.sheetInfo) {
+      if (p.playingAt(beat)) {
+        playingPitches.add(p.getPitchCopy());
+      }
+    }
+    pianoPanel.setOnKeys(playingPitches);
   }
 
   @Override

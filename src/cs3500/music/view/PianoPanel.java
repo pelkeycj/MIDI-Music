@@ -1,16 +1,12 @@
 package cs3500.music.view;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
-import cs3500.music.model.NoteType;
 import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.Octave;
 import cs3500.music.model.OctaveNumber1To10;
+import cs3500.music.model.Pitch;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
 
+import java.util.HashSet;
 import javax.swing.*;
 
 /**
@@ -50,6 +46,18 @@ public class PianoPanel extends JPanel {
     this.whiteKeyHeight = this.panelHeight - BOTTOM_BUFFER;
     this.blackKeyWidth = this.whiteKeyWidth / 2;
     this.blackKeyHeight = this.whiteKeyHeight / 2;
+  }
+
+
+  public void setOnKeys(HashSet<Pitch> onPitches) {
+    for (PianoKey key : this.keys) {
+      if (onPitches.contains(key.pitch)) {
+        key.press();
+      }
+      else {
+        key.unpress();
+      }
+    }
   }
 
   /**
@@ -127,17 +135,15 @@ public class PianoPanel extends JPanel {
 
 
   private class PianoKey {
-    NoteTypeWestern note;
-    Octave octave;
+    Pitch pitch;
     boolean largeKey;
 
     boolean pressed;
     Color pressedColor = Color.yellow;
 
     PianoKey (int noteValue, int octaveValue) {
-      this.note = NoteTypeWestern.valueToNote(noteValue);
-      this.octave = OctaveNumber1To10.intToOctave(octaveValue);
-      if (note.toString().contains("#")) {
+      this.pitch = new Pitch(NoteTypeWestern.valueToNote(noteValue), OctaveNumber1To10.intToOctave(octaveValue));
+      if (pitch.toString().contains("#")) {
         this.largeKey = false;
       } else {
         this.largeKey = true;

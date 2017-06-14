@@ -11,6 +11,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
   private final Octave octaveNum;
   private final NoteType noteType;
   //INVARIANT: notes never contains a PitchSequence with the same Octave and NoteType as another
+  //TODO ^^ this isn't a class invariant
   private ArrayList<Note> notes;
 
   /**
@@ -186,4 +187,33 @@ public class PitchSequence implements Comparable<PitchSequence> {
     }
     return copy;
   }
+
+  //=============THINGS ADAM ADDED JUNE 13TH=============
+
+  /**
+   * Determines if this pitch is playing at the given beat.
+   * @param beat beat to check
+   * @return true if the pitch is during the given
+   */
+  public boolean playingAt(int beat) {
+    if (beat < 0) {
+      throw new IllegalArgumentException("Beats must be 0 or greater");
+    }
+    for (Note n : this.notes) {
+      if (beat >= n.getStart() && beat <= n.getEnd()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Get a copy of the pitch represented by this pitch sequence.
+   * @return a copy of the pitch
+   */
+  public Pitch getPitchCopy() {
+    return new Pitch(this.getNoteType(), this.getOctave());
+  }
+
+
 }
