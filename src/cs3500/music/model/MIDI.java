@@ -141,11 +141,9 @@ public class MIDI implements MusicOperations {
     return s.toString();
   }
 
-  /**
-   * Gets the last beat of this sheet.
-   * @return the index of the last beat of this sheet
-   */
-  private int getLastBeat() {
+
+  @Override
+  public int getLastBeat() {
     int lastBeat = 0;
     for (PitchSequence p : this.pitches) {
       if (p.getLastBeat() > lastBeat) {
@@ -163,6 +161,7 @@ public class MIDI implements MusicOperations {
     for (PitchSequence p : this.pitches) {
       copy.add(p.copy());
     }
+    Collections.sort(copy);
     return copy;
   }
 

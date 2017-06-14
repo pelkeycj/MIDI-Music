@@ -26,9 +26,8 @@ public interface IView {
   /**
    * Set the view to a certain beat.
    * @param beat the current beat
-   * TODO does this throw and error if the beat is invalid?
    */
-  void setCurrentBeat(int beat) throws IllegalArgumentException;
+  void setCurrentBeat(int beat);
 
 
   /**

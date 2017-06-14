@@ -24,16 +24,22 @@ public class SimpleController implements IController, KeyListener {
 
   /**
    * Set the tempo to play at.
-   * @param tempo tempo in beats per minute
+   * @param tempo in microseconds per beat
    */
   public void setTempo(int tempo) {
     this.tempo = tempo;
   }
 
   @Override
+  public void setViewNotes() {
+    this.view.setNotes(this.model.getPitches());
+  }
+
+  @Override
   public void go() {
     this.view.setKeyListener(this);
-    this.view.initialize(); //TODO do we need this?
+    this.view.initialize();
+    this.setViewNotes();
   }
 
   @Override
@@ -51,7 +57,7 @@ public class SimpleController implements IController, KeyListener {
         this.changeBeatBy(1);
         break;
       case KeyEvent.VK_SPACE:
-        //TODO move through at tempo
+        this.playAtTempo();
         break;
       default:
         return;
@@ -71,7 +77,12 @@ public class SimpleController implements IController, KeyListener {
     this.view.setCurrentBeat(this.currentBeat);
   }
 
-  //TODO play at tempo
+  /**
+   * Play the sheet of music at the specified tempo.
+   */
+  private void playAtTempo() {
+    //TODO
+  }
 
   @Override
   public void keyReleased(KeyEvent e) {
