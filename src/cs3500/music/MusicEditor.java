@@ -44,7 +44,12 @@ public class MusicEditor {
 
     int curr = 0;
     while (true) {
-      scanner.nextLine();
+      try {
+        Thread.sleep(250);
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
       guiView.setCurrentBeat(curr);
       guiView.refresh();
       curr++;

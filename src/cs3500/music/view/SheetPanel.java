@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import cs3500.music.model.PitchSequence;
 
@@ -17,7 +17,7 @@ import cs3500.music.model.PitchSequence;
 
 
 //TODO JScrollPane
-  //TODO set current beat method : draw red line
+//TODO handle cursor scrolling left/right
 public class SheetPanel extends JPanel {
   // constants subject to change
   private final int DEFAULT_WIDTH = 1000;
@@ -48,7 +48,6 @@ public class SheetPanel extends JPanel {
   /**
    * Constructs a sheet panel.
    */
-  //TODO sizing, measures, headers, beats
   public SheetPanel() {
     this.pitches = new ArrayList<PitchSequence>();
   }
@@ -76,6 +75,8 @@ public class SheetPanel extends JPanel {
    */
   public void setNotes(List<PitchSequence> pitches) {
     this.pitches = pitches;
+    int pitchHeight = SHEET_START_Y + pitches.size() * MEASURE_BORDER_HEIGHT + 20;
+    this.setPreferredSize(new Dimension(DEFAULT_WIDTH, pitchHeight));
   }
 
   /**
@@ -99,8 +100,6 @@ public class SheetPanel extends JPanel {
    * @param row the row to place the pitch at
    */
   private void drawPitch(Graphics2D g2d, PitchSequence p, int row) {
-    //TODO correct Y offset?
-
     g2d.setColor(Color.black);
     g2d.setFont(new Font("TimesRoman", Font.PLAIN, HEADER_FONT_SIZE));
     g2d.drawString(p.getHeader(), 5, SHEET_START_Y + (row + 1) * MEASURE_BORDER_HEIGHT - 4);
