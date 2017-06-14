@@ -13,6 +13,9 @@ import javax.swing.*;
  */
 public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
+  private final int MIN_WIDTH = 1000;
+  private final int MIN_HEIGHT = 500;
+
   private SheetPanel sheetPanel;
   private PianoPanel pianoPanel;
 
@@ -23,13 +26,14 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
     super();
 
     this.setTitle("GUI view");
-    this.setSize(500,500);
+    this.setSize(MIN_WIDTH,MIN_HEIGHT);
+    this.setMinimumSize(new Dimension(MIN_WIDTH,MIN_HEIGHT));
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
     //use a border layout with a note panel up top and a piano panel south
     this.setLayout(new BorderLayout());
-    pianoPanel = new PianoPanel();
-    pianoPanel.setPreferredSize(new Dimension(500,250));
+    pianoPanel = new PianoPanel(MIN_WIDTH, MIN_HEIGHT / 2);
+    pianoPanel.setPreferredSize(new Dimension(MIN_WIDTH,MIN_HEIGHT / 2));
     this.add(pianoPanel, BorderLayout.SOUTH);
 
     this.sheetPanel = new SheetPanel();

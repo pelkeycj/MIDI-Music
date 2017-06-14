@@ -1,5 +1,10 @@
 package cs3500.music.view;
 
+import com.sun.corba.se.impl.orbutil.graph.Graph;
+import cs3500.music.model.NoteType;
+import cs3500.music.model.NoteTypeWestern;
+import cs3500.music.model.Octave;
+import cs3500.music.model.OctaveNumber1To10;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,26 +18,50 @@ import javax.swing.*;
  */
 public class PianoPanel extends JPanel {
 
-  /*this is based on the expectation that the preferred size of the window is 500 x 250.
-   if you want to have a resizeable panel or one in which the objects grow/shrink based on the
-   window size, give this panel a way of knowing how large it is and set the parameters below
-  */
+  final int SIDE_BUFFER = 25;
+  final int NUMBER_OF_OCTAVES = 10;
+  final int BOTTOM_BUFFER = 25;
 
-  private final int DEFAULT_WIDTH = 500;
-  private final int DEFAULT_HEIGHT = 250;
-  private final int SIDE_BUFFER = 25;
-  private final int NUMBER_OF_OCTAVES = 10;
-  private final int BOTTOM_BUFFER = 25;
+  //non-final components
+  private int panelWidth;
+  private int panelHeight;
 
-  private final int KEY_OUTLINE_WIDTH = 1;
+  private int whiteKeyWidth;
+  private int whiteKeyHeight;
+  private int blackKeyWidth;
+  private int blackKeyHeight;
 
-  private final int WHITE_KEY_WIDTH = (DEFAULT_WIDTH - (2 * SIDE_BUFFER)) / (12 * NUMBER_OF_OCTAVES);
-  private final int BLACK_KEY_WIDTH = WHITE_KEY_WIDTH / 2;
-  private final int WHITE_KEY_HEIGHT = DEFAULT_HEIGHT - BOTTOM_BUFFER;
-  private final int BLACK_KEY_HEIGHT = WHITE_KEY_HEIGHT / 2;
+  private PianoKey[] keys;
 
-  private final int WHITE_KEY_BORDER_WIDTH = WHITE_KEY_WIDTH + 2 * KEY_OUTLINE_WIDTH;
-  private final int WHITE_KEY_BORDER_HEIGHT = WHITE_KEY_HEIGHT + 2 * KEY_OUTLINE_WIDTH;
+
+  public PianoPanel(int width, int height) {
+    if (width < 100 || height < 100) {
+      throw new IllegalArgumentException("Panel must be at least 100x100.");
+    }
+    this.panelWidth = width;
+    this.panelHeight = height;
+    this.keys = generatePianoKeys(NUMBER_OF_OCTAVES);
+
+    setKeyDimensions();
+  }
+
+  private void setKeyDimensions() {
+    this.whiteKeyWidth = (this.panelWidth - SIDE_BUFFER) / (7 * NUMBER_OF_OCTAVES);
+    this.whiteKeyHeight = this.panelHeight - BOTTOM_BUFFER;
+    this.blackKeyWidth = this.whiteKeyWidth / 2;
+    this.blackKeyHeight = this.whiteKeyHeight / 2;
+  }
+
+  /**
+   * Updates the panel with it's new size changing the sizes of the elements in the panel.
+   * @param width new width of the panel
+   * @param height new height of the panel
+   */
+  public void resizePanel(int width, int height) {
+    this.panelWidth= width;
+    this.panelHeight = height;
+    setKeyDimensions();
+  }
 
   @Override
   public void paintComponent(Graphics g){
@@ -41,48 +70,107 @@ public class PianoPanel extends JPanel {
 
     Graphics2D g2d = (Graphics2D) g;
 
-    //place each one of the white keys with a black outline
-    for (int i = 0; i < NUMBER_OF_OCTAVES; i++) {
-      drawOctaveOfKeys(g2d, i);
-    }
-
-
-    // Look for more documentation about the Graphics class,
-    // and methods on it that may be useful
-    g.drawString("Hello World", 25, 25);
+    drawLargeKeys(g2d);
+    drawSmallKeys(g2d);
   }
 
-  //places an octave of keys on this panel with 0 being the first octave
-  private void drawOctaveOfKeys(Graphics2D g2d, int startingOctave) {
-    int octaveWidth = WHITE_KEY_BORDER_WIDTH * 2;
+  private void drawLargeKeys(Graphics2D g2d) {
+    int yPos = 0;
+    int xPos = SIDE_BUFFER;
+    for (PianoKey p : this.keys) {
+      if (p.isLargeKey()) {
+        g2d.setColor(p.getOutlineColor());
+        g2d.setBackground(p.getBackGroundColor());
+        Shape key = new Rectangle(xPos, yPos, whiteKeyWidth, whiteKeyHeight);
+        g2d.draw(key);
+        xPos += this.whiteKeyWidth;
+      }
+    }
+  }
 
-    //place each one of the white keys with a black outline
-    for (int i = 0; i < 7; i++) {
-      int yPos = 0;
-      int xPos = i * WHITE_KEY_BORDER_WIDTH + octaveWidth * startingOctave + SIDE_BUFFER;
+  private void drawSmallKeys(Graphics2D g2d) {
+    int yPos = 0;
+    int xPos = SIDE_BUFFER + whiteKeyWidth - blackKeyWidth / 2;
+    int smallKeyInOctave = 1;
+    for (PianoKey p : this.keys) {
+      if (!(p.isLargeKey())) {
+        g2d.setColor(p.getOutlineColor());
+        g2d.setBackground(p.getBackGroundColor());
+        Shape key = new Rectangle(xPos, yPos, blackKeyWidth, blackKeyHeight);
+        g2d.fill(key);
+        if (smallKeyInOctave == 2) {
+          xPos += this.whiteKeyWidth * 2;
+        }
+        else {
+          xPos += this.whiteKeyWidth;
+        }
+        if (smallKeyInOctave == 5) {
+          xPos += this.whiteKeyWidth;
+          smallKeyInOctave = 1;
+        }
+        else {
+          smallKeyInOctave++;
+        }
+      }
+    }
+  }
 
-      //draw the outline
-      g2d.setColor(Color.BLACK);
-      Shape outline = new Rectangle(xPos, yPos, WHITE_KEY_BORDER_WIDTH, WHITE_KEY_HEIGHT);
-      g2d.draw(outline);
+  PianoKey[] generatePianoKeys(int numOctaves) {
+    PianoKey[] keys = new PianoKey[numOctaves * 12];
+    for (int octave = 0; octave < numOctaves; octave++) {
+      for (int note = 0; note < NoteTypeWestern.values().length; note++) {
+        keys[octave * 12 + note] = new PianoKey(note, octave + 1);
+      }
+    }
+    return keys;
+  }
 
-      xPos += WHITE_KEY_WIDTH;
-      g2d.setColor(Color.WHITE);
-      Shape key = new Rectangle(xPos, yPos, WHITE_KEY_WIDTH, WHITE_KEY_HEIGHT);
-      g2d.fill(key);
+
+  private class PianoKey {
+    NoteTypeWestern note;
+    Octave octave;
+    boolean largeKey;
+
+    boolean pressed;
+    Color pressedColor = Color.yellow;
+
+    PianoKey (int noteValue, int octaveValue) {
+      this.note = NoteTypeWestern.valueToNote(noteValue);
+      this.octave = OctaveNumber1To10.intToOctave(octaveValue);
+      if (note.toString().contains("#")) {
+        this.largeKey = false;
+      } else {
+        this.largeKey = true;
+      }
+      this.pressed = false;
     }
 
-    for (int i = 0; i < 6; i++) {
-      int yPos = 0;
-      int xPos = i * WHITE_KEY_BORDER_WIDTH + SIDE_BUFFER + octaveWidth + startingOctave;
+    boolean isLargeKey() {
+      return this.largeKey;
+    }
 
-      if (i == 2) {
-        continue;
+    void press() {
+      this.pressed = true;
+    }
+
+    void unpress() {
+      this.pressed = false;
+    }
+
+    Color getOutlineColor() {
+      return Color.BLACK;
+    }
+
+    Color getBackGroundColor() {
+      if (this.pressed) {
+        return this.pressedColor;
       }
-
-      g2d.setColor(Color.BLACK);
-      Shape key = new Rectangle(xPos, yPos, BLACK_KEY_WIDTH, BLACK_KEY_HEIGHT);
-      g2d.fill(key);
+      else if (this.isLargeKey()) {
+        return Color.WHITE;
+      }
+      else {
+        return Color.BLACK;
+      }
     }
   }
 

@@ -20,4 +20,19 @@ public enum OctaveNumber1To10 implements Octave {
   public String toString() {
     return this.number + "";
   }
+
+  /**
+   * Get the Octave for this value
+   * @param value the desired octave
+   * @throws IllegalArgumentException if the given value is outside of the range of these octaves
+   * @return an Octave object that corresponds to the give input
+   */
+  public static Octave intToOctave(int value) throws IllegalArgumentException {
+    for (Octave o : OctaveNumber1To10.values()) {
+      if (o.getValue() == value) {
+        return o;
+      }
+    }
+    throw new IllegalArgumentException("Provide a valid integer 1 through 10.");
+  }
 }
