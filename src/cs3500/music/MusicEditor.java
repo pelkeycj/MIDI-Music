@@ -27,6 +27,8 @@ public class MusicEditor {
 
     Random rand = new Random();
 
+    model.addNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP,0,10);
+
     for (int i = 0; i < 100; i++) {
       Octave o = OctaveNumber1To10.intToOctave(rand.nextInt(10) + 1);
       NoteTypeWestern n = NoteTypeWestern.intToNote(rand.nextInt(12));
