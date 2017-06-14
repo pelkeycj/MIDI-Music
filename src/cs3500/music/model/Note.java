@@ -9,6 +9,8 @@ public class Note implements Comparable<Note> {
   //INVARIANT: end >= start
   private int start;
   private int end;
+  private int instrument;
+  private int loudness;
 
   /**
    * Constructs an instance of a {@code Note}.
@@ -17,7 +19,7 @@ public class Note implements Comparable<Note> {
    * @throws IllegalArgumentException if {@code start} or {@code end} are less than 0, or
    *                                   if {@code end} is less than {@code start}
    */
-  Note(int start, int end) throws IllegalArgumentException {
+  public Note(int start, int end) throws IllegalArgumentException {
     if (start < 0 || end < 0 || end < start) {
       throw new IllegalArgumentException("Invalid start and/or end beats.");
     }
@@ -26,10 +28,31 @@ public class Note implements Comparable<Note> {
   }
 
   /**
+   * Construct a note with start, end, instrument, and loudness.
+   * @param start beat to start at
+   * @param end beat to end at
+   * @param instrument the instrument being played
+   * @param loudness the loudness to play at
+   * @throws IllegalArgumentException if start < 0, end < 0, end < start,
+   *                                  instrument < 1, loudness < 0, loudness > 100
+   */
+  public Note(int start, int end, int instrument, int loudness) throws IllegalArgumentException {
+    this(start, end);
+
+    if (instrument < 1 || loudness < 0 || loudness > 100) {
+      throw new IllegalArgumentException("Invalid instrument or loudness");
+    }
+
+    this.instrument = instrument;
+    this.loudness = loudness;
+  }
+
+
+  /**
    * Gets the start beat of this {@code Note}.
    * @return the start beat
    */
-  int getStart() {
+  public int getStart() {
     return this.start;
   }
 
@@ -37,9 +60,27 @@ public class Note implements Comparable<Note> {
    * Gets the end beat of this {@code Note}.
    * @return the end beat
    */
-  int getEnd() {
+  public int getEnd() {
     return this.end;
   }
+
+
+  /**
+   * Gets the instrument playing this note.
+   * @return integer representation of an instrument
+   */
+  public int getInstrument() {
+    return this.instrument;
+  }
+
+  /**
+   * Gets the loudness of this note from 0-100 inclusive.
+   * @return the loudness of this note
+   */
+  public int getLoudness() {
+    return this.loudness;
+  }
+
 
   @Override
   public String toString() {
@@ -68,7 +109,10 @@ public class Note implements Comparable<Note> {
       return false;
     }
     Note n = (Note) o;
-    return this.start == n.start && this.end == n.end;
+    return this.start == n.start
+            && this.end == n.end
+            && this.loudness == n.loudness
+            && this.instrument == n.instrument;
   }
 
   @Override

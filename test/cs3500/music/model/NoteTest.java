@@ -43,6 +43,12 @@ public class NoteTest {
     new Note(2,1);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  // invalid instrument and loudness
+  public void testBadConstructor4() {
+    new Note(0, 10, 0, -1);
+  }
+
   @Test
   public void testGetStart() {
     assertEquals(0, tiny.getStart());
