@@ -102,10 +102,11 @@ public class PianoPanel extends JPanel {
     int smallKeyInOctave = 1;
     for (PianoKey p : this.keys) {
       if (!(p.isLargeKey())) {
-        g2d.setColor(p.getOutlineColor());
-        g2d.setBackground(p.getBackGroundColor());
         Shape key = new Rectangle(xPos, yPos, blackKeyWidth, blackKeyHeight);
+        g2d.setColor(p.getBackGroundColor());
         g2d.fill(key);
+        g2d.setColor(p.getOutlineColor());
+        g2d.draw(key);
         if (smallKeyInOctave == 2) {
           xPos += this.whiteKeyWidth * 2;
         }
