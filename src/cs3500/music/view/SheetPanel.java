@@ -158,7 +158,7 @@ public class SheetPanel extends JPanel {
       g2d.drawRect(xPos, yPos, MEASURE_WIDTH, BEAT_HEIGHT);
     }
   }
-  
+
   /**
    * Determines the index of the last beat
    * for the sheet of music to be displayed.
