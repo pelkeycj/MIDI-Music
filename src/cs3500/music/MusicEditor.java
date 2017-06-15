@@ -17,6 +17,7 @@ import cs3500.music.view.MidiViewImpl;
 
 import cs3500.music.view.TextView;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Random;
 import java.util.Scanner;
 import javax.sound.midi.InvalidMidiDataException;
@@ -31,13 +32,15 @@ public class MusicEditor {
     IController controller = new SimpleController(model, guiView);
 
     CompositionBuilder<IController> builder = new SheetBuilder(controller);
-    //TODO use music reader to parse file
 
-    Scanner scanner = new Scanner(System.in);
+    Readable rd = new StringReader(args.toString());
 
+    //TODO
+    MusicReader.parseFile(rd, builder).go();
+
+    /*
     Random rand = new Random();
 
-    model.addNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP,0,10);
 
     for (int i = 0; i < 20; i++) {
       Octave o = OctaveNumber0To10.intToOctave(rand.nextInt(10) );
@@ -50,9 +53,7 @@ public class MusicEditor {
       }
     }
 
-    controller.go();
 
-    /**
     guiView.setNotes(model.getPitches());
 
     int curr = 0;

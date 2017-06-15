@@ -72,6 +72,10 @@ public class SheetPanel extends JPanel {
    * @param g2d the 2d graphics object to draw on
    */
   private void drawBeatCount(Graphics2D g2d) {
+    if (this.pitches.isEmpty()) {
+      return;
+    }
+
     int x;
     int y;
 

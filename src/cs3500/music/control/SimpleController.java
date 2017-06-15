@@ -7,6 +7,7 @@ import java.util.Map;
 import cs3500.music.model.MusicOperations;
 import cs3500.music.model.NoteType;
 import cs3500.music.model.Octave;
+import cs3500.music.model.PitchSequence;
 import cs3500.music.view.IView;
 
 /**
@@ -17,11 +18,14 @@ public class SimpleController implements IController, KeyListener {
   private IView view;
   private int currentBeat;
   private int tempo;
+  private boolean playing;
 
   public SimpleController(MusicOperations model, IView view) {
     this.model = model;
     this.view = view;
     this.currentBeat = 0;
+    this.playing = false;
+    this.tempo = 1000000; // 1 second per beat default (in microseconds)
   }
 
 
@@ -52,6 +56,10 @@ public class SimpleController implements IController, KeyListener {
     this.setViewNotes();
 
     while (true) {
+      if (this.playing) {
+        this.sleep();
+        this.changeBeatBy(1);
+      }
       this.view.refresh();
     }
   }
@@ -60,13 +68,15 @@ public class SimpleController implements IController, KeyListener {
   public void keyPressed(KeyEvent e) {
     switch (e.getKeyCode()) {
       case KeyEvent.VK_LEFT:
+        this.playing = false;
         this.changeBeatBy(-1);
         break;
       case KeyEvent.VK_RIGHT:
+        this.playing = false;
         this.changeBeatBy(1);
         break;
       case KeyEvent.VK_SPACE:
-        this.playAtTempo();
+        this.playing = true;
         break;
       default:
         return;
@@ -79,7 +89,12 @@ public class SimpleController implements IController, KeyListener {
    * @param delta the amount to change by
    */
   private void changeBeatBy(int delta) {
-    if (this.currentBeat + delta < 0) {
+    int lastBeat = this.model.getLastBeat();
+    int numMeasures = (lastBeat / 4) + 1;
+    lastBeat = numMeasures * 4;
+
+    if (this.currentBeat + delta < 0
+            || this.currentBeat + delta > lastBeat) {
       return;
     }
     this.currentBeat += delta;
@@ -87,10 +102,18 @@ public class SimpleController implements IController, KeyListener {
   }
 
   /**
-   * Play the sheet of music at the specified tempo.
+   * Sleep the program for {@code tempo} microseconds.
    */
-  private void playAtTempo() {
-    //TODO
+  private void sleep() {
+    long elapsedTime = 0;
+    final long initialTime = System.nanoTime();
+    final int microToNano = 1000;
+
+    while (elapsedTime < this.tempo * microToNano) {
+      elapsedTime = System.nanoTime() - initialTime;
+    }
+
+
   }
 
   @Override
