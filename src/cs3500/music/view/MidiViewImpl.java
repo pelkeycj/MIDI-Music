@@ -1,21 +1,16 @@
 package cs3500.music.view;
 
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteType;
 import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.OctaveNumber1To10;
 import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
-import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javafx.util.Builder;
 import javax.sound.midi.*;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-import org.omg.SendingContext.RunTime;
 
 /**
  * A skeleton for MIDI playback
@@ -133,6 +128,11 @@ public class MidiViewImpl extends AView {
   }
 
   @Override
+  public void close() {
+    this.receiver.close();
+  }
+
+  @Override
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
     Set<MIDIData> newMidi = new HashSet<>();
 
@@ -147,7 +147,7 @@ public class MidiViewImpl extends AView {
     }
 
     for (MIDIData m : newMidi) {
-      m.queue(this.receiver, this.synth);
+      m.run(this.receiver, this.synth);
     }
 
   }
@@ -177,8 +177,9 @@ public class MidiViewImpl extends AView {
       this.instrument = instrument;
     }
 
-    void queue(Receiver r, Synthesizer s) {
+    void run(Receiver r, Synthesizer s) {
       try {
+        s.loadInstrument(s.getDefaultSoundbank().getInstruments()[this.instrument]);
         System.out.println("Play " + Integer.toString(this.pitch) + " at " + Integer.toString(loudness) + " for " + Integer.toString(duration) + " beats.");
         MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, this.channel, this.pitch, this.loudness);
         MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF, this.channel, this.pitch, this.loudness);

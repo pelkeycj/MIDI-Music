@@ -58,6 +58,21 @@ public class MusicEditor {
       audioView.setCurrentBeat(i);
     }
 
+    audioView.close();
+
+    audioView.initialize();
+    audioView.setNotes(model.getPitches());
+
+    for (int i = 0; i < model.getLastBeat(); i++) {
+      long startTime = System.nanoTime();
+      while (System.nanoTime() - startTime < nanoSecondsPerNewBeat) {
+        //wait
+      }
+      System.out.println("Beat: " + Integer.toString(i));
+      audioView.setCurrentBeat(i);
+    }
+
+
     /*CompositionBuilder<IController> builder = new SheetBuilder(controller);
 
     Readable rd = new StringReader(args.toString());

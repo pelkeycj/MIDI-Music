@@ -16,7 +16,11 @@ public class TextView extends AView {
   @Override
   public void initialize() {
     //do nothing to initialize this view
-    return;
+  }
+
+  @Override
+  public void close() {
+    //do nothing to close this view
   }
 
   @Override
