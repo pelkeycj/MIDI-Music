@@ -85,7 +85,7 @@ public class SimpleController implements IController, KeyListener {
         this.changeBeatBy(1);
         break;
       case KeyEvent.VK_SPACE:
-        this.playing = true;
+        this.playing = !this.playing;
         break;
       default:
         return;
