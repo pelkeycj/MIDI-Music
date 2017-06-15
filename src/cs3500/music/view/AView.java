@@ -12,7 +12,7 @@ import javax.swing.*;
 /**
  * Abstract class for view implementations that defines shared fields and methods.
  */
-public abstract class AView implements IView {
+public abstract class AView extends JFrame implements IView {
   List<PitchSequence> pitches;
 
   @Override
@@ -23,6 +23,12 @@ public abstract class AView implements IView {
   @Override
   public void setTempo(int tempo) {
     //in many views, this info is not needed
+    return;
+  }
+
+  @Override
+  public void setKeyListener(KeyListener keyListener) {
+    this.addKeyListener(keyListener);
   }
 
 }

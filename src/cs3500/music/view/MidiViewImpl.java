@@ -23,7 +23,7 @@ public class MidiViewImpl extends AView {
 
   private int noteDurationMicro;
 
-  public MidiViewImpl(int noteDurationMicro) {
+  public MidiViewImpl() {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
@@ -33,7 +33,6 @@ public class MidiViewImpl extends AView {
     } catch (MidiUnavailableException e) {
       throw new RuntimeException("Midi view failed to open.");
     }
-    this.noteDurationMicro = noteDurationMicro;
   }
 
   @Override
@@ -69,11 +68,6 @@ public class MidiViewImpl extends AView {
   @Override
   public void refresh() {
     //do nothing
-  }
-
-  @Override
-  public void setKeyListener(KeyListener keyListener) {
-    
   }
 
   private class MIDIData {

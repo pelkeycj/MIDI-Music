@@ -60,6 +60,7 @@ public class SimpleController implements IController, KeyListener {
       v.setKeyListener(this);
       v.initialize();
     }
+
     this.setViewNotes();
 
     while (true) {

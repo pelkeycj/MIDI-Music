@@ -27,7 +27,7 @@ public class SheetBuilder implements CompositionBuilder<IController> {
 
   @Override
   public CompositionBuilder addNote(int start, int end, int instrument, int pitch, int volume) {
-    int octaveNum = pitch / 12;
+    int octaveNum = (pitch / 12) - 1;
     int noteNum = pitch % 12;
 
     this.controller.addNote(OctaveNumber0To10.intToOctave(octaveNum),
