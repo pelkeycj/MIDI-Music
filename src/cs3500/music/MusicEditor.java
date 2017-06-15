@@ -29,11 +29,11 @@ public class MusicEditor {
 
     model.addNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP,0,10);
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 10; i++) {
       Octave o = OctaveNumber1To10.intToOctave(rand.nextInt(10) + 1);
       NoteTypeWestern n = NoteTypeWestern.intToNote(rand.nextInt(12));
       try {
-        int start = rand.nextInt(50);
+        int start = rand.nextInt(100);
         model.addNote(o, n, start, start + rand.nextInt(2) + 1);
       } catch (Exception e) {
         //ignore bad note
@@ -45,6 +45,12 @@ public class MusicEditor {
     int curr = 0;
     while (true) {
 
+      try {
+        Thread.sleep(1000);
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
       guiView.setCurrentBeat(curr);
       guiView.refresh();
       curr++;
