@@ -1,5 +1,6 @@
 package cs3500.music;
 
+import cs3500.music.model.MusicSheet;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -8,7 +9,6 @@ import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.control.IController;
 import cs3500.music.control.SimpleController;
-import cs3500.music.model.MIDI;
 import cs3500.music.model.MusicOperations;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
@@ -22,25 +22,23 @@ public class MusicEditor {
 
 
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
-    IView view; // the view to be used (determined through CLI args)
-    MusicOperations model = new MIDI(); // model to use
+    IView[] view; // the view to be used (determined through CLI args)
+    MusicOperations model = new MusicSheet(); // model to use
 
     // get view
     switch (args[0].toLowerCase()) {
       case "console":
-        view = new TextView();
+        view = new IView[1];
+        view[0] = new TextView();
         break;
       case "gui":
-        view = new GuiViewFrame();
+        view = new IView[1];
+        view[0] = new GuiViewFrame();
         break;
       case "midi":
-        try {
-          view = new MidiViewImpl();
-        }
-        catch (MidiUnavailableException e) {
-          e.printStackTrace();
-          return;
-        }
+        view = new IView[2];
+        view[0] = new GuiViewFrame();
+        view[1] = new MidiViewImpl();
         break;
       default:
         throw new IllegalArgumentException("Unsupported view: " + args[0]);

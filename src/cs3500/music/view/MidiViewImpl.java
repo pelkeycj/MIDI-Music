@@ -23,7 +23,7 @@ public class MidiViewImpl extends AView {
 
   private int noteDurationMicro;
 
-  public MidiViewImpl(int noteDurationMicro) {
+  public MidiViewImpl() {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
@@ -33,7 +33,6 @@ public class MidiViewImpl extends AView {
     } catch (MidiUnavailableException e) {
       throw new RuntimeException("Midi view failed to open.");
     }
-    this.noteDurationMicro = noteDurationMicro;
   }
 
   @Override
@@ -51,9 +50,16 @@ public class MidiViewImpl extends AView {
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
     Set<MIDIData> newMidi = new HashSet<>();
 
+    System.out.print("---Beat: ");
+    System.out.println(beat);
     for (PitchSequence p : this.pitches) {
       if (p.playingAt(beat)) {
+        System.out.print("n: ");
+        System.out.println(p.getPitchCopy().toString());
+
         Note n = p.noteAt(beat);
+        System.out.println("start: " + Integer.toString(n.getStart()) + " end: " + Integer.toString(n.getEnd()));
+
         if (n.getStart() == beat) {
           int duration = 1 + n.getEnd() - n.getStart();
           newMidi.add(new MIDIData(p.getPitchCopy(), n.getLoudness(), duration, n.getInstrument()));
