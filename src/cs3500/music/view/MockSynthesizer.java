@@ -1,5 +1,6 @@
-package cs3500.music.model;
+package cs3500.music.view;
 
+import cs3500.music.view.MockReceiver;
 import java.util.List;
 import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;
@@ -16,6 +17,23 @@ import javax.sound.midi.VoiceStatus;
  * Simulates
  */
 public class MockSynthesizer implements Synthesizer {
+
+  StringBuilder log;
+
+  MockSynthesizer() {
+    log = new StringBuilder();
+  }
+
+  @Override
+  public Receiver getReceiver() throws MidiUnavailableException {
+    return new MockReceiver(this.log);
+  }
+
+  @Override
+  public void close() {
+
+  }
+
 
 
   @Override
@@ -45,7 +63,7 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public boolean loadInstrument(Instrument instrument) {
-    throw new UnsupportedOperationException("MockSynthesizer does not support this operation.");
+    return true;
   }
 
   @Override
@@ -60,7 +78,7 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public Soundbank getDefaultSoundbank() {
-    throw new UnsupportedOperationException("MockSynthesizer does not support this operation.");
+    return null;
   }
 
   @Override
@@ -100,13 +118,9 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public void open() throws MidiUnavailableException {
-
+    //do nothing
   }
 
-  @Override
-  public void close() {
-
-  }
 
   @Override
   public boolean isOpen() {
@@ -126,11 +140,6 @@ public class MockSynthesizer implements Synthesizer {
   @Override
   public int getMaxTransmitters() {
     throw new UnsupportedOperationException("MockSynthesizer does not support this operation.");
-  }
-
-  @Override
-  public Receiver getReceiver() throws MidiUnavailableException {
-    return new MockReceiver();
   }
 
   @Override

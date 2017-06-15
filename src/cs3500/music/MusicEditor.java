@@ -33,7 +33,7 @@ public class MusicEditor {
         controller = new SimpleController(model, new GuiViewFrame());
         break;
       case "midi":
-        controller = new SimpleController(model, new GuiViewFrame(), new MidiViewImpl());
+        controller = new SimpleController(model, new GuiViewFrame(), MidiViewImpl.buildSoundView());
         break;
       default:
         throw new IllegalArgumentException("Unsupported view: " + args[0]);

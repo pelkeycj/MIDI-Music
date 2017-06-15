@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import com.sun.org.apache.regexp.internal.RE;
 import cs3500.music.model.Note;
 import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.OctaveNumber1To10;
@@ -23,16 +24,26 @@ public class MidiViewImpl extends AView {
 
   private int noteDurationMicro;
 
-  public MidiViewImpl() {
+  private MidiViewImpl(Synthesizer s) {
     try {
-      this.synth = MidiSystem.getSynthesizer();
+      this.synth = s;
       this.receiver = synth.getReceiver();
-      Instrument[] instruments = synth.getDefaultSoundbank().getInstruments();
-      synth.loadInstrument(instruments[60]);
       this.synth.open();
     } catch (MidiUnavailableException e) {
       throw new RuntimeException("Midi view failed to open.");
     }
+  }
+
+  public static MidiViewImpl buildSoundView() {
+    try {
+      return new MidiViewImpl(MidiSystem.getSynthesizer());
+    } catch (MidiUnavailableException e) {
+      throw new IllegalArgumentException("Midi Synthesizer failed to open.");
+    }
+  }
+
+  public static MidiViewImpl buildTestView() {
+    return new MidiViewImpl(new MockSynthesizer());
   }
 
   @Override

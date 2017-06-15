@@ -1,4 +1,4 @@
-package cs3500.music.model;
+package cs3500.music.view;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
@@ -9,9 +9,16 @@ import javax.sound.midi.Receiver;
  */
 public class MockReceiver implements Receiver {
 
+  StringBuilder log;
+
+  public MockReceiver(StringBuilder log) {
+    this.log = log;
+  }
+
+
   @Override
   public void send(MidiMessage m, long timestamp) {
-    //prints out a log of the thing that is sent
+    log.append(m.toString()).append("time stamp ").append(timestamp).append("\n");
   }
 
   @Override
