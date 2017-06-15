@@ -10,6 +10,6 @@ public class ScrollingSheet extends JScrollPane {
   public ScrollingSheet(JPanel panel) {
     super(panel);
     setLayout(new ScrollPaneLayout());
-   // this.horizontalScrollBarPolicy = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+    this.horizontalScrollBarPolicy = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
   }
 }
