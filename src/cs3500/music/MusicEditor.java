@@ -30,15 +30,15 @@ public class MusicEditor {
     MusicOperations model = new MIDI();
     IController controller = new SimpleController(model, guiView);
 
-    int tempo = 120;
+    int tempo = 60;
     IView audioView = new MidiViewImpl(tempo);
     int nanoSecondsPerNewBeat = 60 * ((1000000000) / tempo);
 
     Random rand = new Random();
 
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < 20; i++) {
       try {
-        int start = rand.nextInt(60);
+        int start = rand.nextInt(10);
         model.addNote(OctaveNumber1To10.intToOctave(rand.nextInt(4) + 4), NoteTypeWestern.intToNote(rand.nextInt(12)),
             start, start + rand.nextInt(7));
       } catch (Exception e) {

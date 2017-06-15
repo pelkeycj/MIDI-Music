@@ -33,6 +33,8 @@ public class MidiViewImpl extends AView {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
+      Instrument[] instruments = synth.getDefaultSoundbank().getInstruments();
+      synth.loadInstrument(instruments[60]);
       this.synth.open();
     } catch (MidiUnavailableException e) {
       throw new RuntimeException("Midi view failed to open.");
@@ -82,7 +84,7 @@ public class MidiViewImpl extends AView {
 
     MidiChannel[] midiChannels = synth.getChannels();
     Instrument[] instruments = synth.getDefaultSoundbank().getInstruments();
-    synth.loadInstrument(instruments[41]);
+    synth.loadInstrument(instruments[60]);
 
     List<Pitch> ps = new ArrayList<>();
     ps.add(new Pitch(NoteTypeWestern.A, OctaveNumber1To10.O5));
