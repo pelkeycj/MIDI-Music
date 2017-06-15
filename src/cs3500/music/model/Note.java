@@ -15,7 +15,7 @@ public class Note implements Comparable<Note> {
   /**
    * Constructs an instance of a {@code Note}.
    * @param start the start beat of the note (inclusive)
-   * @param end the end beat of the note (inclusive)
+   * @param end the end beat of the note (exclusive)
    * @throws IllegalArgumentException if {@code start} or {@code end} are less than 0, or
    *                                   if {@code end} is less than {@code start}
    */
@@ -90,7 +90,7 @@ public class Note implements Comparable<Note> {
     StringBuilder s = new StringBuilder();
     s.append("X");
 
-    for (int i = start; i < end; i++) {
+    for (int i = start + 1; i < end; i++) {
       s.append("|");
     }
     return s.toString();

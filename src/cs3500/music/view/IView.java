@@ -43,4 +43,12 @@ public interface IView {
 
 
   void setTempo(int tempo);
+
+
+  /**
+   * Determines if the window is active. Allows the controller to close if inactive.
+   * @return true if active
+   */
+  boolean isActive();
+
 }

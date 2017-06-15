@@ -5,6 +5,8 @@ import cs3500.music.model.PitchSequence;
 import java.awt.*;
 
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class GuiViewFrame extends AView {
   public GuiViewFrame() {
     super();
     this.pitches = new ArrayList<>();
+    this.active = true;
 
     this.setTitle("GUI view");
     this.setSize(MIN_WIDTH,MIN_HEIGHT);
@@ -82,6 +85,11 @@ public class GuiViewFrame extends AView {
     }
     pianoPanel.setOnKeys(playingPitches);
     sheetPanel.setCurrentBeat(beat);
+  }
+
+  @Override
+  public boolean isActive() {
+    return this.isVisible();
   }
 
   @Override

@@ -44,6 +44,7 @@ public class MidiViewImpl extends AView {
 
   @Override
   public void initialize() {
+    this.active = true;
   }
 
   @Override
@@ -68,6 +69,7 @@ public class MidiViewImpl extends AView {
   @Override
   public void refresh() {
     //do nothing
+    return;
   }
 
   private class MIDIData {
