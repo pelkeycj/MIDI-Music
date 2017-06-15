@@ -44,7 +44,7 @@ public class MusicReader {
         case "note":
           try {
             int startBeat = scanner.nextInt();
-            int endBeat = scanner.nextInt() - 1;
+            int endBeat = scanner.nextInt();
             int instrument = scanner.nextInt();
             int pitch = scanner.nextInt();
             int volume = scanner.nextInt();

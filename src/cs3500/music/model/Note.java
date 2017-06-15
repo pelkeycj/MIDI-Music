@@ -128,6 +128,6 @@ public class Note implements Comparable<Note> {
    * @return a deep copy of this {@code Note}
    */
   public Note copy() {
-    return new Note(this.start, this.end);
+    return new Note(this.start, this.end, this.instrument, this.loudness);
   }
 }
