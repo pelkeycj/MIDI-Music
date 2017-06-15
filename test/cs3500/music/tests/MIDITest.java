@@ -1,4 +1,4 @@
-package cs3500.music.test;
+package cs3500.music.tests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,10 +56,6 @@ public class MIDITest {
           + " 9            |  \n"
           + "10       X    |  \n";
 
-
-
-
-
   /**
    * Initialize and reset fields.
    */
@@ -70,7 +66,7 @@ public class MIDITest {
   }
 
   @Test
-  // test add note
+  // tests add note
   public void testAddNote() {
     m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 5);
     m1.addNote(OctaveNumber1To10.O2, NoteTypeWestern.A_SHARP, 1, 2);

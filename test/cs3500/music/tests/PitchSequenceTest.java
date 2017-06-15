@@ -1,4 +1,4 @@
-package cs3500.music.test;
+package cs3500.music.tests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -104,20 +104,20 @@ public class PitchSequenceTest {
   }
 
   @Test
-  //test compareTO
+  //tests compareTO
   public void testCompareTo() {
     assertTrue(p1A.compareTo(p2C) < 0);
     assertTrue(p1A.compareTo(p1D) > 0);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  // test merge with bad args
+  // tests merge with bad args
   public void testMergeInvalidDelta() {
     p1D.addAll(new PitchSequence(OctaveNumber1To10.O1, NoteTypeWestern.D), -9);
   }
 
   @Test
-  //test valid merge
+  //tests valid merge
   public void testMergeValidDelta() {
     p1D.addNote(new Note(0,1));
     p1A.addNote(new Note(0,1));

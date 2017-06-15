@@ -1,4 +1,4 @@
-package cs3500.music.test;
+package cs3500.music.tests;
 
 import org.junit.Before;
 import org.junit.Test;
