@@ -39,7 +39,7 @@ public class TextView extends AView {
 
   @Override
   public void setKeyListener(KeyListener keyListener) {
-    this.setKeyListener(keyListener);
+    return;
   }
 
   /**

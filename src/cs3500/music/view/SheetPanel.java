@@ -149,7 +149,7 @@ public class SheetPanel extends JPanel {
     int xPos;
     int yPos;
 
-    for (int i = 0; i < numMeasures; i++) {
+    for (int i = 0; i < numMeasures + 30; i++) {
       xPos = i * MEASURE_BORDER_WIDTH + this.getScrollDelta();
       yPos = SHEET_START_Y + row * BEAT_BORDER_HEIGHT;
 
