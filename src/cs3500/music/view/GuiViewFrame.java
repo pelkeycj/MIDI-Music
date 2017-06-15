@@ -12,8 +12,7 @@ import java.util.List;
  * A skeleton Frame (i.e., a window) in Swing
  */
 
-//TODO create jpanel class to hold row headers
-public class GuiViewFrame extends javax.swing.JFrame implements IView {
+public class GuiViewFrame extends AView {
 
   private final int MIN_WIDTH = 1000;
   private final int MIN_HEIGHT = 500;
@@ -92,16 +91,6 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
     int height = currentSize.height;
     this.scrollingSheet.setPreferredSize(new Dimension(width, height - MIN_HEIGHT / 2));
     this.repaint();
-  }
-
-  @Override
-  public void setKeyListener(KeyListener keyListener) {
-    this.addKeyListener(keyListener);
-  }
-
-  @Override
-  public void setTempo(int tempo) {
-    //no action necessary.
   }
 
   /**

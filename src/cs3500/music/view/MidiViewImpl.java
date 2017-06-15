@@ -70,11 +70,6 @@ public class MidiViewImpl extends AView {
     //do nothing
   }
 
-  @Override
-  public void setKeyListener(KeyListener keyListener) {
-    
-  }
-
   private class MIDIData {
     private int channel;
     private int instrument;

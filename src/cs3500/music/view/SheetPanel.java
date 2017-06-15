@@ -197,9 +197,12 @@ public class SheetPanel extends JPanel {
    */
   private int getScrollDelta() {
     if (this.currentBeat > 20) {
-      int measures = (this.currentBeat - 20) / 4;
-      int remainingBeats = (this.currentBeat - 20) - measures;
-      return -1 * ((this.currentBeat - 20) * BEAT_WIDTH);
+      int beatsAfter20 = this.currentBeat - 20;
+
+      int delta = (beatsAfter20 * BEAT_WIDTH) +  (beatsAfter20 / 4) * (2 * BORDER_WIDTH);
+
+      return -1 * delta;
+      //return -1 * ((this.currentBeat - 20) * BEAT_WIDTH);
     }
     return 0;
   }
