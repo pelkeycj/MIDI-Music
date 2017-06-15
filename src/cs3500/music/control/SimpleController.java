@@ -15,14 +15,14 @@ import cs3500.music.view.IView;
  */
 public class SimpleController implements IController, KeyListener {
   private MusicOperations model;
-  private IView view;
+  private IView[] views;
   private int currentBeat;
   private int tempo;
   private boolean playing;
 
-  public SimpleController(MusicOperations model, IView view) {
+  public SimpleController(MusicOperations model, IView... view) {
     this.model = model;
-    this.view = view;
+    this.views = view;
     this.currentBeat = 0;
     this.playing = false;
     this.tempo = 1000000; // 1 second per beat default (in microseconds)
@@ -32,11 +32,16 @@ public class SimpleController implements IController, KeyListener {
   @Override
   public void setTempo(int tempo) {
     this.tempo = tempo;
+    for (IView v : this.views) {
+      v.setTempo(tempo);
+    }
   }
 
   @Override
   public void setViewNotes() {
-    this.view.setNotes(this.model.getPitches());
+    for (IView v : views) {
+      v.setNotes(this.model.getPitches());
+    }
   }
 
   @Override
@@ -51,8 +56,10 @@ public class SimpleController implements IController, KeyListener {
 
   @Override
   public void go() {
-    this.view.setKeyListener(this);
-    this.view.initialize();
+    for (IView v : views) {
+      v.setKeyListener(this);
+      v.initialize();
+    }
     this.setViewNotes();
 
     while (true) {
@@ -60,7 +67,9 @@ public class SimpleController implements IController, KeyListener {
         this.sleep();
         this.changeBeatBy(1);
       }
-      this.view.refresh();
+      for (IView v : views) {
+        v.refresh();
+      }
     }
   }
 
@@ -81,7 +90,9 @@ public class SimpleController implements IController, KeyListener {
       default:
         return;
     }
-    this.view.setCurrentBeat(this.currentBeat);
+    for (IView v : views) {
+      v.setCurrentBeat(this.currentBeat);
+    }
   }
 
   /**
@@ -98,7 +109,9 @@ public class SimpleController implements IController, KeyListener {
       return;
     }
     this.currentBeat += delta;
-    this.view.setCurrentBeat(this.currentBeat);
+    for (IView v : views) {
+      v.setCurrentBeat(this.currentBeat);
+    }
   }
 
   /**

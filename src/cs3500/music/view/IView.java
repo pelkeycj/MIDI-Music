@@ -40,4 +40,7 @@ public interface IView {
    * @param keyListener the key listener to set
    */
   void setKeyListener(KeyListener keyListener);
+
+
+  void setTempo(int tempo);
 }

@@ -1,7 +1,7 @@
 package cs3500.music.model;
 
 /**
- * Enumeration to represent the musical octaves 0-10 inclusive in accordance with MIDI..
+ * Enumeration to represent the musical octaves 0-10 inclusive in accordance with MusicSheet..
  */
 public enum OctaveNumber0To10 implements Octave {
   O0(0), O1(1), O2(2), O3(3), O4(4), O5(5), O6(6), O7(7), O8(8), O9(9), O10(10);

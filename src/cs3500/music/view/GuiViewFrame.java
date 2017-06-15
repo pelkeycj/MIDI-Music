@@ -99,6 +99,11 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
     this.addKeyListener(keyListener);
   }
 
+  @Override
+  public void setTempo(int tempo) {
+    //no action necessary.
+  }
+
   /**
    * Gets a deep copy of a list of {@link PitchSequence}s.
    * @param p a list of {@link PitchSequence}s

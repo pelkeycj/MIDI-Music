@@ -31,6 +31,10 @@ public class Pitch {
     return this.noteType; //TODO same thing
   }
 
+  public int getValue() {
+    return this.noteType.getValue() + (this.octaveNum.getValue() * 12);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -19,4 +19,10 @@ public abstract class AView implements IView {
   public void setNotes(List<PitchSequence> pitches) {
     this.pitches = pitches;
   }
+
+  @Override
+  public void setTempo(int tempo) {
+    //in many views, this info is not needed
+  }
+
 }
