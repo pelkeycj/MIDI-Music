@@ -1,7 +1,12 @@
-package cs3500.music.model;
+package cs3500.music.test;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import cs3500.music.model.Note;
+import cs3500.music.model.NoteTypeWestern;
+import cs3500.music.model.OctaveNumber1To10;
+import cs3500.music.model.PitchSequence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -1,12 +1,17 @@
-package cs3500.music.model;
+package cs3500.music.test;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import cs3500.music.model.MusicOperations;
+import cs3500.music.model.MusicSheet;
+import cs3500.music.model.NoteTypeWestern;
+import cs3500.music.model.OctaveNumber1To10;
+
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for the {@link MusicSheet} class.
+ * Tests for the MusicSheet class.
  */
 public class MIDITest {
   MusicOperations m1;
