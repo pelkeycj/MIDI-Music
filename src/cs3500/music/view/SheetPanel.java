@@ -21,15 +21,15 @@ public class SheetPanel extends JPanel {
   private List<PitchSequence> pitches;
   private int lastBeat;
   private int numMeasures;
-  private int panelWidth;
-  private int panelHeight;
   private int currentBeat;
+  private int scrollDelta;
 
   /**
    * Constructs a sheet panel.
    */
   public SheetPanel() {
     this.pitches = new ArrayList<PitchSequence>();
+    this.scrollDelta = 0;
   }
 
   @Override
