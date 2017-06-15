@@ -198,7 +198,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
       throw new IllegalArgumentException("Beats must be 0 or greater");
     }
     for (Note n : this.notes) {
-      if (beat >= n.getStart() && beat <= n.getEnd()) {
+      if (beat >= n.getStart() && beat < n.getEnd()) {
         return true;
       }
     }
@@ -212,7 +212,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    */
   public Note noteAt(int beat) {
     for (Note n : this.notes) {
-      if (beat >= n.getStart() && beat <= n.getEnd()) {
+      if (beat >= n.getStart() && beat < n.getEnd()) {
         return new Note(n.getStart(), n.getEnd(), n.getInstrument(), n.getLoudness());
       }
     }
