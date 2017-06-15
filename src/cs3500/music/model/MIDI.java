@@ -33,6 +33,16 @@ public class MIDI implements MusicOperations {
   }
 
   @Override
+  public void addNote(Octave o, NoteType nt, int start, int end, int instrument, int loudness) {
+    if (this.hasPitch(o, nt)) {
+      this.getPitch(o, nt).addNote(new Note(start, end, instrument, loudness));
+    }
+    else {
+      this.pitches.add(new PitchSequence(o, nt).addNote(new Note(start, end, instrument, loudness)));
+    }
+  }
+
+  @Override
   public void removeNote(Octave o, NoteType nt, int start, int end)
           throws IllegalArgumentException {
     if (this.hasPitch(o, nt)) {

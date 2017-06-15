@@ -18,6 +18,19 @@ public interface MusicOperations {
   void addNote(Octave o, NoteType nt, int start, int end);
 
   /**
+   * Adds a note of from beats {@code start} to {@code end} at pitch
+   * specified by octave {@code o} and note type {@code nt}. Allows creation of a note
+   * with a specified {@code instrument} and {@code loudness}.
+   * @param o the octave to add to
+   * @param nt the note type to add to
+   * @param start the start beat of the note
+   * @param end the end beat of the note
+   * @param instrument the instrument to play
+   * @param loudness the loudness to play note at
+   */
+  void addNote(Octave o, NoteType nt, int start, int end, int instrument, int loudness);
+
+  /**
    * Removes the note from beats {@code start} to {@code end} at the pitch
    * specified by octave {@code o} and note type {@code nt}.
    * @param o the octave to remove from

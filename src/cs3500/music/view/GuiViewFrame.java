@@ -82,7 +82,6 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
       }
     }
     pianoPanel.setOnKeys(playingPitches);
-
     sheetPanel.setCurrentBeat(beat);
   }
 

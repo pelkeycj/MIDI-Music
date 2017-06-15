@@ -12,11 +12,9 @@ import cs3500.music.model.PitchSequence;
 import static cs3500.music.util.ViewConstants.*;
 
 /**
- * Displays the sheet of music.
+ * Displays the sheet of music. Shows a cursor representing the current beat
+ * and scrolls the sheet of music along with the moving cursor after beat 20.
  */
-
-
-//TODO handle cursor scrolling left/right
 public class SheetPanel extends JPanel {
   private List<PitchSequence> pitches;
   private int lastBeat;

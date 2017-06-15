@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 import java.util.Map;
 
 import cs3500.music.model.MusicOperations;
+import cs3500.music.model.NoteType;
+import cs3500.music.model.Octave;
 import cs3500.music.view.IView;
 
 /**
@@ -22,10 +24,8 @@ public class SimpleController implements IController, KeyListener {
     this.currentBeat = 0;
   }
 
-  /**
-   * Set the tempo to play at.
-   * @param tempo in microseconds per beat
-   */
+
+  @Override
   public void setTempo(int tempo) {
     this.tempo = tempo;
   }
@@ -36,15 +36,24 @@ public class SimpleController implements IController, KeyListener {
   }
 
   @Override
+  public void addNote(Octave o, NoteType nt, int start, int end) {
+    this.model.addNote(o, nt, start, end);
+  }
+
+  @Override
+  public void addNote(Octave o, NoteType nt, int start, int end, int instrument, int loudness) {
+    this.model.addNote(o, nt, start, end, instrument, loudness);
+  }
+
+  @Override
   public void go() {
     this.view.setKeyListener(this);
     this.view.initialize();
     this.setViewNotes();
-  }
 
-  @Override
-  public void keyTyped(KeyEvent e) {
-    return;
+    while (true) {
+      this.view.refresh();
+    }
   }
 
   @Override
@@ -82,6 +91,11 @@ public class SimpleController implements IController, KeyListener {
    */
   private void playAtTempo() {
     //TODO
+  }
+
+  @Override
+  public void keyTyped(KeyEvent e) {
+    return;
   }
 
   @Override
