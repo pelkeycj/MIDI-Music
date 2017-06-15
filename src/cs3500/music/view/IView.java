@@ -41,8 +41,6 @@ public interface IView {
    */
   void setKeyListener(KeyListener keyListener);
 
-  /**
-   * Exits the current view by removing it from display and stopping all its actions.
-   */
-  void close();
+
+  void setTempo(int tempo);
 }

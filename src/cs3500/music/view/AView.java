@@ -20,4 +20,9 @@ public abstract class AView implements IView {
     this.pitches = pitches;
   }
 
+  @Override
+  public void setTempo(int tempo) {
+    //in many views, this info is not needed
+  }
+
 }

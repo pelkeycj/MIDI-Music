@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for the {@link MIDI} class.
+ * Tests for the {@link MusicSheet} class.
  */
 public class MIDITest {
   MusicOperations m1;
@@ -60,8 +60,8 @@ public class MIDITest {
    */
   @Before
   public void init() {
-    m1 = new MIDI();
-    m2 = new MIDI();
+    m1 = new MusicSheet();
+    m2 = new MusicSheet();
   }
 
   @Test

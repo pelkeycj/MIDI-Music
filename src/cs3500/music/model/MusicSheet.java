@@ -6,13 +6,13 @@ import java.util.Collections;
 import cs3500.music.util.StringUtilities;
 
 /**
- * Representation of a MIDI music player. <br>
+ * Representation of a MusicSheet music player. <br>
  * Public facing class that implements the {@link MusicOperations} interface.
  */
-public class MIDI implements MusicOperations {
+public class MusicSheet implements MusicOperations {
   private ArrayList<PitchSequence> pitches;
 
-  public MIDI() {
+  public MusicSheet() {
     this.pitches = new ArrayList<PitchSequence>();
   }
 

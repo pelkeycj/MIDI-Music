@@ -13,7 +13,7 @@ import java.util.Set;
 import javax.sound.midi.*;
 
 /**
- * A skeleton for MIDI playback
+ * A skeleton for MusicSheet playback
  */
 public class MidiViewImpl extends AView {
   private final Synthesizer synth;
@@ -21,10 +21,9 @@ public class MidiViewImpl extends AView {
 
   private final int CHANNEL = 0;
 
-  private int tempo;
   private int noteDurationMicro;
 
-  public MidiViewImpl(int tempo) {
+  public MidiViewImpl(int noteDurationMicro) {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
@@ -34,102 +33,18 @@ public class MidiViewImpl extends AView {
     } catch (MidiUnavailableException e) {
       throw new RuntimeException("Midi view failed to open.");
     }
-    this.tempo = tempo;
-    double beatsPerSecond = tempo / 60.0;
-    double secondsPerBeat = 1.0 / beatsPerSecond;
-    this.noteDurationMicro = (int) (1000000 * secondsPerBeat);
+    this.noteDurationMicro = noteDurationMicro;
   }
-  /**
-   * Relevant classes and methods from the javax.sound.midi library:
-   * <ul>
-   *  <li>{@link MidiSystem#getSynthesizer()}</li>
-   *  <li>{@link Synthesizer}
-   *    <ul>
-   *      <li>{@link Synthesizer#open()}</li>
-   *      <li>{@link Synthesizer#getReceiver()}</li>
-   *      <li>{@link Synthesizer#getChannels()}</li>
-   *    </ul>
-   *  </li>
-   *  <li>{@link Receiver}
-   *    <ul>
-   *      <li>{@link Receiver#send(MidiMessage, long)}</li>
-   *      <li>{@link Receiver#close()}</li>
-   *    </ul>
-   *  </li>
-   *  <li>{@link MidiMessage}</li>
-   *  <li>{@link ShortMessage}</li>
-   *  <li>{@link MidiChannel}
-   *    <ul>
-   *      <li>{@link MidiChannel#getProgram()}</li>
-   *      <li>{@link MidiChannel#programChange(int)}</li>
-   *    </ul>
-   *  </li>
-   * </ul>
-   * @see <a href="https://en.wikipedia.org/wiki/General_MIDI">
-   *   https://en.wikipedia.org/wiki/General_MIDI
-   *   </a>
-   */
 
-  public void playNote() throws MidiUnavailableException, InvalidMidiDataException {
-
-    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 60, 64);
-    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, 60, 64);
-    this.receiver.send(start, -1);
-    this.receiver.send(stop, this.synth.getMicrosecondPosition() + 200000);
-
-    MidiChannel[] midiChannels = synth.getChannels();
-    Instrument[] instruments = synth.getDefaultSoundbank().getInstruments();
-    synth.loadInstrument(instruments[60]);
-
-    List<Pitch> ps = new ArrayList<>();
-    ps.add(new Pitch(NoteTypeWestern.A, OctaveNumber1To10.O5));
-    ps.add(new Pitch(NoteTypeWestern.A, OctaveNumber1To10.O5));
-    ps.add(new Pitch(NoteTypeWestern.A, OctaveNumber1To10.O5));
-    ps.add(new Pitch(NoteTypeWestern.B, OctaveNumber1To10.O5));
-    ps.add(new Pitch(NoteTypeWestern.B, OctaveNumber1To10.O5));
-
-    for (Pitch p : ps) {
-      System.out.println("Press any key to continue...");
-      try
-      {
-        System.in.read();
-      }
-      catch(Exception e)
-      {}
-      start = new ShortMessage(ShortMessage.NOTE_ON, 4, p.getValue(), 100);
-      stop = new ShortMessage(ShortMessage.NOTE_OFF, 4, p.getValue(), 100);
-      this.receiver.send(start, -100000);
-      this.receiver.send(stop, this.synth.getMicrosecondPosition() + 1000000);
-      System.out.println("P.getvalue: " + Integer.toString(p.getValue()));
-//      midiChannels[0].noteOn(p.getValue(), 100);
-    }
-
-    /*
-    The receiver does not "block", i.e. this method
-    immediately moves to the next line and closes the
-    receiver without waiting for the synthesizer to
-    finish playing.
-
-    You can make the program artificially "wait" using
-    Thread.sleep. A better solution will be forthcoming
-    in the subsequent assignments.
-    */
-    this.receiver.close(); // Only call this once you're done playing *all* notes
+  @Override
+  public void setTempo(int noteDurationMicro) {
+    this.noteDurationMicro = noteDurationMicro;
   }
+
 
 
   @Override
   public void initialize() {
-//    try {
-//      playNote();
-//    } catch (InvalidMidiDataException e) {
-//      throw new RuntimeException("Midi play failed.");
-//    }
-  }
-
-  @Override
-  public void close() {
-    this.receiver.close();
   }
 
   @Override
@@ -149,12 +64,11 @@ public class MidiViewImpl extends AView {
     for (MIDIData m : newMidi) {
       m.run(this.receiver, this.synth);
     }
-
   }
 
   @Override
   public void refresh() {
-    this.receiver.close();
+    //do nothing
   }
 
   @Override
@@ -180,7 +94,6 @@ public class MidiViewImpl extends AView {
     void run(Receiver r, Synthesizer s) {
       try {
         s.loadInstrument(s.getDefaultSoundbank().getInstruments()[this.instrument]);
-        System.out.println("Play " + Integer.toString(this.pitch) + " at " + Integer.toString(loudness) + " for " + Integer.toString(duration) + " beats.");
         MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, this.channel, this.pitch, this.loudness);
         MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF, this.channel, this.pitch, this.loudness);
         r.send(start, -1);

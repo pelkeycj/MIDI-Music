@@ -19,11 +19,6 @@ public class TextView extends AView {
   }
 
   @Override
-  public void close() {
-    //do nothing to close this view
-  }
-
-  @Override
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
     //do nothing
   }

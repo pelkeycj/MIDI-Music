@@ -2,22 +2,17 @@ package cs3500.music;
 
 import cs3500.music.control.IController;
 import cs3500.music.control.SimpleController;
-import cs3500.music.model.MIDI;
+import cs3500.music.model.MusicSheet;
 import cs3500.music.model.MusicOperations;
 import cs3500.music.model.NoteTypeWestern;
-import cs3500.music.model.Octave;
 import cs3500.music.model.OctaveNumber0To10;
 import cs3500.music.model.OctaveNumber1To10;
-import cs3500.music.util.CompositionBuilder;
-import cs3500.music.util.MusicReader;
-import cs3500.music.util.SheetBuilder;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.IView;
 import cs3500.music.view.MidiViewImpl;
 
 import cs3500.music.view.TextView;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.Random;
 import javax.sound.midi.InvalidMidiDataException;
 
@@ -27,50 +22,31 @@ public class MusicEditor {
     IView textView = new TextView();
     IView guiView = new GuiViewFrame();
     guiView.initialize();
-    MusicOperations model = new MIDI();
-    IController controller = new SimpleController(model, guiView);
+    MusicOperations model = new MusicSheet();
 
-    int tempo = 60;
-    IView audioView = new MidiViewImpl(tempo);
-    int nanoSecondsPerNewBeat = 60 * ((1000000000) / tempo);
+
+    int tempo = 120;
+    int microSecondsPerBeat = 60 * ((1000000) / tempo);
+    IView audioView = new MidiViewImpl(microSecondsPerBeat);
 
     Random rand = new Random();
 
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 10; i++) {
       try {
-        int start = rand.nextInt(10);
-        model.addNote(OctaveNumber1To10.intToOctave(rand.nextInt(4) + 4), NoteTypeWestern.intToNote(rand.nextInt(12)),
-            start, start + rand.nextInt(7));
+        int start = rand.nextInt(5);
+        model.addNote(OctaveNumber0To10.intToOctave(rand.nextInt(4) + 4), NoteTypeWestern.intToNote(rand.nextInt(12)),
+            start, start + rand.nextInt(4), 1, 127);
       } catch (Exception e) {
         //do nothing
       }
     }
 
-    audioView.setNotes(model.getPitches());
-    textView.setNotes(model.getPitches());
 
-    for (int i = 0; i < model.getLastBeat(); i++) {
-      long startTime = System.nanoTime();
-      while (System.nanoTime() - startTime < nanoSecondsPerNewBeat) {
-        //wait
-      }
-      System.out.println("Beat: " + Integer.toString(i));
-      audioView.setCurrentBeat(i);
-    }
+    IController controller = new SimpleController(model, audioView, guiView);
+    controller.setViewNotes();
+    controller.setTempo(microSecondsPerBeat);
+    controller.go();
 
-    audioView.close();
-
-    audioView.initialize();
-    audioView.setNotes(model.getPitches());
-
-    for (int i = 0; i < model.getLastBeat(); i++) {
-      long startTime = System.nanoTime();
-      while (System.nanoTime() - startTime < nanoSecondsPerNewBeat) {
-        //wait
-      }
-      System.out.println("Beat: " + Integer.toString(i));
-      audioView.setCurrentBeat(i);
-    }
 
 
     /*CompositionBuilder<IController> builder = new SheetBuilder(controller);

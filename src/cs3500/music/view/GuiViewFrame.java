@@ -61,11 +61,6 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
   }
 
   @Override
-  public void close() {
-    this.setVisible(false);
-  }
-
-  @Override
   public Dimension getPreferredSize(){
     return new Dimension(100, 100);
   }
@@ -102,6 +97,11 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
   @Override
   public void setKeyListener(KeyListener keyListener) {
     this.addKeyListener(keyListener);
+  }
+
+  @Override
+  public void setTempo(int tempo) {
+    //no action necessary.
   }
 
   /**

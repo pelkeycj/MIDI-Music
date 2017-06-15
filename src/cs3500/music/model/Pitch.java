@@ -32,7 +32,7 @@ public class Pitch {
   }
 
   public int getValue() {
-    return this.noteType.getValue() + (this.octaveNum.getValue() - 1) * 12;
+    return this.noteType.getValue() + (this.octaveNum.getValue() * 12);
   }
 
   @Override
