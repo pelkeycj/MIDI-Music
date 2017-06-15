@@ -1,7 +1,7 @@
 package cs3500.music.view;
 
 import cs3500.music.model.PitchSequence;
-import cs3500.music.model.StringUtilities;
+import cs3500.music.util.StringUtilities;
 
 import java.awt.event.KeyListener;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package cs3500.music.model;
+package cs3500.music.util;
 
 /**
  * Utility class to contain methods to modify {@code String}s.

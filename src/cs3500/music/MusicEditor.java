@@ -29,7 +29,7 @@ public class MusicEditor {
 
     model.addNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP,0,10);
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 5; i++) {
       Octave o = OctaveNumber1To10.intToOctave(rand.nextInt(10) + 1);
       NoteTypeWestern n = NoteTypeWestern.intToNote(rand.nextInt(12));
       try {
@@ -44,12 +44,7 @@ public class MusicEditor {
 
     int curr = 0;
     while (true) {
-      try {
-        Thread.sleep(250);
-      }
-      catch (Exception e) {
-        e.printStackTrace();
-      }
+
       guiView.setCurrentBeat(curr);
       guiView.refresh();
       curr++;

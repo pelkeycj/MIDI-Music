@@ -11,10 +11,13 @@ import java.util.List;
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
+
+//TODO create jpanel class to hold row headers
 public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
   private final int MIN_WIDTH = 1000;
   private final int MIN_HEIGHT = 500;
+
 
   private SheetPanel sheetPanel;
   private PianoPanel pianoPanel;
@@ -43,6 +46,8 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
     this.sheetPanel = new SheetPanel();
     this.sheetPanel.setPreferredSize(new Dimension(MIN_WIDTH, MIN_HEIGHT / 2));
     this.scrollingSheet = new ScrollingSheet(sheetPanel);
+    this.scrollingSheet.setPreferredSize(new Dimension(MIN_WIDTH, MIN_HEIGHT / 2));
+    this.scrollingSheet.setRowHeaderView(new RowHeaderPanel(this.pitches));
     this.add(scrollingSheet, BorderLayout.NORTH);
 
 
@@ -62,9 +67,9 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
   @Override
   public void setNotes(List<PitchSequence> pitches) {
-    this.pitches = pitches;
-    this.sheetPanel.setNotes(pitches);
-    //TODO should we make this copy its input so that it can't be mutated from the outside?
+    this.pitches = this.deepCopyPitches(pitches);
+    this.sheetPanel.setNotes(this.deepCopyPitches(pitches));
+    this.scrollingSheet.setRowHeaderView(new RowHeaderPanel(this.deepCopyPitches(pitches)));
   }
 
   @Override
@@ -83,11 +88,28 @@ public class GuiViewFrame extends javax.swing.JFrame implements IView {
 
   @Override
   public void refresh() {
+    Dimension currentSize = this.getSize();
+    int width = currentSize.width;
+    int height = currentSize.height;
+    this.scrollingSheet.setPreferredSize(new Dimension(width, height - MIN_HEIGHT / 2));
     this.repaint();
   }
 
   @Override
   public void setKeyListener(KeyListener keyListener) {
     this.addKeyListener(keyListener);
+  }
+
+  /**
+   * Gets a deep copy of a list of {@link PitchSequence}s.
+   * @param p a list of {@link PitchSequence}s
+   * @return a deep copy of {@code p}
+   */
+  private List<PitchSequence> deepCopyPitches(List<PitchSequence> p) {
+    List<PitchSequence> copy = new ArrayList<PitchSequence>();
+    for (PitchSequence pitch : p) {
+      copy.add(pitch.copy());
+    }
+    return copy;
   }
 }

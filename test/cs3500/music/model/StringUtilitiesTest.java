@@ -2,6 +2,8 @@ package cs3500.music.model;
 
 import org.junit.Test;
 
+import cs3500.music.util.StringUtilities;
+
 import static org.junit.Assert.assertEquals;
 
 /**

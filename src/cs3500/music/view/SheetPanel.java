@@ -1,7 +1,5 @@
 package cs3500.music.view;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,34 +9,15 @@ import javax.swing.*;
 
 import cs3500.music.model.PitchSequence;
 
+import static cs3500.music.util.ViewConstants.*;
+
 /**
  * Displays the sheet of music.
  */
 
 
-//TODO JScrollPane
 //TODO handle cursor scrolling left/right
 public class SheetPanel extends JPanel {
-  // constants subject to change
-  private final int DEFAULT_WIDTH = 1000;
-  private final int DEFAULT_HEIGHT = 250;
-
-  private final int BEAT_WIDTH = 20;
-  private final int BEAT_HEIGHT = 14;
-  private final int MEASURE_WIDTH = BEAT_WIDTH * 4;
-
-  private final int BORDER_WIDTH = 1;
-
-  private final int BEAT_BORDER_HEIGHT = BEAT_HEIGHT + 2 * BORDER_WIDTH;
-  private final int MEASURE_BORDER_WIDTH = MEASURE_WIDTH + 2 * BORDER_WIDTH;
-  private final int MEASURE_BORDER_HEIGHT = BEAT_BORDER_HEIGHT;
-
-  // x,y coords of top left corner of sheet
-  private final int SHEET_START_X = 50;
-  private final int SHEET_START_Y = 50;
-
-  private final int HEADER_FONT_SIZE = BEAT_HEIGHT - 2;
-
   private List<PitchSequence> pitches;
   private int lastBeat;
   private int numMeasures;
@@ -78,7 +57,7 @@ public class SheetPanel extends JPanel {
    */
   public void setNotes(List<PitchSequence> pitches) {
     this.pitches = pitches;
-    int pitchHeight = SHEET_START_Y + pitches.size() * MEASURE_BORDER_HEIGHT + 20;
+    int pitchHeight = SHEET_START_Y + pitches.size() * MEASURE_BORDER_HEIGHT;
     this.setPreferredSize(new Dimension(DEFAULT_WIDTH, pitchHeight));
   }
 
@@ -100,7 +79,7 @@ public class SheetPanel extends JPanel {
 
     g2d.setColor(Color.black);
     for (int i = 0; i <= this.numMeasures; i++) {
-      g2d.drawString((i * 4) + "", SHEET_START_X + MEASURE_BORDER_WIDTH * i,
+      g2d.drawString((i * 4) + "", MEASURE_BORDER_WIDTH * i,
               SHEET_START_Y - 10);
     }
   }
@@ -113,10 +92,6 @@ public class SheetPanel extends JPanel {
    * @param row the row to place the pitch at
    */
   private void drawPitch(Graphics2D g2d, PitchSequence p, int row) {
-    g2d.setColor(Color.black);
-    g2d.setFont(new Font("TimesRoman", Font.PLAIN, HEADER_FONT_SIZE));
-    g2d.drawString(p.getHeader(), 5, SHEET_START_Y + (row + 1) * MEASURE_BORDER_HEIGHT - 4);
-
     // place measures
     this.drawMeasures(g2d, row);
 
@@ -141,7 +116,7 @@ public class SheetPanel extends JPanel {
     int measureNum = beat / 4;
     int remainingBeats = beat - measureNum * 4;
 
-    int xPos = SHEET_START_X + MEASURE_BORDER_WIDTH * measureNum
+    int xPos = MEASURE_BORDER_WIDTH * measureNum
             + BEAT_WIDTH * remainingBeats + BORDER_WIDTH;
     int yPos = SHEET_START_Y + BEAT_BORDER_HEIGHT * row + BORDER_WIDTH;
 
@@ -172,20 +147,12 @@ public class SheetPanel extends JPanel {
     int yPos;
 
     for (int i = 0; i < numMeasures; i++) {
-      xPos = SHEET_START_X + i * MEASURE_BORDER_WIDTH;
+      xPos = i * MEASURE_BORDER_WIDTH;
       yPos = SHEET_START_Y + row * BEAT_BORDER_HEIGHT;
 
       // draw black outline
       g2d.setColor(Color.black);
       g2d.drawRect(xPos, yPos, MEASURE_BORDER_WIDTH, BEAT_BORDER_HEIGHT);
-
-      /*
-      // draw white inside
-      xPos++;
-      yPos++;
-      g2d.setColor(Color.white);
-      g2d.fillRect(xPos, yPos, MEASURE_WIDTH, BEAT_HEIGHT);
-      */
     }
   }
 
@@ -196,7 +163,7 @@ public class SheetPanel extends JPanel {
   private void drawCursor(Graphics2D g2d) {
     int measureNum = this.currentBeat / 4;
     int remainingBeat = currentBeat - measureNum * 4;
-    int startX = SHEET_START_X + measureNum * MEASURE_BORDER_WIDTH
+    int startX = measureNum * MEASURE_BORDER_WIDTH
             + remainingBeat * BEAT_WIDTH;
     int endX = startX;
     int startY = SHEET_START_Y;

@@ -3,6 +3,8 @@ package cs3500.music.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import cs3500.music.util.StringUtilities;
+
 /**
  * Representation of a MIDI music player. <br>
  * Public facing class that implements the {@link MusicOperations} interface.
