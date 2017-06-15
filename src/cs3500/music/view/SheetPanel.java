@@ -20,14 +20,12 @@ public class SheetPanel extends JPanel {
   private int lastBeat;
   private int numMeasures;
   private int currentBeat;
-  private int scrollDelta;
 
   /**
    * Constructs a sheet panel.
    */
   public SheetPanel() {
     this.pitches = new ArrayList<PitchSequence>();
-    this.scrollDelta = 0;
   }
 
   @Override
@@ -74,11 +72,14 @@ public class SheetPanel extends JPanel {
    * @param g2d the 2d graphics object to draw on
    */
   private void drawBeatCount(Graphics2D g2d) {
+    int x;
+    int y;
 
     g2d.setColor(Color.black);
     for (int i = 0; i <= this.numMeasures; i++) {
-      g2d.drawString((i * 4) + "", MEASURE_BORDER_WIDTH * i,
-              SHEET_START_Y - 10);
+      x = MEASURE_BORDER_WIDTH * i + this.getScrollDelta();
+      y = SHEET_START_Y - 10;
+      g2d.drawString((i * 4) + "", x, y);
     }
   }
 
@@ -115,7 +116,7 @@ public class SheetPanel extends JPanel {
     int remainingBeats = beat - measureNum * 4;
 
     int xPos = MEASURE_BORDER_WIDTH * measureNum
-            + BEAT_WIDTH * remainingBeats + BORDER_WIDTH;
+            + BEAT_WIDTH * remainingBeats + BORDER_WIDTH + this.getScrollDelta();
     int yPos = SHEET_START_Y + BEAT_BORDER_HEIGHT * row + BORDER_WIDTH;
 
     Color color;
@@ -145,7 +146,7 @@ public class SheetPanel extends JPanel {
     int yPos;
 
     for (int i = 0; i < numMeasures; i++) {
-      xPos = i * MEASURE_BORDER_WIDTH;
+      xPos = i * MEASURE_BORDER_WIDTH + this.getScrollDelta();
       yPos = SHEET_START_Y + row * BEAT_BORDER_HEIGHT;
 
       // draw black outline
@@ -162,7 +163,7 @@ public class SheetPanel extends JPanel {
     int measureNum = this.currentBeat / 4;
     int remainingBeat = currentBeat - measureNum * 4;
     int startX = measureNum * MEASURE_BORDER_WIDTH
-            + remainingBeat * BEAT_WIDTH;
+            + remainingBeat * BEAT_WIDTH + this.getScrollDelta();
     int endX = startX;
     int startY = SHEET_START_Y;
     int endY = SHEET_START_Y + this.pitches.size() * MEASURE_BORDER_HEIGHT;
@@ -182,6 +183,21 @@ public class SheetPanel extends JPanel {
     }
     this.lastBeat = lastBeat;
     this.numMeasures = (int) Math.ceil(this.lastBeat / 4) + 1;
+  }
+
+
+  /**
+   * Gets the amount of pixels to shift the sheet left by as a negative integer,
+   * based on the position of the cursor.
+   * @return the amount to shift by
+   */
+  private int getScrollDelta() {
+    if (this.currentBeat > 20) {
+      int measures = (this.currentBeat - 20) / 4;
+      int remainingBeats = (this.currentBeat - 20) - measures;
+      return -1 * ((this.currentBeat - 20) * BEAT_WIDTH);
+    }
+    return 0;
   }
 
 }
