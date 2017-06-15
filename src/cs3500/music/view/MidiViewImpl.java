@@ -23,27 +23,24 @@ import org.omg.SendingContext.RunTime;
 public class MidiViewImpl extends AView {
   private final Synthesizer synth;
   private final Receiver receiver;
-  private Sequencer sequencer;
 
   private final int CHANNEL = 0;
 
-  private Set<MIDIData> currMidi;
+  private int tempo;
+  private int noteDurationMicro;
 
-  public MidiViewImpl() {
+  public MidiViewImpl(int tempo) {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
-      sequencer = MidiSystem.getSequencer();
-      if (sequencer == null) {
-        //error
-      } else {
-        sequencer.open();
-      }
       this.synth.open();
-      this.currMidi = new HashSet<>();
     } catch (MidiUnavailableException e) {
       throw new RuntimeException("Midi view failed to open.");
     }
+    this.tempo = tempo;
+    double beatsPerSecond = tempo / 60.0;
+    double secondsPerBeat = 1.0 / beatsPerSecond;
+    this.noteDurationMicro = (int) (1000000 * secondsPerBeat);
   }
   /**
    * Relevant classes and methods from the javax.sound.midi library:
@@ -184,7 +181,7 @@ public class MidiViewImpl extends AView {
         MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, this.channel, this.pitch, this.loudness);
         MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF, this.channel, this.pitch, this.loudness);
         r.send(start, -1);
-        r.send(end, s.getMicrosecondPosition() + duration * 1000000);
+        r.send(end, s.getMicrosecondPosition() + duration * noteDurationMicro);
       } catch (InvalidMidiDataException e) {
         throw new RuntimeException("Note failed to play.");
       }

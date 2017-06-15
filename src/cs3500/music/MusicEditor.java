@@ -30,15 +30,17 @@ public class MusicEditor {
     MusicOperations model = new MIDI();
     IController controller = new SimpleController(model, guiView);
 
-    IView audioView = new MidiViewImpl();
+    int tempo = 120;
+    IView audioView = new MidiViewImpl(tempo);
+    int nanoSecondsPerNewBeat = 60 * ((1000000000) / tempo);
 
     Random rand = new Random();
 
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 200; i++) {
       try {
-        int start = rand.nextInt(20);
-        model.addNote(OctaveNumber1To10.intToOctave(rand.nextInt(4) + 3), NoteTypeWestern.intToNote(rand.nextInt(12)),
-            start, start + rand.nextInt(3));
+        int start = rand.nextInt(60);
+        model.addNote(OctaveNumber1To10.intToOctave(rand.nextInt(4) + 4), NoteTypeWestern.intToNote(rand.nextInt(12)),
+            start, start + rand.nextInt(7));
       } catch (Exception e) {
         //do nothing
       }
@@ -49,7 +51,7 @@ public class MusicEditor {
 
     for (int i = 0; i < model.getLastBeat(); i++) {
       long startTime = System.nanoTime();
-      while (System.nanoTime() - startTime < 1000000000) {
+      while (System.nanoTime() - startTime < nanoSecondsPerNewBeat) {
         //wait
       }
       System.out.println("Beat: " + Integer.toString(i));
