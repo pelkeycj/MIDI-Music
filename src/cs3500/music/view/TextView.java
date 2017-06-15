@@ -13,8 +13,6 @@ import java.util.List;
  */
 public class TextView extends AView {
 
-  private List<PitchSequence> pitches;
-
   @Override
   public void initialize() {
     //do nothing to initialize this view

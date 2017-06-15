@@ -1,9 +1,21 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Note;
+import cs3500.music.model.NoteType;
+import cs3500.music.model.NoteTypeWestern;
+import cs3500.music.model.OctaveNumber1To10;
+import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
+import java.awt.Rectangle;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javafx.util.Builder;
 import javax.sound.midi.*;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import org.omg.SendingContext.RunTime;
 
 /**
  * A skeleton for MIDI playback
@@ -11,11 +23,27 @@ import javax.sound.midi.*;
 public class MidiViewImpl extends AView {
   private final Synthesizer synth;
   private final Receiver receiver;
+  private Sequencer sequencer;
 
-  public MidiViewImpl() throws MidiUnavailableException {
-    this.synth = MidiSystem.getSynthesizer();
-    this.receiver = synth.getReceiver();
-    this.synth.open();
+  private final int CHANNEL = 0;
+
+  private Set<MIDIData> currMidi;
+
+  public MidiViewImpl() {
+    try {
+      this.synth = MidiSystem.getSynthesizer();
+      this.receiver = synth.getReceiver();
+      sequencer = MidiSystem.getSequencer();
+      if (sequencer == null) {
+        //error
+      } else {
+        sequencer.open();
+      }
+      this.synth.open();
+      this.currMidi = new HashSet<>();
+    } catch (MidiUnavailableException e) {
+      throw new RuntimeException("Midi view failed to open.");
+    }
   }
   /**
    * Relevant classes and methods from the javax.sound.midi library:
@@ -48,11 +76,39 @@ public class MidiViewImpl extends AView {
    *   </a>
    */
 
-  public void playNote() throws InvalidMidiDataException {
+  public void playNote() throws MidiUnavailableException, InvalidMidiDataException {
+
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 60, 64);
     MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, 60, 64);
     this.receiver.send(start, -1);
     this.receiver.send(stop, this.synth.getMicrosecondPosition() + 200000);
+
+    MidiChannel[] midiChannels = synth.getChannels();
+    Instrument[] instruments = synth.getDefaultSoundbank().getInstruments();
+    synth.loadInstrument(instruments[41]);
+
+    List<Pitch> ps = new ArrayList<>();
+    ps.add(new Pitch(NoteTypeWestern.A, OctaveNumber1To10.O5));
+    ps.add(new Pitch(NoteTypeWestern.A, OctaveNumber1To10.O5));
+    ps.add(new Pitch(NoteTypeWestern.A, OctaveNumber1To10.O5));
+    ps.add(new Pitch(NoteTypeWestern.B, OctaveNumber1To10.O5));
+    ps.add(new Pitch(NoteTypeWestern.B, OctaveNumber1To10.O5));
+
+    for (Pitch p : ps) {
+      System.out.println("Press any key to continue...");
+      try
+      {
+        System.in.read();
+      }
+      catch(Exception e)
+      {}
+      start = new ShortMessage(ShortMessage.NOTE_ON, 4, p.getValue(), 100);
+      stop = new ShortMessage(ShortMessage.NOTE_OFF, 4, p.getValue(), 100);
+      this.receiver.send(start, -100000);
+      this.receiver.send(stop, this.synth.getMicrosecondPosition() + 1000000);
+      System.out.println("P.getvalue: " + Integer.toString(p.getValue()));
+//      midiChannels[0].noteOn(p.getValue(), 100);
+    }
 
     /*
     The receiver does not "block", i.e. this method
@@ -67,23 +123,90 @@ public class MidiViewImpl extends AView {
     this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
+
   @Override
   public void initialize() {
-
+//    try {
+//      playNote();
+//    } catch (InvalidMidiDataException e) {
+//      throw new RuntimeException("Midi play failed.");
+//    }
   }
 
   @Override
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
+    Set<MIDIData> newMidi = new HashSet<>();
+
+    for (PitchSequence p : this.pitches) {
+      if (p.playingAt(beat)) {
+        Note n = p.noteAt(beat);
+        if (n.getStart() == beat) {
+          int duration = 1 + n.getEnd() - n.getStart();
+          newMidi.add(new MIDIData(p.getPitchCopy(), n.getLoudness(), duration, n.getInstrument()));
+        }
+      }
+    }
+
+    for (MIDIData m : newMidi) {
+      m.queue(this.receiver, this.synth);
+    }
 
   }
 
   @Override
   public void refresh() {
-
+    this.receiver.close();
   }
 
   @Override
   public void setKeyListener(KeyListener keyListener) {
     
+  }
+
+  private class MIDIData {
+    private int channel;
+    private int instrument;
+    private int duration;
+    private int pitch;
+    private int loudness;
+
+    MIDIData(Pitch p, int loudness, int duration, int instrument) {
+      this.channel = CHANNEL;
+      this.pitch = p.getValue();
+      this.loudness = loudness;
+      this.duration = duration;
+      this.instrument = instrument;
+    }
+
+    void queue(Receiver r, Synthesizer s) {
+      try {
+        System.out.println("Play " + Integer.toString(this.pitch) + " at " + Integer.toString(loudness) + " for " + Integer.toString(duration) + " beats.");
+        MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, this.channel, this.pitch, this.loudness);
+        MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF, this.channel, this.pitch, this.loudness);
+        r.send(start, -1);
+        r.send(end, s.getMicrosecondPosition() + duration * 1000000);
+      } catch (InvalidMidiDataException e) {
+        throw new RuntimeException("Note failed to play.");
+      }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      else if (o instanceof MIDIData) {
+        MIDIData m = (MIDIData) o;
+        return m.channel == this.channel && m.pitch == this.pitch && m.loudness == this.loudness
+            && m.instrument == this.instrument;
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return this.pitch * 10000000 + this.loudness * 1000 + this.channel * 100 + this.instrument;
+    }
+
   }
 }

@@ -206,6 +206,22 @@ public class PitchSequence implements Comparable<PitchSequence> {
   }
 
   /**
+   * TODO this kind of overlaps with get beat
+   * @param beat
+   * @return
+   */
+  public Note noteAt(int beat) {
+    for (Note n : this.notes) {
+      if (beat >= n.getStart() && beat <= n.getEnd()) {
+        return new Note(n.getStart(), n.getEnd(), n.getInstrument(), n.getLoudness());
+      }
+    }
+    throw new IllegalArgumentException("No note playing at this beat.");
+  }
+
+
+
+  /**
    * Get a copy of the pitch represented by this pitch sequence.
    * @return a copy of the pitch
    */

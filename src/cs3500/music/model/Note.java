@@ -25,6 +25,9 @@ public class Note implements Comparable<Note> {
     }
     this.start = start;
     this.end = end;
+
+    this.instrument = 1;
+    this.loudness = 60;
   }
 
   /**
@@ -39,7 +42,7 @@ public class Note implements Comparable<Note> {
   public Note(int start, int end, int instrument, int loudness) throws IllegalArgumentException {
     this(start, end);
 
-    if (instrument < 1 || loudness < 0 || loudness > 100) {
+    if (instrument < 1 || loudness < 0 || loudness > 127) {
       throw new IllegalArgumentException("Invalid instrument or loudness");
     }
 

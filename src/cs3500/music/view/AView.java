@@ -19,4 +19,5 @@ public abstract class AView implements IView {
   public void setNotes(List<PitchSequence> pitches) {
     this.pitches = pitches;
   }
+
 }
