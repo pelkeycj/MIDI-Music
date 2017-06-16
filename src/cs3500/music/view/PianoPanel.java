@@ -34,7 +34,7 @@ public class PianoPanel extends JPanel {
    * @param height the desired height of the panel
    * @throws IllegalArgumentException if the height or width is less than 100
    */
-  public PianoPanel(int width, int height) throws IllegalArgumentException {
+   PianoPanel(int width, int height) throws IllegalArgumentException {
     if (width < 100 || height < 100) {
       throw new IllegalArgumentException("Panel must be at least 100x100.");
     }
@@ -60,7 +60,7 @@ public class PianoPanel extends JPanel {
    * are switched to unpressed.
    * @param onPitches the set of pitches are are currently being played in the view
    */
-  public void setOnKeys(HashSet<Pitch> onPitches) {
+   void setOnKeys(HashSet<Pitch> onPitches) {
     for (PianoKey key : this.keys) {
       if (onPitches.contains(key.pitch)) {
         key.press();

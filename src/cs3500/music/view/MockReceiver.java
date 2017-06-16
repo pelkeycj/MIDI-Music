@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Pitch;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
@@ -29,10 +30,14 @@ public class MockReceiver implements Receiver {
     int pitch = s.getData1();
     int loudness = s.getData2();
     int command = s.getCommand();
-    log.append("Command: ").append(command).append(" ");
-    log.append("Channel: ").append(channel).append(" ");
-    log.append("Data1: ").append(pitch).append(" ");
-    log.append("Data2: ").append(loudness).append(" ");
+
+    String commandString = command == 144 ? "NOTE_ON" : "NOTE_OFF";
+    String pitchString = Pitch.intToPitch(pitch).toString();
+
+    log.append("Command: ").append(commandString).append("\t");
+    log.append("Channel: ").append(channel).append("\t");
+    log.append("Pitch: ").append(pitchString).append("\t");
+    log.append("Loudness: ").append(loudness).append("\t");
     log.append("Timestamp: ").append(timestamp).append("\n");
   }
 
