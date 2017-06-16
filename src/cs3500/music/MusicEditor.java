@@ -1,5 +1,6 @@
 package cs3500.music;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -16,8 +17,8 @@ import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.AudioView;
 import cs3500.music.view.TextView;
 
+//TODO readme describing  design and use
 public class MusicEditor {
-
 
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     MusicOperations model = new MusicSheet(); // model to use
@@ -31,6 +32,11 @@ public class MusicEditor {
       case "gui":
         controller = new SimpleController(model, new GuiViewFrame());
         break;
+
+      case "audio":
+        // play and terminate at last beat
+        controller = new SimpleController(model, true, AudioView.buildSoundView());
+        break;
       case "midi":
         controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildSoundView());
         break;
@@ -39,8 +45,16 @@ public class MusicEditor {
     }
 
     String fileName = "res/" + args[1];
-
+    FileReader file;
+    try {
+      file = new FileReader(fileName);
+    }
+    catch (FileNotFoundException e) {
+      e.printStackTrace();
+      return;
+    }
+    
     CompositionBuilder<IController> builder = new SheetBuilder(controller);
-    MusicReader.parseFile(new FileReader(fileName), builder).go();
+    MusicReader.parseFile(file, builder).go();
   }
 }

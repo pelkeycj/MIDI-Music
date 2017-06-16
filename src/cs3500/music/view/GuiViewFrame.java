@@ -40,7 +40,6 @@ public class GuiViewFrame extends AView {
   public GuiViewFrame() {
     super();
     this.pitches = new ArrayList<>();
-    this.active = true;
 
     this.setTitle("GUI view");
     this.setSize(MIN_WIDTH,MIN_HEIGHT);
