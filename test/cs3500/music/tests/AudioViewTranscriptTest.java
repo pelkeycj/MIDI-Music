@@ -38,7 +38,7 @@ public class AudioViewTranscriptTest {
       throw new RuntimeException("File failed to open");
     }
 
-    try(  PrintWriter out = new PrintWriter( "midi-transcript.txt" )  ){
+    try (PrintWriter out = new PrintWriter("midi-transcript.txt")) {
       out.println( log.toString() );
     } catch (FileNotFoundException e) {
       throw new RuntimeException("File failed to open");
