@@ -29,6 +29,11 @@ public class PianoPanel extends JPanel {
   private PianoKey[] keys;
 
 
+  /**
+   * Public constructor for the piano panel
+   * @param width
+   * @param height
+   */
   public PianoPanel(int width, int height) {
     if (width < 100 || height < 100) {
       throw new IllegalArgumentException("Panel must be at least 100x100.");
@@ -40,6 +45,9 @@ public class PianoPanel extends JPanel {
     setKeyDimensions();
   }
 
+  /**
+   * Sets the key dimensions based on the current size of the piano panel.
+   */
   private void setKeyDimensions() {
     this.whiteKeyWidth = (this.panelWidth - SIDE_BUFFER) / (7 * NUMBER_OF_OCTAVES);
     this.whiteKeyHeight = this.panelHeight - BOTTOM_BUFFER;
@@ -48,6 +56,11 @@ public class PianoPanel extends JPanel {
   }
 
 
+  /**
+   * Sets which keys are currently being pressed. Any keys are are in the given set of "onPitches"
+   * are switched to unpressed.
+   * @param onPitches the set of pitches are are currently being played in the view
+   */
   public void setOnKeys(HashSet<Pitch> onPitches) {
     for (PianoKey key : this.keys) {
       if (onPitches.contains(key.pitch)) {

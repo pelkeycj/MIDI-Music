@@ -2,7 +2,6 @@ package cs3500.music.view;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
-import javax.sound.midi.ShortMessage;
 
 /**
  * Mocks a midi receiver. Used to output a debugging log for the midi view by
