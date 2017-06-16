@@ -1,10 +1,8 @@
 package cs3500.music.model;
 
 /**
- * This is just an idea. I think it would be great to have something the pairs the note and
- * the octave together, but doesn't have the full pitch sequence.
- * I'm adding it for use in the piano panel. We can review that solution to see if there is something
- * more elegant.
+ * Represents a pitch as a combination of a note type and an octave.
+ * Used to convert to an integer representation for playing with Midi.
  */
 public class Pitch {
   private final Octave octaveNum;
@@ -23,12 +21,20 @@ public class Pitch {
     this(p.getNote(), p.getOctave());
   }
 
+  /**
+   * Gets the octave of this pitch.
+   * @return the octave
+   */
   public Octave getOctave() {
-    return this.octaveNum; //TODO make sure this doesn't expose this to modification
+    return this.octaveNum;
   }
 
+  /**
+   * Gets the note type of this pitch.
+   * @return the note type
+   */
   public NoteType getNote() {
-    return this.noteType; //TODO same thing
+    return this.noteType;
   }
 
   public int getValue() {

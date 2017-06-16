@@ -98,7 +98,6 @@ public class SimpleController implements IController, KeyListener {
       if (terminateAtEnd && this.currentBeat == model.getLastBeat()) {
         return;
       }
-
     }
   }
 
@@ -133,14 +132,15 @@ public class SimpleController implements IController, KeyListener {
     int numMeasures = (lastBeat / 4) + 1;
     lastBeat = numMeasures * 4;
 
+    for (IView v : views) {
+      v.setCurrentBeat(this.currentBeat);
+    }
+
     if (this.currentBeat + delta < 0
             || this.currentBeat + delta > lastBeat) {
       return;
     }
     this.currentBeat += delta;
-    for (IView v : views) {
-      v.setCurrentBeat(this.currentBeat);
-    }
   }
 
   /**

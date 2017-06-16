@@ -4,7 +4,7 @@ import cs3500.music.model.NoteType;
 import cs3500.music.model.Octave;
 
 /**
- * Controller interface for the MusicSheet program.
+ * Controller interface for the MusicEditor program.
  * The primary operation of the controller is to
  * handle key input from the view and update accordingly.
  */
