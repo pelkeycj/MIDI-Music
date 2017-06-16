@@ -17,10 +17,10 @@ public class Note implements Comparable<Note> {
    * @param start the start beat of the note (inclusive)
    * @param end the end beat of the note (exclusive)
    * @throws IllegalArgumentException if {@code start} or {@code end} are < 0, or
-   *                                   if {@code end} <= {@code start}
+   *                                   if {@code end} < {@code start}
    */
   public Note(int start, int end) throws IllegalArgumentException {
-    if (start < 0 || end < 0 || end <= start) {
+    if (start < 0 || end < 0 || end < start) {
       throw new IllegalArgumentException("Invalid start and/or end beats.");
     }
     this.start = start;
@@ -37,7 +37,7 @@ public class Note implements Comparable<Note> {
    * @param end beat to end at
    * @param instrument the instrument being played
    * @param loudness the loudness to play at
-   * @throws IllegalArgumentException if start < 0, end < 0, end <= start,
+   * @throws IllegalArgumentException if start < 0, end < 0, end < start,
    *                                  instrument < 1, loudness < 0, loudness > 100
    */
   public Note(int start, int end, int instrument, int loudness) throws IllegalArgumentException {

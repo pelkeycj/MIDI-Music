@@ -20,6 +20,7 @@ public class SheetPanel extends JPanel {
   private int lastBeat;
   private int numMeasures;
   private int currentBeat;
+  private int pitchHeight;
 
   /**
    * Constructs a sheet panel. A sheet panel contains a visual representation of the notes in a
@@ -44,8 +45,14 @@ public class SheetPanel extends JPanel {
     Graphics2D g2d = (Graphics2D) g;
     g2d.setBackground(Color.white);
 
+    /*
+    g2d.drawImage(this.sheetImage, null, this.getScrollDelta(), 0);
+    this.drawCursor(g2d);
+
     this.setLastBeat();
+    */
     this.drawBeatCount(g2d);
+
 
     Collections.sort(pitches);
     Collections.reverse(this.pitches); // so that higher pitches are on top
@@ -53,7 +60,10 @@ public class SheetPanel extends JPanel {
       this.drawPitch(g2d, this.pitches.get(i), i);
     }
 
+    this.drawMeasures(g2d);
+
     this.drawCursor(g2d);
+
   }
 
   /**
@@ -62,8 +72,9 @@ public class SheetPanel extends JPanel {
    */
   public void setNotes(List<PitchSequence> pitches) {
     this.pitches = pitches;
-    int pitchHeight = SHEET_START_Y + pitches.size() * MEASURE_BORDER_HEIGHT;
-    this.setPreferredSize(new Dimension(DEFAULT_WIDTH, pitchHeight));
+    this.pitchHeight = SHEET_START_Y + pitches.size() * MEASURE_BORDER_HEIGHT;
+    this.setPreferredSize(new Dimension(DEFAULT_WIDTH, this.pitchHeight));
+    this.setLastBeat();
   }
 
   /**
@@ -91,7 +102,8 @@ public class SheetPanel extends JPanel {
     int y;
 
     g2d.setColor(Color.black);
-    for (int i = 0; i <= this.numMeasures; i++) {
+
+    for (int i = (this.currentBeat - 20) / 4; i <= (this.currentBeat + 100) / 4; i++) {
       x = MEASURE_BORDER_WIDTH * i + this.getScrollDelta();
       y = SHEET_START_Y - 10;
       g2d.drawString((i * 4) + "", x, y);
@@ -105,14 +117,26 @@ public class SheetPanel extends JPanel {
    * @param p the pitch to render
    * @param row the row to place the pitch at
    */
-  private void drawPitch(Graphics2D g2d, PitchSequence p, int row) {
-    // place measures
-    this.drawMeasures(g2d, row);
-
+  private void drawPitch(Graphics2D g2d, PitchSequence p, int row)  {
     // draw out pitch based on pitch string and last beat
-    String pitchString = p.toString();
+    String pitchString = p.copy().toString();
+    int start;
+    int end;
 
-    for (int i = 0; i < pitchString.length(); i++) {
+    if (this.currentBeat < 20) {
+      start = 0;
+    }
+    else {
+      start = this.currentBeat - 20;
+    }
+    if (pitchString.length() - 110 < this.currentBeat) {
+      end = pitchString.length();
+    }
+    else {
+      end = this.currentBeat + 100;
+    }
+
+    for (int i = start; i < end; i++) {
       this.drawBeat(g2d, pitchString.charAt(i), i, row);
     }
   }
@@ -152,22 +176,37 @@ public class SheetPanel extends JPanel {
   }
 
   /**
-   * Draws the outlines of the measures at the specified location.
+   * Draws the outlines of the measures.
    * @param g2d the 2d graphics object to draw to
-   * @param row the row to draw at
    */
-  private void drawMeasures(Graphics2D g2d, int row) {
-    int xPos;
-    int yPos;
+  private void drawMeasures(Graphics2D g2d) {
+    int beginAt = (this.currentBeat - 20) / 4;
+    int endAt = (this.currentBeat + 100) / 4;
+    int xStart;
+    int xEnd;
+    int yStart;
+    int yEnd;
 
-    for (int i = 0; i < numMeasures + 30; i++) {
-      xPos = i * MEASURE_BORDER_WIDTH + this.getScrollDelta();
-      yPos = SHEET_START_Y + row * BEAT_BORDER_HEIGHT;
 
-      // draw black outline
-      g2d.setColor(Color.black);
-      g2d.drawRect(xPos, yPos, MEASURE_BORDER_WIDTH, BEAT_BORDER_HEIGHT);
+    g2d.setColor(Color.black);
+    // verticals
+    for (int i = beginAt; i < endAt; i++) {
+      xStart = i * MEASURE_BORDER_WIDTH + this.getScrollDelta();
+      xEnd = xStart;
+      yStart = SHEET_START_Y;
+      yEnd = this.pitchHeight;
+      g2d.drawLine(xStart, yStart, xEnd, yEnd);
     }
+
+    //horizontals
+    for (int i = 0; i < this.pitches.size() + 1; i++) {
+      xStart = beginAt + this.getScrollDelta();
+      xEnd = endAt * MEASURE_BORDER_WIDTH + getScrollDelta();
+      yStart = SHEET_START_Y + i * MEASURE_BORDER_HEIGHT;
+      yEnd = yStart;
+      g2d.drawLine(xStart, yStart, xEnd, yEnd);
+    }
+
   }
 
   /**
@@ -181,7 +220,7 @@ public class SheetPanel extends JPanel {
             + remainingBeat * BEAT_WIDTH + this.getScrollDelta();
     int endX = startX;
     int startY = SHEET_START_Y;
-    int endY = SHEET_START_Y + this.pitches.size() * MEASURE_BORDER_HEIGHT;
+    int endY = this.pitchHeight;
     g2d.setColor(Color.red);
     g2d.drawLine(startX, startY, endX, endY);
   }
@@ -217,5 +256,4 @@ public class SheetPanel extends JPanel {
     }
     return 0;
   }
-
 }
