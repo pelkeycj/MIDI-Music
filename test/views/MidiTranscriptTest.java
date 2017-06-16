@@ -8,6 +8,7 @@ import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.util.SheetBuilder;
 import cs3500.music.view.AudioView;
+import cs3500.music.view.GuiViewFrame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
@@ -22,7 +23,7 @@ public class MidiTranscriptTest {
   public static void main(String... args) {
     StringBuilder log = new StringBuilder();
     MusicOperations model = new MusicSheet();
-    IController controller = new SimpleController(model, true, AudioView.buildTestView(log));
+    IController controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildTestView(log));
 
     String filename = "res/mary-little-lamb.txt";
 
@@ -32,6 +33,7 @@ public class MidiTranscriptTest {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("File failed to open");
     }
+    System.out.println("hi");
 
     try(  PrintWriter out = new PrintWriter( "midi-transcript.txt" )  ){
       out.println( log.toString() );

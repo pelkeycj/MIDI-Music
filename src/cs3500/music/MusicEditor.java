@@ -36,13 +36,13 @@ public class MusicEditor {
         controller = new SimpleController(model, true, AudioView.buildSoundView());
         break;
       case "audiovisual":
-        controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildSoundView());
+        controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildTestView(new StringBuilder()));
         break;
       default:
         throw new IllegalArgumentException("Unsupported view: " + args[0]);
     }
 
-    String fileName = args[1];
+    String fileName = "res/" + args[1];
     FileReader file;
     try {
       file = new FileReader(fileName);
