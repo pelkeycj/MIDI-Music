@@ -16,7 +16,7 @@ import static cs3500.music.util.ViewConstants.SHEET_START_X;
 import static cs3500.music.util.ViewConstants.SHEET_START_Y;
 
 /**
- * Panel to display row header information for a JScrollPane
+ * Panel to display row header information for a JScrollPane.
  */
 public class RowHeaderPanel extends JPanel {
   private final int X_OFFSET = 5;
