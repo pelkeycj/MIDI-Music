@@ -181,7 +181,7 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
          view makes to its Receiver object.
 
      GuiView (concrete class) :
-         An extenion of AView.
+         An extension of AView.
          The GuiView has two separate panels, a PianoPanel that shows on a simulated paino keyboard
          which notes are currently being played and a SheetPanel that diplays the notes of a piece
          of music and scrolls through the sheet as the music plays. Each of these panels hold the
@@ -190,7 +190,7 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
          positions and update them with new information as the state of the view is modified.
 
           PianoPanel (concrete class) :
-
+              The paino panel holds a set of 120
 
 
 
