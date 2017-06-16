@@ -4,6 +4,7 @@ import cs3500.music.model.PitchSequence;
 import cs3500.music.util.StringUtilities;
 
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +13,12 @@ import java.util.List;
  * Presents a textual representation of the notes.
  */
 public class TextView extends AView {
+  Appendable out;
+
+  public TextView(Appendable out) {
+    this.out = out;
+  }
+
 
   @Override
   public void initialize() {
@@ -28,7 +35,15 @@ public class TextView extends AView {
   @Override
   public void setNotes(List<PitchSequence> pitches) {
     super.setNotes(pitches);
-    System.out.println(drawNotes());
+    //System.out.println(drawNotes());
+    for (char c : this.drawNotes().toCharArray()) {
+      try {
+        out.append(c);
+      }
+      catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   @Override

@@ -5,7 +5,14 @@ import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
 import java.util.HashSet;
 import java.util.Set;
-import javax.sound.midi.*;
+
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Synthesizer;
+import javax.sound.midi.Receiver;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiMessage;
 
 /**
  * A skeleton for MusicSheet playback

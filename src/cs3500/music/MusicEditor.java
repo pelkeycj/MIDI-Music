@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.control.IController;
 import cs3500.music.control.SimpleController;
@@ -27,7 +26,7 @@ public class MusicEditor {
     // get view
     switch (args[0].toLowerCase()) {
       case "console":
-        controller = new SimpleController(model, new TextView());
+        controller = new SimpleController(model, new TextView(System.out));
         break;
       case "gui":
         controller = new SimpleController(model, new GuiViewFrame());
