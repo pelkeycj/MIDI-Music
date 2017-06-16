@@ -32,7 +32,8 @@ public class MockReceiver implements Receiver {
     log.append("Command: ").append(command).append(" ");
     log.append("Channel: ").append(channel).append(" ");
     log.append("Data1: ").append(pitch).append(" ");
-    log.append("Data2: ").append(loudness).append("\n");
+    log.append("Data2: ").append(loudness).append(" ");
+    log.append("Timestamp: ").append(timestamp).append("\n");
   }
 
   @Override

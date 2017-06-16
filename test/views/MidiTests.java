@@ -39,41 +39,19 @@ public class MidiTests {
     assertEquals(expectedLog, log.toString());
   }
 
-  private class MidiPair {
-
-    MidiMessage m;
-    long timeStamp;
-
-    MidiPair(MidiMessage m, long t) {
-      this.m = m;
-      this.timeStamp = t;
-    }
-
-    MidiMessage getMessage() {
-      return this.m;
-    }
-
-    Long getTime() {
-      return this.timeStamp;
-    }
-
-    @Override
-    public String toString() {
-      return m.toString() + " timeStamp: " + Long.toString(timeStamp) + "\n";
-    }
-  }
-
-  public String addMidiStartStop(int channel, int pitch, int loudness) {
+  public String addMidiStartStop(int channel, int pitch, int loudness, int duration) {
     StringBuilder s = new StringBuilder();
     s.append("Command: ").append(ShortMessage.NOTE_ON).append(" ");
     s.append("Channel: ").append(channel).append(" ");
     s.append("Data1: ").append(pitch).append(" ");
-    s.append("Data2: ").append(loudness).append("\n");
+    s.append("Data2: ").append(loudness).append(" ");
+    s.append("Timestamp: ").append(-1).append("\n");
 
     s.append("Command: ").append(ShortMessage.NOTE_OFF).append(" ");
     s.append("Channel: ").append(channel).append(" ");
     s.append("Data1: ").append(pitch).append(" ");
     s.append("Data2: ").append(loudness).append("\n");
+    s.append("Timestamp: ").append(-1).append("\n");
     return s.toString();
   }
 
@@ -91,10 +69,23 @@ public class MidiTests {
     StringBuilder expectedLog = new StringBuilder();
 
     model.addNote(OctaveNumber0To10.O0, NoteTypeWestern.C, 0, 1, 1, 20);
-    expectedLog.append(addMidiStartStop(0, 0, 20));
+    expectedLog.append(addMidiStartStop(0, 0, 20, 1));
 
     runAudio(model, expectedLog.toString());
   }
 
+  @Test
+  public void twoNoteTest() {
+    model = new MusicSheet();
+    StringBuilder expectedLog = new StringBuilder();
+
+    model.addNote(OctaveNumber0To10.O3, NoteTypeWestern.B, 30, 40, 2, 20);
+    model.addNote(OctaveNumber0To10.O1, NoteTypeWestern.C, 1, 3, 1, 25);
+
+    expectedLog.append(addMidiStartStop(0, 12, 25, 10));
+    expectedLog.append(addMidiStartStop(0, 47, 20, 3));
+
+    runAudio(model, expectedLog.toString());
+  }
 
 }
