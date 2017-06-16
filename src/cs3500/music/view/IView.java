@@ -39,7 +39,11 @@ public interface IView {
    */
   void setKeyListener(KeyListener keyListener);
 
-
+  /**
+   * Sets the rate of play for the given view.
+   * @param tempo the speed at which the view moves through a given piece of music.
+   *     Units: microseconds per beat
+   */
   void setTempo(int tempo);
 
 

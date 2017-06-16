@@ -16,9 +16,13 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiMessage;
 
 /**
- * A skeleton for MusicSheet playback
+ * An audio view for a piece of music. The view stores a set of notes at certain beats and plays
+ * those notes by sending corresponding MidiMessages to a reciever. The notes to play are determined
+ * each time the current beat of the view is updated. Just like someone playing a piece of music,
+ * only the notes starting at the current beat are played. The duration of these notes is controlled
+ * by both the note information provided to the view as well as the tempo at which the view is set.
  */
-public class MidiViewImpl extends AView {
+public class AudioView extends AView {
   private final Synthesizer synth;
   private final Receiver receiver;
 
@@ -26,7 +30,11 @@ public class MidiViewImpl extends AView {
 
   private int noteDurationMicro;
 
-  private MidiViewImpl(Synthesizer s) {
+  /**
+   * A private constructor that is called by the public factory methods of this class.
+   * @param s the kind of synthesizer to be used by this AudioView
+   */
+  private AudioView(Synthesizer s) {
     try {
       this.synth = s;
       this.receiver = synth.getReceiver();
@@ -36,24 +44,35 @@ public class MidiViewImpl extends AView {
     }
   }
 
-  public static MidiViewImpl buildSoundView() {
+  /**
+   * Public factory method to make an audio model that plays sounds to the default chanel
+   * based on the note information passed to the view.
+   * @return a new instance of an AudioView using a synthesizer that produces sounds with the
+   *     midimessages it receives.
+   */
+  public static AudioView buildSoundView() {
     try {
-      return new MidiViewImpl(MidiSystem.getSynthesizer());
+      return new AudioView(MidiSystem.getSynthesizer());
     } catch (MidiUnavailableException e) {
       throw new IllegalArgumentException("Midi Synthesizer failed to open.");
     }
   }
 
-  public static MidiViewImpl buildTestView(StringBuilder log) {
-    return new MidiViewImpl(new MockSynthesizer(log));
+  /**
+   * Public factory method to make an audio model that uses its midimessages to keep a log of the
+   * sound messages it send to its receiver. Used for testing purposes.
+   * @param log the stringbuilder used to keep a log of the messages sent by this audio view
+   * @return a new instance of an AudioView that will keep track of the messages it sends to
+   *      a receiver.
+   */
+  public static AudioView buildTestView(StringBuilder log) {
+    return new AudioView(new MockSynthesizer(log));
   }
 
   @Override
   public void setTempo(int noteDurationMicro) {
     this.noteDurationMicro = noteDurationMicro;
   }
-
-
 
   @Override
   public void initialize() {
@@ -82,9 +101,13 @@ public class MidiViewImpl extends AView {
   @Override
   public void refresh() {
     //do nothing
-    return;
   }
 
+  /**
+   * A private class used to collected all the information needed to send a full midi message to
+   * a receiver. Keeps all the midi data in one place and creates its own messages to send to the
+   * receiver.
+   */
   private class MIDIData {
     private int channel;
     private int instrument;
@@ -92,7 +115,16 @@ public class MidiViewImpl extends AView {
     private int pitch;
     private int loudness;
 
-    MIDIData(Pitch p, int loudness, int duration, int instrument) {
+    /**
+     * Private constructor to be used in the AudioView class to package and store
+     * midimessage information
+     * @param p the pitch of this midi message using the {@link Pitch} class understood by the
+     *     model and views
+     * @param loudness the loudness of the note on a scale from  0 to 127
+     * @param duration the duration of the note in beats
+     * @param instrument the instrument to play this sound
+     */
+    private MIDIData(Pitch p, int loudness, int duration, int instrument) {
       this.channel = CHANNEL;
       this.pitch = p.getValue();
       this.loudness = loudness;
@@ -100,7 +132,15 @@ public class MidiViewImpl extends AView {
       this.instrument = instrument;
     }
 
-    void run(Receiver r, Synthesizer s) {
+    /**
+     * Sends this mididata to the receiver using its stored information. Using the instrument to
+     * set the synth to its instrument and then sends its note data to the receiver. Sends both its
+     * start and end message as both of these are known at the using the duration of the note.
+     * @param r the receiver to which the message will be sent.
+     * @param s the synthesizer associated with the given receiver. Used to modify the synthesizer's
+     *     instrument
+     */
+    private void run(Receiver r, Synthesizer s) {
       try {
         Soundbank myInstruments = s.getDefaultSoundbank();
         if (myInstruments != null) {

@@ -3,14 +3,12 @@ package views;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import cs3500.music.control.IController;
-import cs3500.music.control.SimpleController;
 import cs3500.music.model.MusicOperations;
 import cs3500.music.model.MusicSheet;
 import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.OctaveNumber0To10;
 import cs3500.music.view.IView;
-import cs3500.music.view.MidiViewImpl;
+import cs3500.music.view.AudioView;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sound.midi.InvalidMidiDataException;
@@ -27,7 +25,7 @@ public class MidiTests {
 
   public void runAudio(MusicOperations model, List<MidiPair> expectedOutput) {
     StringBuilder log = new StringBuilder();
-    IView mockAudio = MidiViewImpl.buildTestView(log);
+    IView mockAudio = AudioView.buildTestView(log);
     mockAudio.setTempo(1000000);
 
     int lastBeat = model.getLastBeat();

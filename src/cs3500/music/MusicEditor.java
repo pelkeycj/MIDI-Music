@@ -13,7 +13,7 @@ import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.util.SheetBuilder;
 import cs3500.music.view.GuiViewFrame;
-import cs3500.music.view.MidiViewImpl;
+import cs3500.music.view.AudioView;
 import cs3500.music.view.TextView;
 
 public class MusicEditor {
@@ -32,7 +32,7 @@ public class MusicEditor {
         controller = new SimpleController(model, new GuiViewFrame());
         break;
       case "midi":
-        controller = new SimpleController(model, new GuiViewFrame(), MidiViewImpl.buildSoundView());
+        controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildSoundView());
         break;
       default:
         throw new IllegalArgumentException("Unsupported view: " + args[0]);
