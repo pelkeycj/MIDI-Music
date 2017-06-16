@@ -1,6 +1,5 @@
 package cs3500.music.view;
 
-import cs3500.music.view.MockReceiver;
 import java.util.List;
 import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;
@@ -14,14 +13,21 @@ import javax.sound.midi.VoiceStatus;
 
 /**
  * Mocks a MIDI synthesizer for testing purposes.
- * Simulates
+ * Produces a mock receiver that modifies this objects string builder object.
  */
 public class MockSynthesizer implements Synthesizer {
 
+  //string builder object tracks the log of what has been sent to this synthesizer's receivers
   StringBuilder log;
 
-  MockSynthesizer() {
-    log = new StringBuilder();
+  /**
+   *  Public constructor for the mock synthesizer takes in a string builder object. This object
+   *  will be modified by this synthesizer's receivers and the original owner of the instance can
+   *  track those changes.
+   * @param log StringBuilder instance to be modified and tracked
+   */
+  public MockSynthesizer(StringBuilder log) {
+    this.log = log;
   }
 
   @Override
@@ -31,10 +37,8 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public void close() {
-
+    //does nothing
   }
-
-
 
   @Override
   public int getMaxPolyphony() {
@@ -129,7 +133,7 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public long getMicrosecondPosition() {
-    throw new UnsupportedOperationException("MockSynthesizer does not support this operation.");
+    return 0;
   }
 
   @Override

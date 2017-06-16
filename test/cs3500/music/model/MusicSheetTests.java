@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests for the {@link MusicSheet} class.
  */
-public class MIDITest {
+public class MusicSheetTests {
   MusicOperations m1;
   MusicOperations m2;
 
