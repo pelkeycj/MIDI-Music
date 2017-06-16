@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Map;
 
+import javax.smartcardio.TerminalFactory;
+
 import cs3500.music.model.MusicOperations;
 import cs3500.music.model.NoteType;
 import cs3500.music.model.Octave;
@@ -19,18 +21,34 @@ public class SimpleController implements IController, KeyListener {
   private int currentBeat;
   private int tempo;
   private boolean playing;
+  private boolean terminateAtEnd;
 
+  /**
+   * Constructs a simple controller with a model and one or more views.
+   * @param model the model to connect
+   * @param view the views to connect
+   */
   public SimpleController(MusicOperations model, IView... view) {
     this.model = model;
     this.views = view;
     this.currentBeat = 0;
     this.playing = false;
+    this.terminateAtEnd = false;
     this.tempo = 1000000; // 1 second per beat default (in microseconds)
   }
 
-  public SimpleController(MusicOperations model, boolean playing,  IView... view) {
+  /**
+   * Constructs a simple controller with a model, one or more views, and a default {@code playing}
+   * argument to allow the controller to immediately start playing.
+   * @param model the model to connect
+   * @param playToLastBeat whether the controller should immediately play and terminate upon the
+   *                       reaching the last beat
+   * @param view the views to connect
+   */
+  public SimpleController(MusicOperations model, boolean playToLastBeat,  IView... view) {
     this(model, view);
-    this.playing = playing;
+    this.playing = true;
+    this.terminateAtEnd = true;
   }
 
 
@@ -76,6 +94,11 @@ public class SimpleController implements IController, KeyListener {
       for (IView v : views) {
         v.refresh();
       }
+
+      if (terminateAtEnd && this.currentBeat == model.getLastBeat()) {
+        return;
+      }
+
     }
   }
 
