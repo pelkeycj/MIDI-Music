@@ -8,7 +8,18 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Graphical View for the mus
+ * <p>Graphical View for the music sheets. Contains two main panels:</p>
+ * <p>- a sheet-like view on the upper
+ *   portion that shows the notes of a musical piece as well as one's current position in the piece.
+ *   The current position is marked by the position of a red bar that is position on the left-hand
+ *   edge of the current beat. </p>
+ * <p>- a piano view on the lower portion of the window. The keys of this piano highlight to show which
+ *   notes are being played on the current beat.</p>
+ *
+ * <p>The current beat beat displayed by this view can be set by a public method and the
+ * notes to display on both these panels is also controlled by this view. Each panel receives
+ * information specific to its type of display. This distribution of information is handled by
+ * the view.</p>
  */
 public class GuiViewFrame extends AView {
 
@@ -47,7 +58,6 @@ public class GuiViewFrame extends AView {
     this.scrollingSheet.setPreferredSize(new Dimension(MIN_WIDTH, MIN_HEIGHT / 2));
     this.scrollingSheet.setRowHeaderView(new RowHeaderPanel(this.pitches));
     this.add(scrollingSheet, BorderLayout.NORTH);
-
 
     //this.getContentPane().add(displayPanel);
     this.pack();
