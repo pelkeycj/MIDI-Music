@@ -128,7 +128,12 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
             go
 
     SimpleController (class) :
-        Implements IController interface.
+        Implements IController interface and KeyListener.
+        Accepts a MusicOperations model and one or more IViews to control.
+        Listens for keyboard input from the views and updates the current beat accordingly.
+
+
+
 
 
 
