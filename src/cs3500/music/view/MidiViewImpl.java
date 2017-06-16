@@ -43,8 +43,8 @@ public class MidiViewImpl extends AView {
     }
   }
 
-  public static MidiViewImpl buildTestView() {
-    return new MidiViewImpl(new MockSynthesizer());
+  public static MidiViewImpl buildTestView(StringBuilder log) {
+    return new MidiViewImpl(new MockSynthesizer(log));
   }
 
   @Override
@@ -101,7 +101,10 @@ public class MidiViewImpl extends AView {
 
     void run(Receiver r, Synthesizer s) {
       try {
-        s.loadInstrument(s.getDefaultSoundbank().getInstruments()[this.instrument]);
+        Soundbank myInstruments = s.getDefaultSoundbank();
+        if (myInstruments != null) {
+          s.loadInstrument(myInstruments.getInstruments()[this.instrument]);
+        }
         MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, this.channel, this.pitch, this.loudness);
         MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF, this.channel, this.pitch, this.loudness);
         r.send(start, -1);
