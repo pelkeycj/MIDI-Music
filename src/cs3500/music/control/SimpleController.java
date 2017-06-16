@@ -63,7 +63,7 @@ public class SimpleController implements IController, KeyListener {
 
     this.setViewNotes();
 
-    while (true) {
+    while (this.allViewsActive()) {
       if (this.playing) {
         this.sleep();
         this.changeBeatBy(1);
@@ -126,8 +126,19 @@ public class SimpleController implements IController, KeyListener {
     while (elapsedTime < this.tempo * microToNano) {
       elapsedTime = System.nanoTime() - initialTime;
     }
+  }
 
-
+  /**
+   * Determine if all views are active.
+   * @return true if all views are active
+   */
+  private boolean allViewsActive() {
+    for (IView view : this.views) {
+      if (!view.isActive()) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override

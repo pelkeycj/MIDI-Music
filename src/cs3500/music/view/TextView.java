@@ -16,11 +16,13 @@ public class TextView extends AView {
   @Override
   public void initialize() {
     //do nothing to initialize this view
+    return;
   }
 
   @Override
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
     //do nothing
+    return;
   }
 
   @Override

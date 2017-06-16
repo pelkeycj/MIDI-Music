@@ -1,15 +1,9 @@
 package cs3500.music.view;
 
-import com.sun.org.apache.regexp.internal.RE;
 import cs3500.music.model.Note;
-import cs3500.music.model.NoteTypeWestern;
-import cs3500.music.model.OctaveNumber1To10;
 import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.sound.midi.*;
 
@@ -55,6 +49,7 @@ public class MidiViewImpl extends AView {
 
   @Override
   public void initialize() {
+    this.active = true;
   }
 
   @Override
@@ -79,6 +74,7 @@ public class MidiViewImpl extends AView {
   @Override
   public void refresh() {
     //do nothing
+    return;
   }
 
   private class MIDIData {

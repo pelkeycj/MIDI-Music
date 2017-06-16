@@ -1,14 +1,19 @@
-package cs3500.music.model;
+package cs3500.music.tests;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import cs3500.music.model.MusicOperations;
+import cs3500.music.model.MusicSheet;
+import cs3500.music.model.NoteTypeWestern;
+import cs3500.music.model.OctaveNumber1To10;
+
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for the {@link MusicSheet} class.
+ * Tests for the MusicSheet class.
  */
-public class MusicSheetTests {
+public class MIDITest {
   MusicOperations m1;
   MusicOperations m2;
 
@@ -51,10 +56,6 @@ public class MusicSheetTests {
           + " 9            |  \n"
           + "10       X    |  \n";
 
-
-
-
-
   /**
    * Initialize and reset fields.
    */
@@ -65,7 +66,7 @@ public class MusicSheetTests {
   }
 
   @Test
-  // test add note
+  // tests add note
   public void testAddNote() {
     m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 5);
     m1.addNote(OctaveNumber1To10.O2, NoteTypeWestern.A_SHARP, 1, 2);
