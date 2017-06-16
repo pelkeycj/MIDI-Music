@@ -172,13 +172,16 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
          object set a start and stop request to the receiver playing a note at the correct pitch and
          duration on the current beat.
 
-         TESTING: Using the buildSoundView() method provides a client with an AudioView instance using
-         the that will play music using a midi reciever provided by the Midi Synthesizer.
+         TESTING: Using the buildSoundView() method provides a client with an AudioView instance
+         that will play music using a midi reciever provided by the Midi Synthesizer.
          The buildTestView() method takes in an Appendable object. This instance is the exact same
-         as the "normal" with the exception that the Synthesizer and Receiver in this test view
-         are custom-made Mock objects that use the appendable object passed to factory mehtod to
-         a log of the messages sent to the Receiver effectively capturing all the calls that this
-         view makes to its Receiver object.
+         as the "normal" instance with the exception that the Synthesizer and Receiver in this test
+         view are custom-made Mock objects that use the appendable object passed to factory method
+         to the given log of the messages sent to the Receiver effectively capturing all the calls
+         that the view makes to its Receiver object.
+
+         MockSynthesizer (concrete class that implements Synthesizer) :
+
 
      GuiView (concrete class) :
          An extension of AView.
@@ -190,7 +193,32 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
          positions and update them with new information as the state of the view is modified.
 
           PianoPanel (concrete class) :
-              The paino panel holds a set of 120
+              The piano panel holds a set of 120 PianoKey objects each of which represent a
+              different note. The information for each piano key is stored in a private PianoKey
+              class that serves to track what note the key represents and information about thow the
+              key should be drawn.
+              A generatePianoKeys method builds a full set of keys to be used by the controller.
+              The state of the PianoPanel is mostly modified by switching different keys as being
+              "pressed" or "unpressed". The panel receives this information from the view in the
+              form of a set of currently playing notes. The panel can then modify the colors of
+              the keys that represents these pitches which allows them to be displayed as playing.
+
+          SheetPanel (concrete class) :
+              The sheet panel contains a visual representation of the notes of a given piece of
+              music. The panel a grid-like music sheet with a row for each note that is used in the
+              piece of music and a column for each measure (4 beats) in the piece of music. The
+              notes in the piece are drawn on this grid with a black box indicating the start of a
+              new note and a green box indicating that this beat is a continuation of a note that
+              started earlier.
+              The panel is scrollable so if there are too many notes to display in the current
+              size of the window, one can scroll up and down to see more of the rest of the notes.
+              Using a SPACEBAR and LEFT and RIGHT arrow keys, a user can navigate through the piece
+              of music. As they move through the music, a RED bar indicated their current position.
+              The bar begins on the lefthand side of the music sheet and advances right until it
+              reaches the middle of the panel. At this point, it remains in the middle of the sheet
+              and the music sheet of notes "scrolls" behind it. This implementation was chosen so
+              that users could clearly see which notes were upcoming in the piece which makes
+              naviation through the piece feel more natural.
 
 
 
