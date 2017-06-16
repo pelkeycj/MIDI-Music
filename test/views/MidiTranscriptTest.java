@@ -14,7 +14,9 @@ import java.io.PrintWriter;
 
 /**
  * Used to create midi transcripts of music files using the mock receiver to collect the
- * output from the audio view.
+ * output from the audio view. Note that this runs Mary Had a Little Lamb exactly as it would if it
+ * were really playing the song to a "real" receiver so this creating this test will take some time
+ * for it to play through the entire song.
  */
 public class MidiTranscriptTest {
   public static void main(String... args) {

@@ -150,8 +150,6 @@ public class AudioView extends AView {
         MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF, this.channel, this.pitch, this.loudness);
         r.send(start, -1);
         r.send(end, s.getMicrosecondPosition() + duration * noteDurationMicro);
-//        System.out.println(Pitch.intToPitch(pitch).toString() + " L: " + Integer.toString(loudness));
-        System.out.println(Integer.toString(this.pitch) + " L: " + Integer.toString(loudness));
       } catch (InvalidMidiDataException e) {
         throw new RuntimeException("Note failed to play.");
       }
