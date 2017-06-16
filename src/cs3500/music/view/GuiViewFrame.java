@@ -2,10 +2,12 @@ package cs3500.music.view;
 
 import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.BorderLayout;
 
-import java.util.*;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * <p>Graphical View for the music sheets. Contains two main panels:</p>
@@ -13,7 +15,8 @@ import java.util.List;
  *   portion that shows the notes of a musical piece as well as one's current position in the piece.
  *   The current position is marked by the position of a red bar that is position on the left-hand
  *   edge of the current beat. </p>
- * <p>- a piano view on the lower portion of the window. The keys of this piano highlight to show which
+ * <p>- a piano view on the lower portion of the window.
+ *   The keys of this piano highlight to show which
  *   notes are being played on the current beat.</p>
  *
  * <p>The current beat beat displayed by this view can be set by a public method and the
@@ -64,12 +67,12 @@ public class GuiViewFrame extends AView {
   }
 
   @Override
-  public void initialize(){
+  public void initialize() {
     this.setVisible(true);
   }
 
   @Override
-  public Dimension getPreferredSize(){
+  public Dimension getPreferredSize() {
     return new Dimension(100, 100);
   }
 

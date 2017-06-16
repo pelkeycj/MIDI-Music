@@ -38,7 +38,8 @@ public class MusicSheet implements MusicOperations {
       this.getPitch(o, nt).addNote(new Note(start, end, instrument, loudness));
     }
     else {
-      this.pitches.add(new PitchSequence(o, nt).addNote(new Note(start, end, instrument, loudness)));
+      this.pitches.add(new PitchSequence(o, nt)
+              .addNote(new Note(start, end, instrument, loudness)));
     }
   }
 

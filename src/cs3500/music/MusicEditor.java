@@ -19,6 +19,13 @@ import cs3500.music.view.TextView;
 
 public class MusicEditor {
 
+  /**
+   * Main entry point for the Music Editor program.
+   * Runs the program with the view and music piece provided as arguments.
+   * @param args the view, music piece
+   * @throws IOException if file cannot be read
+   * @throws InvalidMidiDataException if the midi cannot be accesssed
+   */
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     MusicOperations model = new MusicSheet();
     IController controller;
@@ -53,6 +60,6 @@ public class MusicEditor {
     }
 
     CompositionBuilder<IController> builder = new SheetBuilder(controller);
-    MusicReader.parseFile(file, builder).go();
+    MusicReader.parseFile(file, builder).control();
   }
 }

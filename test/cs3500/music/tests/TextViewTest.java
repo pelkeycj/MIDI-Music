@@ -14,7 +14,7 @@ import cs3500.music.view.TextView;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link cs3500.music.view.TextView}.
+ * Tests for TextView class.
  */
 public class TextViewTest {
   IView textView;
@@ -35,10 +35,10 @@ public class TextViewTest {
           + " 9            |  \n"
           + "10       X       \n";
 
-  @Before
   /**
    * Initializes and resets fields.
    */
+  @Before
   public void init() {
     b = new StringBuilder();
     textView = new TextView(b);

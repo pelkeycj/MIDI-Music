@@ -1,5 +1,9 @@
 package cs3500.music.view;
-import javax.swing.*;
+
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import javax.swing.ScrollPaneLayout;
+import javax.swing.ScrollPaneConstants;
 
 
 /**

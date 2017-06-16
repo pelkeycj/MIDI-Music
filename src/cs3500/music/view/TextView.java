@@ -53,7 +53,7 @@ public class TextView extends AView {
 
   @Override
   public void refresh() {
-   initialize();
+    initialize();
   }
 
   @Override

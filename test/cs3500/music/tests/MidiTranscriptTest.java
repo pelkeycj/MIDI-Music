@@ -29,7 +29,7 @@ public class MidiTranscriptTest {
 
     CompositionBuilder<IController> builder = new SheetBuilder(controller);
     try {
-      MusicReader.parseFile(new FileReader(filename), builder).go();
+      MusicReader.parseFile(new FileReader(filename), builder).control();
     } catch (FileNotFoundException e) {
       throw new RuntimeException("File failed to open");
     }

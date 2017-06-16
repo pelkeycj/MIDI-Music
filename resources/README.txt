@@ -132,7 +132,7 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
             setViewNotes
             setTempo
             addNote (overloaded to allow optional instrument and loudness fields)
-            go
+            control
 
     SimpleController (class) :
         Implements IController interface and KeyListener.

@@ -2,14 +2,10 @@ package cs3500.music.control;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Map;
-
-import javax.smartcardio.TerminalFactory;
 
 import cs3500.music.model.MusicOperations;
 import cs3500.music.model.NoteType;
 import cs3500.music.model.Octave;
-import cs3500.music.model.PitchSequence;
 import cs3500.music.view.IView;
 
 /**
@@ -78,7 +74,7 @@ public class SimpleController implements IController, KeyListener {
   }
 
   @Override
-  public void go() {
+  public void control() {
     for (IView v : views) {
       v.setKeyListener(this);
       v.initialize();
@@ -148,11 +144,11 @@ public class SimpleController implements IController, KeyListener {
    */
   private void sleep() {
     long elapsedTime = 0;
-    final long initialTime = System.nanoTime();
-    final int microToNano = 1000;
+    final long INITIAL_TIME = System.nanoTime();
+    final int MICRO_TO_NANO = 1000;
 
-    while (elapsedTime < this.tempo * microToNano) {
-      elapsedTime = System.nanoTime() - initialTime;
+    while (elapsedTime < this.tempo * MICRO_TO_NANO) {
+      elapsedTime = System.nanoTime() - INITIAL_TIME;
     }
   }
 

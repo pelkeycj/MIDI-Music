@@ -22,7 +22,7 @@ public enum OctaveNumber0To10 implements Octave {
   }
 
   /**
-   * Get the Octave for this value
+   * Get the Octave for this value.
    *
    * @param value the desired octave
    * @return an Octave object that corresponds to the give input

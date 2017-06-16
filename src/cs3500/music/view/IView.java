@@ -1,7 +1,6 @@
 package cs3500.music.view;
 
-import cs3500.music.model.*;
-
+import cs3500.music.model.PitchSequence;
 import java.awt.event.KeyListener;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public interface IView {
 
   /**
    * Provide the view with a key listener to allow the program to
-   * process key input
+   * process key input.
    * @param keyListener the key listener to set
    */
   void setKeyListener(KeyListener keyListener);

@@ -1,15 +1,26 @@
 package cs3500.music.view;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Dimension;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import cs3500.music.model.PitchSequence;
 
-import static cs3500.music.util.ViewConstants.*;
+import static cs3500.music.util.ViewConstants.SHEET_START_Y;
+import static cs3500.music.util.ViewConstants.MEASURE_BORDER_HEIGHT;
+import static cs3500.music.util.ViewConstants.MEASURE_BORDER_WIDTH;
+import static cs3500.music.util.ViewConstants.BEAT_HEIGHT;
+import static cs3500.music.util.ViewConstants.BEAT_WIDTH;
+import static cs3500.music.util.ViewConstants.DEFAULT_WIDTH;
+import static cs3500.music.util.ViewConstants.BORDER_WIDTH;
+import static cs3500.music.util.ViewConstants.BEAT_BORDER_HEIGHT;
 
 /**
  * Displays the sheet of music. Shows a cursor representing the current beat
@@ -17,7 +28,6 @@ import static cs3500.music.util.ViewConstants.*;
  */
 public class SheetPanel extends JPanel {
   private List<PitchSequence> pitches;
-  private int lastBeat;
   private int numMeasures;
   private int currentBeat;
   private int pitchHeight;
@@ -227,8 +237,7 @@ public class SheetPanel extends JPanel {
         lastBeat = p.getLastBeat();
       }
     }
-    this.lastBeat = lastBeat;
-    this.numMeasures = (int) Math.ceil(this.lastBeat / 4) + 1;
+    this.numMeasures = (int) Math.ceil(lastBeat / 4) + 1;
   }
 
 
