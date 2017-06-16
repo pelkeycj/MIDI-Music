@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests for the MusicSheet class.
  */
-public class MIDITest {
+public class MusicSheetTest {
   MusicOperations m1;
   MusicOperations m2;
 
@@ -21,31 +21,27 @@ public class MIDITest {
             "  C1   A#2 \n"
           + "0  X       \n"
           + "1  |    X  \n"
-          + "2  |    |  \n"
+          + "2  |       \n"
           + "3  |       \n"
-          + "4  |       \n"
-          + "5  |       \n";
+          + "4  |       \n";
 
   String mergeSheetString =
             "  C1   A5  \n"
           + "0  X       \n"
-          + "1  |       \n"
-          + "2       X  \n"
-          + "3       |  \n";
+          + "1          \n"
+          + "2       X  \n";
 
   String appendSheetString =
             "  C1   A5  \n"
           + "0  X       \n"
-          + "1  |       \n"
+          + "1          \n"
           + "2          \n"
-          + "3          \n"
-          + "4       X  \n"
-          + "5       |  \n";
+          + "3       X  \n";
 
   String longBoye =
             "   C1   A#1  D#5 \n"
           + " 0  X            \n"
-          + " 1  |            \n"
+          + " 1               \n"
           + " 2               \n"
           + " 3               \n"
           + " 4               \n"
@@ -54,7 +50,7 @@ public class MIDITest {
           + " 7            |  \n"
           + " 8            X  \n"
           + " 9            |  \n"
-          + "10       X    |  \n";
+          + "10       X       \n";
 
   /**
    * Initialize and reset fields.
@@ -103,7 +99,7 @@ public class MIDITest {
   public void testChangeNote() {
     m1.addNote(OctaveNumber1To10.O2, NoteTypeWestern.C_SHARP, 0, 5);
     m1.changeNote(OctaveNumber1To10.O2, NoteTypeWestern.C_SHARP,
-            0, 5, 0, 0);
+            0, 5, 0, 1);
     assertEquals("  C#2 \n0  X  \n", m1.getSheet());
   }
 
@@ -132,7 +128,7 @@ public class MIDITest {
   // get sheet
   public void testGetSheet() {
     m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 1);
-    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP, 10, 10);
+    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP, 10, 11);
     m1.addNote(OctaveNumber1To10.O5, NoteTypeWestern.D_SHARP, 6, 9);
     m2.addNote(OctaveNumber1To10.O5, NoteTypeWestern.D_SHARP, 8, 10);
     m1.mergeSheet(m2);

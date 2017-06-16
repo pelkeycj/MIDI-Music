@@ -2,7 +2,6 @@ package cs3500.music.view;
 
 import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.OctaveNumber0To10;
-import cs3500.music.model.OctaveNumber1To10;
 import cs3500.music.model.Pitch;
 import java.awt.*;
 

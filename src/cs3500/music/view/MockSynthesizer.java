@@ -1,6 +1,5 @@
 package cs3500.music.view;
 
-import cs3500.music.view.MockReceiver;
 import java.util.List;
 import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;

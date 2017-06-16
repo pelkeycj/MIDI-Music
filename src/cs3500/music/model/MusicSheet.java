@@ -16,7 +16,7 @@ public class MusicSheet implements MusicOperations {
     this.pitches = new ArrayList<PitchSequence>();
   }
 
-  //FOR GRADER'S USE
+  //FOR GRADER'S USE IN ASSIGNMENT 5
   @Override
   public void consoleRender() {
     System.out.print(this.getSheet());

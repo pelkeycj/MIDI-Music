@@ -17,7 +17,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    * @param octaveNum the octave number of this pitch
    * @param noteType the note type of this pitch
    */
-  PitchSequence(Octave octaveNum, NoteType noteType) {
+  public PitchSequence(Octave octaveNum, NoteType noteType) {
     this.octaveNum = octaveNum;
     this.noteType = noteType;
     notes = new ArrayList<Note>();
@@ -27,7 +27,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    * Determines if this {@code PitchSequence} has no {@link Note}s.
    * @return true if {@code notes} is empty
    */
-  boolean isEmpty() {
+  public boolean isEmpty() {
     return this.notes.isEmpty();
   }
 
@@ -43,7 +43,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
         last = n.getEnd();
       }
     }
-    return last;
+    return last - 1; // subtract one because note end is exclusive
   }
 
   /**
@@ -53,7 +53,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    * @throws IllegalArgumentException if the note already exists
    *
    */
-  PitchSequence addNote(Note n) throws IllegalArgumentException {
+  public PitchSequence addNote(Note n) throws IllegalArgumentException {
     if (this.notes.contains(n)) {
       throw new IllegalArgumentException("Note already exists.");
     }
@@ -67,7 +67,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    * @return the modified {@code PitchSequence}
    * @throws IllegalArgumentException if {@code n} does not exist in {@code notes}
    */
-  PitchSequence removeNote(Note n) throws IllegalArgumentException {
+  public PitchSequence removeNote(Note n) throws IllegalArgumentException {
     if (this.notes.remove(n)) {
       return this;
     }
@@ -84,7 +84,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    * @return the combined {@code PitchSequence}s
    * @throws IllegalArgumentException if {@code delta} is less than 0
    */
-  PitchSequence addAll(PitchSequence p, int delta) throws IllegalArgumentException {
+  public PitchSequence addAll(PitchSequence p, int delta) throws IllegalArgumentException {
     if (delta < 0) {
       throw new IllegalArgumentException("Delta must be > 0");
     }
@@ -160,7 +160,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    * Gets the Octave of this pitch sequence.
    * @return the octave of this pitch sequence
    */
-  Octave getOctave() {
+  public Octave getOctave() {
     return this.octaveNum;
   }
 
@@ -168,7 +168,7 @@ public class PitchSequence implements Comparable<PitchSequence> {
    * Gets the note type of this pitch sequence.
    * @return the note type of this pitch sequence
    */
-  NoteType getNoteType() {
+  public NoteType getNoteType() {
     return this.noteType;
   }
 
@@ -188,12 +188,14 @@ public class PitchSequence implements Comparable<PitchSequence> {
 
   //=============THINGS ADAM ADDED JUNE 13TH=============
 
+
   /**
    * Determines if this pitch is playing at the given beat.
    * @param beat beat to check
    * @return true if the pitch is during the given
+   * @throws IllegalArgumentException if beat < 0
    */
-  public boolean playingAt(int beat) {
+  public boolean playingAt(int beat) throws IllegalArgumentException {
     if (beat < 0) {
       throw new IllegalArgumentException("Beats must be 0 or greater");
     }
@@ -206,11 +208,12 @@ public class PitchSequence implements Comparable<PitchSequence> {
   }
 
   /**
-   * TODO this kind of overlaps with get beat
-   * @param beat
-   * @return
+   * Gets the note playing at the given beat.
+   * @param beat the beat to search
+   * @return a copy of the note playing at the given beat
+   * @throws IllegalArgumentException if a note does not exist at {@code beat}
    */
-  public Note noteAt(int beat) {
+  public Note noteAt(int beat) throws IllegalArgumentException {
     for (Note n : this.notes) {
       if (beat >= n.getStart() && beat < n.getEnd()) {
         return new Note(n.getStart(), n.getEnd(), n.getInstrument(), n.getLoudness());
@@ -218,8 +221,6 @@ public class PitchSequence implements Comparable<PitchSequence> {
     }
     throw new IllegalArgumentException("No note playing at this beat.");
   }
-
-
 
   /**
    * Get a copy of the pitch represented by this pitch sequence.

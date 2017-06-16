@@ -1,6 +1,8 @@
 package cs3500.music.view;
 
 
+import javax.swing.*;
+
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +11,6 @@ import javax.swing.*;
 
 import cs3500.music.model.PitchSequence;
 
-import static cs3500.music.util.ViewConstants.BEAT_BORDER_HEIGHT;
 import static cs3500.music.util.ViewConstants.MEASURE_BORDER_HEIGHT;
 import static cs3500.music.util.ViewConstants.SHEET_START_X;
 import static cs3500.music.util.ViewConstants.SHEET_START_Y;

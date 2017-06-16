@@ -1,9 +1,7 @@
 package cs3500.music.view;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import cs3500.music.model.*;
 
-import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.List;
 

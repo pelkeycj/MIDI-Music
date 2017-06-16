@@ -37,7 +37,7 @@ public class PitchSequenceTest {
     assertTrue(p1A.isEmpty());
     p1A.addNote(n);
     assertFalse(p1A.isEmpty());
-    assertEquals(1, p1A.getLastBeat());
+    assertEquals(0, p1A.getLastBeat());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -74,14 +74,14 @@ public class PitchSequenceTest {
   // overlap
   public void testOverlapToString() {
     p1D.addNote(new Note(0, 2)).addNote(new Note(1, 3));
-    assertEquals("XX||", p1D.toString());
+    assertEquals("XX|", p1D.toString());
   }
 
   @Test
   // no overlap
   public void testNoOverlapToString() {
-    p1D.addNote(new Note(1,2)).addNote(new Note(3, 3));
-    assertEquals(" X|X", p1D.toString());
+    p1D.addNote(new Note(1,2)).addNote(new Note(3, 4));
+    assertEquals(" X X", p1D.toString());
   }
 
   @Test
@@ -122,7 +122,28 @@ public class PitchSequenceTest {
     p1D.addNote(new Note(0,1));
     p1A.addNote(new Note(0,1));
     p1D.addAll(p1A, 2);
-    assertEquals("X|X|", p1D.toString());
+    assertEquals("X X", p1D.toString());
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  // invalid beat
+  public void testPlayingAtFail() {
+    p1D.playingAt(-1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  // invalid beat argument
+  public void testNoteAtFail() {
+    p1D.noteAt(-5);
+  }
+
+  @Test
+  public void testNoteAtPlayingAt() {
+    Note n = new Note(10, 15, 4, 12);
+    p1D.addNote(n);
+    assertEquals(n, p1D.noteAt(14));
+    assertTrue(p1D.playingAt(14));
+    assertFalse(p1D.playingAt(100));
   }
 
 }

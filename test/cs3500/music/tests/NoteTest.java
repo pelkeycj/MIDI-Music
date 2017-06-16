@@ -22,7 +22,7 @@ public class NoteTest {
    */
   @Before
   public void init() {
-    tiny = new Note(0, 0);
+    tiny = new Note(0, 1);
     small = new Note(0, 5);
     big = new Note(1, 10);
   }
@@ -42,13 +42,25 @@ public class NoteTest {
   @Test(expected = IllegalArgumentException.class)
   // end less than start
   public void testBadConstructor3() {
-    new Note(2,1);
+    new Note(2,2);
   }
 
   @Test(expected = IllegalArgumentException.class)
   // invalid instrument and loudness
   public void testBadConstructor4() {
     new Note(0, 10, 0, -1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  // invalid instrument
+  public void testBadConstructor5() {
+    new Note(0, 1, 0, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  // invalid loudness
+  public void testBadConstructor6() {
+    new Note(0, 1, 1, 130);
   }
 
   @Test
@@ -64,7 +76,7 @@ public class NoteTest {
   @Test
   public void testToString() {
     assertEquals("X", tiny.toString());
-    assertEquals("X|||||", small.toString());
+    assertEquals("X||||", small.toString());
   }
 
   @Test
@@ -76,13 +88,13 @@ public class NoteTest {
   @Test
   public void testEquals() {
     assertTrue(tiny.equals(tiny));
-    assertTrue(tiny.equals(new Note(0,0)));
+    assertTrue(tiny.equals(new Note(0,1)));
     assertFalse(tiny.equals(big));
   }
 
   @Test
   public void testHashCode() {
-    assertEquals(0, tiny.hashCode());
+    assertEquals(1, tiny.hashCode());
     assertEquals(5, small.hashCode());
   }
 
