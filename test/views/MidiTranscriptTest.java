@@ -8,6 +8,7 @@ import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.util.SheetBuilder;
 import cs3500.music.view.AudioView;
+import cs3500.music.view.GuiViewFrame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;

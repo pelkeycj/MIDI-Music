@@ -45,7 +45,7 @@ public class MockReceiver implements Receiver {
       throw new RuntimeException("Failed to append information to the log.");
     }
 
-    System.out.println(log);
+    //System.out.println(log);
   }
 
   @Override
