@@ -132,3 +132,65 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
 
 
 
+
+  VIEW:
+     As mentioned above, the model supports 3 different types of views. Each of these implements the
+     IView interface that allows song data to be passed on the view for rendering and allows the
+     current state of the view to be manipulated by changing the current beat.
+
+     IView (interface) :
+        Interface that specifies the public methods for a view.
+        Methods:
+          setNotes - loads note data into the view
+          initialize - sets up the view for use
+          setCurrentBeat - changes to state of the view such that is set to the given beat
+          refresh - signals a view to redraw itself if necessary
+          setKeyListener = Provides a keylistener that passes key commands up to the controller
+          setTempo - modifies the pace at which the view "plays" its piece of music
+          isActive - determines if the view is active and is currently playing a piece of music
+
+     AView (abstract class) :
+        Abstract class that implements some of the shared implementations of the IView interface
+             and holds shared fields.
+
+     TextView (concrete class) :
+        An extension of AView.
+        Upon construction of a TextView, the object is given an Appendable object.
+        Whenever the view is given a set of notes, it immediately print textual view of those notes
+        onto the Appendle object.
+
+     AudioView (concerete class) :
+         An extension of AView.
+         The AudioView has two simple factory methods that control which type of Synthesizer object
+         the object uses: the normal Midi synthesizer or the MockSynthesizer (described below).
+
+         After notes have been loaded into the view by the setNotes method, the state of the
+         AudioView can be controlled using setCurrentBeat. Each time this is called, the view checks
+         which notes are set to be started at that beat and uses that information to create MIDIData
+         objects - a custom private class that contains all the information and methods to sent a
+         midimessage request to a Receiver. Each MIDIData object has a "run" method that causes the
+         object set a start and stop request to the receiver playing a note at the correct pitch and
+         duration on the current beat.
+
+         TESTING: Using the buildSoundView() method provides a client with an AudioView instance using
+         the that will play music using a midi reciever provided by the Midi Synthesizer.
+         The buildTestView() method takes in an Appendable object. This instance is the exact same
+         as the "normal" with the exception that the Synthesizer and Receiver in this test view
+         are custom-made Mock objects that use the appendable object passed to factory mehtod to
+         a log of the messages sent to the Receiver effectively capturing all the calls that this
+         view makes to its Receiver object.
+
+     GuiView (concrete class) :
+         An extenion of AView.
+         The GuiView has two separate panels, a PianoPanel that shows on a simulated paino keyboard
+         which notes are currently being played and a SheetPanel that diplays the notes of a piece
+         of music and scrolls through the sheet as the music plays. Each of these panels hold the
+         the logic for how they are supposed to look and react on each note, the GuiViewFrame
+         almost acts like a controller for the two panes. It positions them in their respective
+         positions and update them with new information as the state of the view is modified.
+
+          PianoPanel (concrete class) :
+
+
+
+

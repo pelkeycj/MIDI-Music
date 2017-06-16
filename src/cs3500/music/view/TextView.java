@@ -41,7 +41,6 @@ public class TextView extends AView {
   @Override
   public void setNotes(List<PitchSequence> pitches) {
     super.setNotes(pitches);
-    //System.out.println(drawNotes());
     for (char c : this.drawNotes().toCharArray()) {
       try {
         out.append(c);
