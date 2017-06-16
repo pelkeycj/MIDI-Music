@@ -4,16 +4,12 @@ import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
 import java.awt.*;
 
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
 /**
- * A skeleton Frame (i.e., a window) in Swing
+ * Graphical View for the mus
  */
-
 public class GuiViewFrame extends AView {
 
   private final int MIN_WIDTH = 1000;

@@ -22,7 +22,6 @@ public abstract class AView extends JFrame implements IView {
   @Override
   public void setTempo(int tempo) {
     //in many views, this info is not needed
-    return;
   }
 
   @Override
