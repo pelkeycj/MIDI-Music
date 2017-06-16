@@ -2,6 +2,7 @@ package cs3500.music.view;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
+import javax.sound.midi.ShortMessage;
 
 /**
  * Mocks a midi receiver. Used to output a debugging log for the midi view by
@@ -23,7 +24,15 @@ public class MockReceiver implements Receiver {
   @Override
   //modifies its string builder to add information about what has been sent this receiver.
   public void send(MidiMessage m, long timestamp) {
-    log.append(m.toString()).append(" time stamp ").append(timestamp).append("\n");
+    ShortMessage s = (ShortMessage) m;
+    int channel = s.getChannel();
+    int pitch = s.getData1();
+    int loudness = s.getData2();
+    int command = s.getCommand();
+    log.append("Command: ").append(command).append(" ");
+    log.append("Channel: ").append(channel).append(" ");
+    log.append("Data1: ").append(pitch).append(" ");
+    log.append("Data2: ").append(loudness).append("\n");
   }
 
   @Override
