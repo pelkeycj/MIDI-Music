@@ -16,7 +16,7 @@ public class MockReceiver implements Receiver {
 
   /**
    * Public constructor for the mock receiver to modified the string builder it has been passed.
-   * @param log
+   * @param log an appendable object to keep track of the calls made to this receiver
    */
   public MockReceiver(Appendable log) {
     this.log = log;

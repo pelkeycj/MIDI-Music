@@ -282,7 +282,7 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
               reaches the middle of the panel. At this point, it remains in the middle of the sheet
               and the music sheet of notes "scrolls" behind it. This implementation was chosen so
               that users could clearly see which notes were upcoming in the piece which makes
-              naviation through the piece feel more natural.
+              navigation through the piece feel more natural.
 
 
 
