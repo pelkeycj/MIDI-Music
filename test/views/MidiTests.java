@@ -23,7 +23,7 @@ public class MidiTests {
 
   private MusicOperations model;
 
-  public void runAudio(MusicOperations model, List<MidiPair> expectedOutput) {
+  public void runAudio(MusicOperations model, String expectedLog) {
     StringBuilder log = new StringBuilder();
     IView mockAudio = AudioView.buildTestView(log);
     mockAudio.setTempo(1000000);
@@ -36,13 +36,7 @@ public class MidiTests {
       mockAudio.setCurrentBeat(beat);
     }
 
-    StringBuilder expected = new StringBuilder();
-
-    for (MidiPair p : expectedOutput) {
-      expected.append(p.toString());
-    }
-
-    assertEquals(expected.toString(), log.toString());
+    assertEquals(expectedLog, log.toString());
   }
 
   private class MidiPair {
@@ -69,17 +63,18 @@ public class MidiTests {
     }
   }
 
-  public List<MidiPair> addMidiStartStop(int channel, int pitch, int loudness) {
-    List<MidiPair> output = new ArrayList<>();
-    try {
-      MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, channel, pitch, loudness);
-      MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF, channel, pitch, loudness);
-      output.add(new MidiPair(start, -1));
-      output.add(new MidiPair(end, 1000000));
-    } catch (InvalidMidiDataException e) {
-      throw new IllegalArgumentException("Bad midi data provided");
-    }
-    return output;
+  public String addMidiStartStop(int channel, int pitch, int loudness) {
+    StringBuilder s = new StringBuilder();
+    s.append("Command: ").append(ShortMessage.NOTE_ON).append(" ");
+    s.append("Channel: ").append(channel).append(" ");
+    s.append("Data1: ").append(pitch).append(" ");
+    s.append("Data2: ").append(loudness).append("\n");
+
+    s.append("Command: ").append(ShortMessage.NOTE_OFF).append(" ");
+    s.append("Channel: ").append(channel).append(" ");
+    s.append("Data1: ").append(pitch).append(" ");
+    s.append("Data2: ").append(loudness).append("\n");
+    return s.toString();
   }
 
 
@@ -87,18 +82,18 @@ public class MidiTests {
   public void emptyTest() {
     model = new MusicSheet();
 
-    runAudio(model, new ArrayList<>());
+    runAudio(model, "");
   }
 
   @Test
   public void oneNoteTest() {
     model = new MusicSheet();
-    List<MidiPair> expectedMessages = new ArrayList<>();
+    StringBuilder expectedLog = new StringBuilder();
 
-    model.addNote(OctaveNumber0To10.O0, NoteTypeWestern.C, 0, 1, 1, 1);
-    expectedMessages.addAll(addMidiStartStop( 0, 0, 1));
+    model.addNote(OctaveNumber0To10.O0, NoteTypeWestern.C, 0, 1, 1, 20);
+    expectedLog.append(addMidiStartStop(0, 0, 20));
 
-    runAudio(model, expectedMessages);
+    runAudio(model, expectedLog.toString());
   }
 
 

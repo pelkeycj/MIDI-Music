@@ -34,7 +34,8 @@ public class GuiViewFrame extends AView {
   private List<PitchSequence> pitches;
 
   /**
-   * Creates new GuiView
+   * Public constructor for the Gui view. Defines the layout for the view and initializes the two
+   * main panels of the view.
    */
   public GuiViewFrame() {
     super();

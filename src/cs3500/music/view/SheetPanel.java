@@ -23,10 +23,19 @@ public class SheetPanel extends JPanel {
   private int pitchHeight;
 
   /**
-   * Constructs a sheet panel.
+   * Constructs a sheet panel. A sheet panel contains a visual representation of the notes in a
+   * piece of music. Only the notes relevant to the piece are displayed on this panel (i.e. if
+   * the note never gets played, it is not displayed). A grid pattern representing those notes and
+   * the measure of the piece of music are displayed on a scrollable panel along with a marker
+   * showing the current beat of the music.
+   * Notes are represents by colored rectangles with the starting beat of a note a distinctly
+   * different color that the subsequent beats of the same note. The marker of the notes scrolls
+   * along with the notes as the view moves through the piece of music.
+   * The position of this marker and the notes displayed on the panel can be modified with public
+   * methods.
    */
   public SheetPanel() {
-    this.pitches = new ArrayList<PitchSequence>();
+    this.pitches = new ArrayList<>();
   }
 
   @Override
@@ -71,6 +80,8 @@ public class SheetPanel extends JPanel {
     }
     this.currentBeat = beat;
   }
+
+
   /**
    * Draws the beat count above the sheet of notes.
    * @param g2d the 2d graphics object to draw on

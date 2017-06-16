@@ -1,8 +1,5 @@
 package cs3500.music.util;
 
-import cs3500.music.model.*;
-
-import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
