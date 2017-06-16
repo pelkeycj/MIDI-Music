@@ -8,7 +8,6 @@ import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.util.SheetBuilder;
 import cs3500.music.view.AudioView;
-import cs3500.music.view.GuiViewFrame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
@@ -20,6 +19,11 @@ import java.io.PrintWriter;
  * for it to play through the entire song.
  */
 public class AudioViewTranscriptTest {
+
+  /**
+   * This main method runs the test that builds the transcript for Mary Had A Little Lamb.
+   * @param args no input parameters required.
+   */
   public static void main(String... args) {
     StringBuilder log = new StringBuilder();
     MusicOperations model = new MusicSheet();
