@@ -129,6 +129,6 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
 
     SimpleController (class) :
         Implements IController interface.
-        
+
 
 
