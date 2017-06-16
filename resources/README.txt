@@ -171,3 +171,93 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
             determine what view to use and what song to play.
             Uses the MusicReader to parse the specified input file and
             launch a controller with the specified view.
+
+  VIEW:
+     As mentioned above, the model supports 3 different types of views. Each of these implements the
+     IView interface that allows song data to be passed on the view for rendering and allows the
+     current state of the view to be manipulated by changing the current beat.
+
+     IView (interface) :
+        Interface that specifies the public methods for a view.
+        Methods:
+          setNotes - loads note data into the view
+          initialize - sets up the view for use
+          setCurrentBeat - changes to state of the view such that is set to the given beat
+          refresh - signals a view to redraw itself if necessary
+          setKeyListener = Provides a keylistener that passes key commands up to the controller
+          setTempo - modifies the pace at which the view "plays" its piece of music
+          isActive - determines if the view is active and is currently playing a piece of music
+
+     AView (abstract class) :
+        Abstract class that implements some of the shared implementations of the IView interface
+             and holds shared fields.
+
+     TextView (concrete class) :
+        An extension of AView.
+        Upon construction of a TextView, the object is given an Appendable object.
+        Whenever the view is given a set of notes, it immediately print textual view of those notes
+        onto the Appendle object.
+
+     AudioView (concerete class) :
+         An extension of AView.
+         The AudioView has two simple factory methods that control which type of Synthesizer object
+         the object uses: the normal Midi synthesizer or the MockSynthesizer (described below).
+
+         After notes have been loaded into the view by the setNotes method, the state of the
+         AudioView can be controlled using setCurrentBeat. Each time this is called, the view checks
+         which notes are set to be started at that beat and uses that information to create MIDIData
+         objects - a custom private class that contains all the information and methods to sent a
+         midimessage request to a Receiver. Each MIDIData object has a "run" method that causes the
+         object set a start and stop request to the receiver playing a note at the correct pitch and
+         duration on the current beat.
+
+         TESTING: Using the buildSoundView() method provides a client with an AudioView instance
+         that will play music using a midi reciever provided by the Midi Synthesizer.
+         The buildTestView() method takes in an Appendable object. This instance is the exact same
+         as the "normal" instance with the exception that the Synthesizer and Receiver in this test
+         view are custom-made Mock objects that use the appendable object passed to factory method
+         to the given log of the messages sent to the Receiver effectively capturing all the calls
+         that the view makes to its Receiver object.
+
+         MockSynthesizer (concrete class that implements Synthesizer) :
+
+
+     GuiView (concrete class) :
+         An extension of AView.
+         The GuiView has two separate panels, a PianoPanel that shows on a simulated paino keyboard
+         which notes are currently being played and a SheetPanel that diplays the notes of a piece
+         of music and scrolls through the sheet as the music plays. Each of these panels hold the
+         the logic for how they are supposed to look and react on each note, the GuiViewFrame
+         almost acts like a controller for the two panes. It positions them in their respective
+         positions and update them with new information as the state of the view is modified.
+
+          PianoPanel (concrete class) :
+              The piano panel holds a set of 120 PianoKey objects each of which represent a
+              different note. The information for each piano key is stored in a private PianoKey
+              class that serves to track what note the key represents and information about thow the
+              key should be drawn.
+              A generatePianoKeys method builds a full set of keys to be used by the controller.
+              The state of the PianoPanel is mostly modified by switching different keys as being
+              "pressed" or "unpressed". The panel receives this information from the view in the
+              form of a set of currently playing notes. The panel can then modify the colors of
+              the keys that represents these pitches which allows them to be displayed as playing.
+
+          SheetPanel (concrete class) :
+              The sheet panel contains a visual representation of the notes of a given piece of
+              music. The panel a grid-like music sheet with a row for each note that is used in the
+              piece of music and a column for each measure (4 beats) in the piece of music. The
+              notes in the piece are drawn on this grid with a black box indicating the start of a
+              new note and a green box indicating that this beat is a continuation of a note that
+              started earlier.
+              The panel is scrollable so if there are too many notes to display in the current
+              size of the window, one can scroll up and down to see more of the rest of the notes.
+              Using a SPACEBAR and LEFT and RIGHT arrow keys, a user can navigate through the piece
+              of music. As they move through the music, a RED bar indicated their current position.
+              The bar begins on the lefthand side of the music sheet and advances right until it
+              reaches the middle of the panel. At this point, it remains in the middle of the sheet
+              and the music sheet of notes "scrolls" behind it. This implementation was chosen so
+              that users could clearly see which notes were upcoming in the piece which makes
+              naviation through the piece feel more natural.
+
+
+
