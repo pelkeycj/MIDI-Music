@@ -1,4 +1,4 @@
-package views;
+package cs3500.music.tests;
 
 import cs3500.music.control.IController;
 import cs3500.music.control.SimpleController;

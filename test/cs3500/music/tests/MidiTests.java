@@ -1,4 +1,4 @@
-package views;
+package cs3500.music.tests;
 
 import static org.junit.Assert.assertTrue;
 
