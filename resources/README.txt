@@ -219,6 +219,27 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
          that the view makes to its Receiver object.
 
          MockSynthesizer (concrete class that implements Synthesizer) :
+            This mock synthesizer class is used for testing the calls the the AudiView
+            makes to a receiver. All synthesizer methods used by the AudioView class have some kind
+            of mock implementation and those that are not used throw an
+            UnsupportedOperationException.
+            Most imporantly, this object takes in an Appendable object and passes it along to a
+            MockReceiver object that is given to the client through the getReceiver() method. This
+            allows a client to hand the Synthesizer a referecne to the Appendable object the are
+            using as a log and all changes added to this log by the receivers from this
+            MockSynthesier object will be made to the object held by the client so they can see the
+            changes.
+
+         MockReceiver (concrete class that implements Receiver) :
+            This mock reciever collects midimessages set to it via the send() method and decomposes
+            these messages into their different parts. This message is then pieced back together
+            in a more human-readable format and added to an Appendable object that is assigned to
+            the instance at the time of its creation.
+            The effect of this, is that the object can interact with the AudioView model exactly
+            as a standard midireceiver would and capture those messages that are sent the receivers
+            by the view.
+            This allows the AudioView to be tested and ensure that it makes all the calls to the
+            reciever that is it supposed to make.
 
 
      GuiView (concrete class) :
