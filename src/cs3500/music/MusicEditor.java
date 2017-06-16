@@ -17,7 +17,6 @@ import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.AudioView;
 import cs3500.music.view.TextView;
 
-//TODO readme describing  design and use
 public class MusicEditor {
 
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
@@ -29,22 +28,21 @@ public class MusicEditor {
       case "console":
         controller = new SimpleController(model, new TextView(System.out));
         break;
-      case "gui":
+      case "visual":
         controller = new SimpleController(model, new GuiViewFrame());
         break;
-
       case "audio":
         // play and terminate at last beat
         controller = new SimpleController(model, true, AudioView.buildSoundView());
         break;
-      case "midi":
+      case "audiovisual":
         controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildSoundView());
         break;
       default:
         throw new IllegalArgumentException("Unsupported view: " + args[0]);
     }
 
-    String fileName = "res/" + args[1];
+    String fileName = args[1];
     FileReader file;
     try {
       file = new FileReader(fileName);
@@ -53,7 +51,7 @@ public class MusicEditor {
       e.printStackTrace();
       return;
     }
-    
+
     CompositionBuilder<IController> builder = new SheetBuilder(controller);
     MusicReader.parseFile(file, builder).go();
   }
