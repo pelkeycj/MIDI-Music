@@ -37,7 +37,6 @@ public enum NoteTypeWestern implements NoteType {
    * @return the NoteTypeWestern at the given note value
    * @throws IllegalArgumentException if input is invalid.
    */
-
   public static NoteTypeWestern intToNote(int value) {
     if (value < 0) {
       throw new IllegalArgumentException("All notes are value 0 or greater.");

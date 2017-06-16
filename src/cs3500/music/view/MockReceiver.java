@@ -1,5 +1,7 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Pitch;
+import java.io.IOException;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
@@ -10,13 +12,13 @@ import javax.sound.midi.ShortMessage;
  */
 public class MockReceiver implements Receiver {
 
-  StringBuilder log;
+  Appendable log;
 
   /**
    * Public constructor for the mock receiver to modified the string builder it has been passed.
    * @param log
    */
-  public MockReceiver(StringBuilder log) {
+  public MockReceiver(Appendable log) {
     this.log = log;
   }
 
@@ -29,10 +31,21 @@ public class MockReceiver implements Receiver {
     int pitch = s.getData1();
     int loudness = s.getData2();
     int command = s.getCommand();
-    log.append("Command: ").append(command).append(" ");
-    log.append("Channel: ").append(channel).append(" ");
-    log.append("Data1: ").append(pitch).append(" ");
-    log.append("Data2: ").append(loudness).append("\n");
+
+    String commandString = command == 144 ? "NOTE_ON" : "NOTE_OFF";
+    String pitchString = Pitch.intToPitch(pitch).toString();
+
+    try {
+      log.append("Command: ").append(commandString).append("\t");
+      log.append("Channel: ").append(Integer.toString(channel)).append("\t");
+      log.append("Pitch: ").append(pitchString).append("\t");
+      log.append("Loudness: ").append(Integer.toString(loudness)).append("\t");
+      log.append("Timestamp: ").append(Long.toString(timestamp)).append("\n");
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to append information to the log.");
+    }
+
+    System.out.println(log);
   }
 
   @Override

@@ -18,7 +18,7 @@ import javax.sound.midi.VoiceStatus;
 public class MockSynthesizer implements Synthesizer {
 
   //string builder object tracks the log of what has been sent to this synthesizer's receivers
-  StringBuilder log;
+  Appendable log;
 
   /**
    *  Public constructor for the mock synthesizer takes in a string builder object. This object
@@ -26,7 +26,7 @@ public class MockSynthesizer implements Synthesizer {
    *  track those changes.
    * @param log StringBuilder instance to be modified and tracked
    */
-  public MockSynthesizer(StringBuilder log) {
+  public MockSynthesizer(Appendable log) {
     this.log = log;
   }
 

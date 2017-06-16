@@ -87,7 +87,7 @@ public class AudioView extends AView {
       if (p.playingAt(beat)) {
         Note n = p.noteAt(beat);
         if (n.getStart() == beat) {
-          int duration = 1 + n.getEnd() - n.getStart();
+          int duration = n.getEnd() - n.getStart();
           newMidi.add(new MIDIData(p.getPitchCopy(), n.getLoudness(), duration, n.getInstrument()));
         }
       }

@@ -34,7 +34,7 @@ public class PianoPanel extends JPanel {
    * @param height the desired height of the panel
    * @throws IllegalArgumentException if the height or width is less than 100
    */
-  public PianoPanel(int width, int height) throws IllegalArgumentException {
+   PianoPanel(int width, int height) throws IllegalArgumentException {
     if (width < 100 || height < 100) {
       throw new IllegalArgumentException("Panel must be at least 100x100.");
     }
@@ -60,7 +60,7 @@ public class PianoPanel extends JPanel {
    * are switched to unpressed.
    * @param onPitches the set of pitches are are currently being played in the view
    */
-  public void setOnKeys(HashSet<Pitch> onPitches) {
+   void setOnKeys(HashSet<Pitch> onPitches) {
     for (PianoKey key : this.keys) {
       if (onPitches.contains(key.pitch)) {
         key.press();
@@ -152,7 +152,7 @@ public class PianoPanel extends JPanel {
    * @param numOctaves the number of octaves that this piano panel is representing
    * @return a full set piano keys
    */
-  PianoKey[] generatePianoKeys(int numOctaves) {
+  private PianoKey[] generatePianoKeys(int numOctaves) {
     PianoKey[] keys = new PianoKey[numOctaves * 12];
     for (int octave = 0; octave < numOctaves; octave++) {
       for (int note = 0; note < NoteTypeWestern.values().length; note++) {
@@ -168,11 +168,10 @@ public class PianoPanel extends JPanel {
    * state as well as methods to get information from the key.
    */
   private class PianoKey {
-    Pitch pitch;
-    boolean largeKey;
-
-    boolean pressed;
-    Color pressedColor = Color.ORANGE;
+    private Pitch pitch;
+    private boolean largeKey;
+    private boolean pressed;
+    private Color pressedColor = Color.ORANGE;
 
     /**
      * Constructor for use in the GuiViewFrame class to create a instance of a piano key.
@@ -190,21 +189,21 @@ public class PianoPanel extends JPanel {
      * Determines if this is a key to be drawn large or small.
      * @return true if the key is part of the larger key set
      */
-    boolean isLargeKey() {
+    private boolean isLargeKey() {
       return this.largeKey;
     }
 
     /**
      * Modifies the state of this key to be pressed.
      */
-    void press() {
+    private void press() {
       this.pressed = true;
     }
 
     /**
      * Modifies the state of this key to be unpressed.
      */
-    void unpress() {
+    private void unpress() {
       this.pressed = false;
     }
 
@@ -212,7 +211,7 @@ public class PianoPanel extends JPanel {
      * Determines the color of the outline of this key.
      * @return the color of the outline of this key
      */
-    Color getOutlineColor() {
+    private Color getOutlineColor() {
       return Color.BLACK;
     }
 
@@ -221,7 +220,7 @@ public class PianoPanel extends JPanel {
      * key or if it is pressed.
      * @return the background color of a key image.
      */
-    Color getBackGroundColor() {
+    private Color getBackGroundColor() {
       if (this.pressed) {
         return this.pressedColor;
       }
