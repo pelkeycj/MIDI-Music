@@ -36,7 +36,7 @@ public class NoteTest {
   @Test(expected = IllegalArgumentException.class)
   //end too small
   public void testBadConstruction2() {
-    new Note(2, -1);
+    new Note(2, 2);
   }
 
   @Test(expected = IllegalArgumentException.class)
