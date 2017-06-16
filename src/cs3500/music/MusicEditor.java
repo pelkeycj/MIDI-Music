@@ -36,7 +36,7 @@ public class MusicEditor {
         controller = new SimpleController(model, true, AudioView.buildSoundView());
         break;
       case "audiovisual":
-        controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildTestView(new StringBuilder()));
+        controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildSoundView());
         break;
       default:
         throw new IllegalArgumentException("Unsupported view: " + args[0]);
