@@ -28,6 +28,11 @@ public class SimpleController implements IController, KeyListener {
     this.tempo = 1000000; // 1 second per beat default (in microseconds)
   }
 
+  public SimpleController(MusicOperations model, boolean playing,  IView... view) {
+    this(model, view);
+    this.playing = playing;
+  }
+
 
   @Override
   public void setTempo(int tempo) {

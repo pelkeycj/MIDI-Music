@@ -112,7 +112,7 @@ public class SheetPanel extends JPanel {
    */
   private void drawPitch(Graphics2D g2d, PitchSequence p, int row)  {
     // draw out pitch based on pitch string and last beat
-    String pitchString = p.copy().toString();
+    String pitchString = p.toString();
     int start;
     int end;
 
