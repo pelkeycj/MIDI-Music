@@ -168,14 +168,6 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
             containing identical constants that may end up being out of sync.
 
 
-
-    MAIN:
-        MusicEditor (class) :
-            Main entry point for the program. Accepts arguments that
-            determine what view to use and what song to play.
-            Uses the MusicReader to parse the specified input file and
-            launch a controller with the specified view.
-
   VIEW:
      As mentioned above, the model supports 3 different types of views. Each of these implements the
      IView interface that allows song data to be passed on the view for rendering and allows the
@@ -250,9 +242,9 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
      GuiView (concrete class) :
          An extension of AView.
          The GuiView has two separate panels, a PianoPanel that shows on a simulated paino keyboard
-         which notes are currently being played and a SheetPanel that diplays the notes of a piece
-         of music and scrolls through the sheet as the music plays. Each of these panels hold the
-         the logic for how they are supposed to look and react on each note, the GuiViewFrame
+         which notes are currently being played and a ScrollingSheet that diplays the notes of a
+         piece of music and scrolls through the sheet as the music plays. Each of these panels hold
+         the the logic for how they are supposed to look and react on each note, the GuiViewFrame
          almost acts like a controller for the two panes. It positions them in their respective
          positions and update them with new information as the state of the view is modified.
 
@@ -267,6 +259,11 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
               form of a set of currently playing notes. The panel can then modify the colors of
               the keys that represents these pitches which allows them to be displayed as playing.
 
+          ScrollingSheet (concrete class) :
+              The scrolling sheet extends JScrollPane. It allows the SheetPanel showing the notes
+              to be scrollable. The scrolling sheet has a RowHeaderPanel on the left side to display
+              the pitch information and a SheetPanel as its main focus.
+
           SheetPanel (concrete class) :
               The sheet panel contains a visual representation of the notes of a given piece of
               music. The panel a grid-like music sheet with a row for each note that is used in the
@@ -274,15 +271,25 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
               notes in the piece are drawn on this grid with a black box indicating the start of a
               new note and a green box indicating that this beat is a continuation of a note that
               started earlier.
-              The panel is scrollable so if there are too many notes to display in the current
-              size of the window, one can scroll up and down to see more of the rest of the notes.
-              Using a SPACEBAR and LEFT and RIGHT arrow keys, a user can navigate through the piece
-              of music. As they move through the music, a RED bar indicated their current position.
-              The bar begins on the lefthand side of the music sheet and advances right until it
-              reaches the middle of the panel. At this point, it remains in the middle of the sheet
-              and the music sheet of notes "scrolls" behind it. This implementation was chosen so
-              that users could clearly see which notes were upcoming in the piece which makes
-              navigation through the piece feel more natural.
 
+              Using SPACEBAR, LEFT, and RIGHT arrow keys, a user can navigate through the piece
+              of music. As they move through the music, a red bar indicates the current beat.
+              The bar begins on the lefthand side of the music and advances right until it hits the
+              middle of the display. At this point the sheet itself scrolls left so that the user
+              can see the incoming notes. This implementation was chosen so that navigation through
+              the piece feels more natural.
+
+           RowHeaderPanel (concrete class) :
+              The row header panel extends JPanel and displays the string representation of the
+              pitches in the sheet panel (eg "C5"). This allows the sheet panel to scroll
+              while maintaining visibility of the headers.
+
+
+    MAIN:
+        MusicEditor (class) :
+            Main entry point for the program. Accepts arguments that
+            determine what view to use and what song to play.
+            Uses the MusicReader to parse the specified input file and
+            launch a controller with the specified view.
 
 
