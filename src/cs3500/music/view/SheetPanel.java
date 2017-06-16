@@ -41,21 +41,11 @@ public class SheetPanel extends JPanel {
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-
     Graphics2D g2d = (Graphics2D) g;
     g2d.setBackground(Color.white);
 
-    /*
-    g2d.drawImage(this.sheetImage, null, this.getScrollDelta(), 0);
-    this.drawCursor(g2d);
-
-    this.setLastBeat();
-    */
     this.drawBeatCount(g2d);
 
-
-    Collections.sort(pitches);
-    Collections.reverse(this.pitches); // so that higher pitches are on top
     for (int i = 0; i < this.pitches.size(); i++) {
       this.drawPitch(g2d, this.pitches.get(i), i);
     }
@@ -75,6 +65,9 @@ public class SheetPanel extends JPanel {
     this.pitchHeight = SHEET_START_Y + pitches.size() * MEASURE_BORDER_HEIGHT;
     this.setPreferredSize(new Dimension(DEFAULT_WIDTH, this.pitchHeight));
     this.setLastBeat();
+    // sort and reverse for displaying
+    Collections.sort(pitches);
+    Collections.reverse(this.pitches); // so that higher pitches are on top
   }
 
   /**
@@ -252,7 +245,6 @@ public class SheetPanel extends JPanel {
       int delta = (beatsAfter20 * BEAT_WIDTH) +  (beatsAfter20 / 4) * (2 * BORDER_WIDTH);
 
       return -1 * delta;
-      //return -1 * ((this.currentBeat - 20) * BEAT_WIDTH);
     }
     return 0;
   }
