@@ -33,7 +33,7 @@ public class PianoPanel extends JPanel {
 
 
   /**
-   * Package private constructor for the piano panel initializes the fields of the object
+   * Package private constructor for the piano panel initializes the fields of the object.
    * @param width the desired width of the panel
    * @param height the desired height of the panel
    * @throws IllegalArgumentException if the height or width is less than 100
@@ -81,7 +81,7 @@ public class PianoPanel extends JPanel {
    * @param height new height of the panel
    */
   public void resizePanel(int width, int height) {
-    this.panelWidth= width;
+    this.panelWidth = width;
     this.panelHeight = height;
     setKeyDimensions();
   }
