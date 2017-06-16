@@ -19,7 +19,7 @@ import javax.sound.midi.ShortMessage;
 import org.junit.Test;
 
 /**
- * Tests of the Midiview using a mock synth and receiver.
+ * Tests of the Midiview using a mock synthesizer and receiver.
  */
 public class MidiTests {
 
