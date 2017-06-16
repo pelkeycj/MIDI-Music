@@ -93,10 +93,10 @@ public class MidiTests {
     runAudio(model, expectedLog.toString());
   }
 
-  public void createMaryLittleLambTranscript() {
+  public static void createMaryLittleLambTranscript() {
     StringBuilder log = new StringBuilder();
     MusicOperations model = new MusicSheet();
-    IController controller = new SimpleController(model, AudioView.buildTestView(log));
+    IController controller = new SimpleController(model, true, AudioView.buildTestView(log));
 
     String filename = "res/mary-little-lamb.txt";
 
