@@ -1,6 +1,11 @@
 CONTENTS:
     1. USAGE
     2. DESIGN
+       - MODEL
+       - CONTROL
+       - UTIL
+       - VIEW
+       - MAIN
 ---------------------------------------------------------------------------------------------------
 
 1. USAGE
@@ -65,7 +70,7 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
 
       OctaveNumber0To10 (enum) : //ADDED IN ASSIGNMENT 6
           Implements the Octave interface and specifies an octave range from 0-10 to be used in
-          a music player. This was added to accomodate the ranges used in Midi.
+          a music player. This was added to accommodate the ranges used in Midi.
 
 
       Note (class) :
@@ -88,7 +93,7 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
         A pitch sequence represents a sequence of notes at a specified Octave and NoteType.
         Implements methods to add and remove individual notes, merge all notes from another pitch
         sequence, get a string representation of the sequence (eg " X-X-- X- X----"), get a string
-        represenation of the header (eg "C#5"), and compareTo() and equals() methods to sort and
+        representation of the header (eg "C#5"), and compareTo() and equals() methods to sort and
         determine equality.
 
         //CHANGES FROM ASSIGNMENT 6:
@@ -183,7 +188,7 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
           initialize - sets up the view for use
           setCurrentBeat - changes to state of the view such that is set to the given beat
           refresh - signals a view to redraw itself if necessary
-          setKeyListener = Provides a keylistener that passes key commands up to the controller
+          setKeyListener = Provides a KeyListener that passes key commands up to the controller
           setTempo - modifies the pace at which the view "plays" its piece of music
           isActive - determines if the view is active and is currently playing a piece of music
 
@@ -195,9 +200,9 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
         An extension of AView.
         Upon construction of a TextView, the object is given an Appendable object.
         Whenever the view is given a set of notes, it immediately print textual view of those notes
-        onto the Appendle object.
+        onto the Appendable object.
 
-     AudioView (concerete class) :
+     AudioView (concrete class) :
          An extension of AView.
          The AudioView has two simple factory methods that control which type of Synthesizer object
          the object uses: the normal Midi synthesizer or the MockSynthesizer (described below).
@@ -211,7 +216,7 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
          duration on the current beat.
 
          TESTING: Using the buildSoundView() method provides a client with an AudioView instance
-         that will play music using a midi reciever provided by the Midi Synthesizer.
+         that will play music using a midi receiver provided by the Midi Synthesizer.
          The buildTestView() method takes in an Appendable object. This instance is the exact same
          as the "normal" instance with the exception that the Synthesizer and Receiver in this test
          view are custom-made Mock objects that use the appendable object passed to factory method
@@ -223,15 +228,15 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
             makes to a receiver. All synthesizer methods used by the AudioView class have some kind
             of mock implementation and those that are not used throw an
             UnsupportedOperationException.
-            Most imporantly, this object takes in an Appendable object and passes it along to a
+            Most importantly, this object takes in an Appendable object and passes it along to a
             MockReceiver object that is given to the client through the getReceiver() method. This
-            allows a client to hand the Synthesizer a referecne to the Appendable object the are
+            allows a client to hand the Synthesizer a reference to the Appendable object the are
             using as a log and all changes added to this log by the receivers from this
             MockSynthesier object will be made to the object held by the client so they can see the
             changes.
 
          MockReceiver (concrete class that implements Receiver) :
-            This mock reciever collects midimessages set to it via the send() method and decomposes
+            This mock receiver collects midimessages set to it via the send() method and decomposes
             these messages into their different parts. This message is then pieced back together
             in a more human-readable format and added to an Appendable object that is assigned to
             the instance at the time of its creation.
@@ -239,7 +244,7 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
             as a standard midireceiver would and capture those messages that are sent the receivers
             by the view.
             This allows the AudioView to be tested and ensure that it makes all the calls to the
-            reciever that is it supposed to make.
+            receiver that is it supposed to make.
 
 
      GuiView (concrete class) :
