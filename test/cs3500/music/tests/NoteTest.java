@@ -40,12 +40,6 @@ public class NoteTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  // end less than start
-  public void testBadConstructor3() {
-    new Note(2,2);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
   // invalid instrument and loudness
   public void testBadConstructor4() {
     new Note(0, 10, 0, -1);
