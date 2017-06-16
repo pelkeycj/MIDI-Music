@@ -29,7 +29,7 @@ public class PianoPanel extends JPanel {
 
 
   /**
-   * Public constructor for the piano panel initializes the fields of the object
+   * Package private constructor for the piano panel initializes the fields of the object
    * @param width the desired width of the panel
    * @param height the desired height of the panel
    * @throws IllegalArgumentException if the height or width is less than 100

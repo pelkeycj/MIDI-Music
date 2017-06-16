@@ -14,14 +14,14 @@ import java.util.Scanner;
 import org.junit.Test;
 
 /**
- * Tests of the Midiview using a mock synthesizer and receiver. Because of the way notes are
+ * Tests of the AudioView using a mock synthesizer and receiver. Because of the way notes are
  * handled, it doesn't matter if notes are sent to the receiver in exactly the order they are sent
  * to the model. This becomes of interest when multiple notes are set to be played at the same time.
- * As long as these notes are sent during the correct beat, the audioview will preform correctly.
+ * As long as these notes are sent during the correct beat, the AudioView will preform correctly.
  * Because of this, we test that lines of the expected log and actual log are the same even if the
  * order is different.
  */
-public class MidiTests {
+public class AudioViewTests {
 
   private MusicOperations model;
 

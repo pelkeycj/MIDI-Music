@@ -19,7 +19,7 @@ import java.io.PrintWriter;
  * were really playing the song to a "real" receiver so this creating this test will take some time
  * for it to play through the entire song.
  */
-public class MidiTranscriptTest {
+public class AudioViewTranscriptTest {
   public static void main(String... args) {
     StringBuilder log = new StringBuilder();
     MusicOperations model = new MusicSheet();
