@@ -20,7 +20,7 @@ import cs3500.music.view.TextView;
 public class MusicEditor {
 
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
-    MusicOperations model = new MusicSheet(); // model to use
+    MusicOperations model = new MusicSheet();
     IController controller;
 
     // get view

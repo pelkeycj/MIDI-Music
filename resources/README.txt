@@ -1,7 +1,7 @@
 CONTENTS:
     1. USAGE
     2. DESIGN
-
+---------------------------------------------------------------------------------------------------
 
 1. USAGE
     To run the MIDIMusic jar:
@@ -32,6 +32,8 @@ CONTENTS:
         7. zoot-zl.txt
 
 NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however audio will.
+
+---------------------------------------------------------------------------------------------------
 
 2. DESIGN
 
@@ -128,10 +130,46 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
             go
 
     SimpleController (class) :
-        Implements IController interface.
+        Implements IController interface and KeyListener.
+        Accepts a MusicOperations model and one or more IViews to control.
+        Listens for keyboard input from the views and updates the current beat accordingly.
 
 
 
+
+    UTIL:
+        CompositionBuilder (interface) :
+            Starter code provided to add notes, set tempo, and build
+            a composition (unmodified)
+
+        MusicReader (class) :
+            Started code provided to parse a text file containing
+            composition information such as tempo and notes.
+            Modified only to include a try-catch block to prevent illegal notes
+            from being added (eg. notes with same start and end).
+
+        SheetBuilder (class) :
+            Implements CompositionBuilder interface.
+            Accepts an IController as an argument to its constructor
+            and add notes to the model through the IController.
+
+        StringUtilities (class) :
+            Class that includes methods to format strings such
+            as center(), padLeft(), and padRight().
+
+        ViewConstants (class) :
+            Contains static, final constants to be used globally throughout
+            multiple view classes. This is to prevent multiple classes from
+            containing identical constants that may end up being out of sync.
+
+
+
+    MAIN:
+        MusicEditor (class) :
+            Main entry point for the program. Accepts arguments that
+            determine what view to use and what song to play.
+            Uses the MusicReader to parse the specified input file and
+            launch a controller with the specified view.
 
   VIEW:
      As mentioned above, the model supports 3 different types of views. Each of these implements the
