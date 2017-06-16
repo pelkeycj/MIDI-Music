@@ -42,7 +42,7 @@ public class MusicEditor {
         throw new IllegalArgumentException("Unsupported view: " + args[0]);
     }
 
-    String fileName = "res/" + args[1];
+    String fileName = args[1];
     FileReader file;
     try {
       file = new FileReader(fileName);

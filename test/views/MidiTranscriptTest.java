@@ -23,7 +23,7 @@ public class MidiTranscriptTest {
   public static void main(String... args) {
     StringBuilder log = new StringBuilder();
     MusicOperations model = new MusicSheet();
-    IController controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildTestView(log));
+    IController controller = new SimpleController(model, true, new GuiViewFrame(), AudioView.buildTestView(log));
 
     String filename = "res/mary-little-lamb.txt";
 
@@ -33,7 +33,6 @@ public class MidiTranscriptTest {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("File failed to open");
     }
-    System.out.println("hi");
 
     try(  PrintWriter out = new PrintWriter( "midi-transcript.txt" )  ){
       out.println( log.toString() );
