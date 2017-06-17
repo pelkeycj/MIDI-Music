@@ -5,7 +5,8 @@ import cs3500.music.model.PitchSequence;
 import java.awt.event.KeyListener;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+
 
 /**
  * Abstract class for view implementations that defines shared fields and methods.

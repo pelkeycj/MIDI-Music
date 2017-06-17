@@ -14,7 +14,7 @@ import javax.sound.midi.Synthesizer;
 import org.junit.Test;
 
 /**
- * Tests of the MockSynthesizer and MockReceiver obejcts
+ * Tests of the MockSynthesizer and MockReceiver obejcts.
  */
 public class MockSynthAndReceiver {
 

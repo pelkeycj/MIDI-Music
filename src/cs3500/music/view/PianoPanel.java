@@ -3,10 +3,14 @@ package cs3500.music.view;
 import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.OctaveNumber0To10;
 import cs3500.music.model.Pitch;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.Rectangle;
 
 import java.util.HashSet;
-import javax.swing.*;
+import javax.swing.JPanel;
 
 /**
  * Displays a piano with keys that highlight to show the currently playing notes.
@@ -29,12 +33,12 @@ public class PianoPanel extends JPanel {
 
 
   /**
-   * Package private constructor for the piano panel initializes the fields of the object
+   * Package private constructor for the piano panel initializes the fields of the object.
    * @param width the desired width of the panel
    * @param height the desired height of the panel
    * @throws IllegalArgumentException if the height or width is less than 100
    */
-   PianoPanel(int width, int height) throws IllegalArgumentException {
+  PianoPanel(int width, int height) throws IllegalArgumentException {
     if (width < 100 || height < 100) {
       throw new IllegalArgumentException("Panel must be at least 100x100.");
     }
@@ -60,7 +64,7 @@ public class PianoPanel extends JPanel {
    * are switched to unpressed.
    * @param onPitches the set of pitches are are currently being played in the view
    */
-   void setOnKeys(HashSet<Pitch> onPitches) {
+  void setOnKeys(HashSet<Pitch> onPitches) {
     for (PianoKey key : this.keys) {
       if (onPitches.contains(key.pitch)) {
         key.press();
@@ -77,13 +81,13 @@ public class PianoPanel extends JPanel {
    * @param height new height of the panel
    */
   public void resizePanel(int width, int height) {
-    this.panelWidth= width;
+    this.panelWidth = width;
     this.panelHeight = height;
     setKeyDimensions();
   }
 
   @Override
-  public void paintComponent(Graphics g){
+  public void paintComponent(Graphics g) {
     // Handle the default painting
     super.paintComponent(g);
     this.setBackground(Color.LIGHT_GRAY);
@@ -178,7 +182,7 @@ public class PianoPanel extends JPanel {
      * @param noteValue the note that this key represents
      * @param octaveValue the octave of the note that this key plays
      */
-    private PianoKey (int noteValue, int octaveValue) {
+    private PianoKey(int noteValue, int octaveValue) {
       this.pitch = new Pitch(NoteTypeWestern.intToNote(noteValue),
               OctaveNumber0To10.intToOctave(octaveValue));
       this.largeKey = !(pitch.toString().contains("#"));

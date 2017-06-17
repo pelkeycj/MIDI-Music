@@ -1,13 +1,15 @@
 package cs3500.music.view;
 
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Collections;
 import java.util.List;
-
-import javax.swing.*;
 
 import cs3500.music.model.PitchSequence;
 

@@ -40,7 +40,7 @@ public class Pitch {
   }
 
   /**
-   * Returns the value of this note in a standard 10 octaves of western notes from 0 to 127
+   * Returns the value of this note in a standard 10 octaves of western notes from 0 to 127.
    *
    * @return integer representing this pitch
    */
@@ -50,7 +50,7 @@ public class Pitch {
 
   /**
    * Returns the pitch represented by the given value in a traditional 10 octave western scale
-   * of 0 to 127
+   * of 0 to 127.
    *
    * @param value value of the desired pitch
    * @return a pitch object

@@ -33,12 +33,12 @@ public class AudioViewTranscriptTest {
 
     CompositionBuilder<IController> builder = new SheetBuilder(controller);
     try {
-      MusicReader.parseFile(new FileReader(filename), builder).go();
+      MusicReader.parseFile(new FileReader(filename), builder).control();
     } catch (FileNotFoundException e) {
       throw new RuntimeException("File failed to open");
     }
 
-    try (PrintWriter out = new PrintWriter("midi-transcript.txt")) {
+    try (  PrintWriter out = new PrintWriter( "midi-transcript.txt" )  ) {
       out.println( log.toString() );
     } catch (FileNotFoundException e) {
       throw new RuntimeException("File failed to open");

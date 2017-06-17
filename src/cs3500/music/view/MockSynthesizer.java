@@ -102,7 +102,7 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public void unloadAllInstruments(Soundbank soundbank) {
-
+    //do nothing
   }
 
   @Override
@@ -112,7 +112,7 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public void unloadInstruments(Soundbank soundbank, Patch[] patchList) {
-
+    //do nothing
   }
 
   @Override

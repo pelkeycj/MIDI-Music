@@ -44,6 +44,6 @@ public interface IController {
   /**
    * Provide the controller with control, start the program.
    */
-  void go();
+  void control();
 
 }

@@ -117,7 +117,7 @@ public class AudioView extends AView {
 
     /**
      * Private constructor to be used in the AudioView class to package and store
-     * midimessage information
+     * midimessage information.
      * @param p the pitch of this midi message using the {@link Pitch} class understood by the
      *     model and views
      * @param loudness the loudness of the note on a scale from  0 to 127
@@ -146,8 +146,10 @@ public class AudioView extends AView {
         if (myInstruments != null) {
           s.loadInstrument(myInstruments.getInstruments()[this.instrument]);
         }
-        MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, this.channel, this.pitch, this.loudness);
-        MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF, this.channel, this.pitch, this.loudness);
+        MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON,
+                this.channel, this.pitch, this.loudness);
+        MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF,
+                this.channel, this.pitch, this.loudness);
         r.send(start, -1);
         r.send(end, s.getMicrosecondPosition() + duration * noteDurationMicro);
       } catch (InvalidMidiDataException e) {
