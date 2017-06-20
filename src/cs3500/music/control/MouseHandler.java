@@ -5,16 +5,12 @@ import java.awt.event.MouseEvent;
 import java.util.Map;
 
 /**
- * Represents a strategy for handling keyboard input.
- * Contains maps from {@code Integer}s to {@code Runnable}s so that
- * a client can set their own strategy.
+ * Represents a strategy for handling mouse input.
+ * This implementation for the music editor program  only handles mouse clicks.
+ * All other methods remain as stubs.
  */
-public class MouseHandler implements MouseStrategy {
-  Map<Integer, Runnable> mouseClicks;
-  Map<Integer, Runnable> mousePresses;
-  Map<Integer, Runnable> mouseEnters;
-  Map<Integer, Runnable> mouseExits;
-  Map<Integer, Runnable> mouseReleases;
+public class MouseHandler<M> implements MouseStrategy<MouseEventProcessor> {
+  Map<Integer, MouseEventProcessor> mouseEvents;
 
   /**
    * Default empty constructor to construct an instance of MouseHandler.
@@ -24,64 +20,47 @@ public class MouseHandler implements MouseStrategy {
   }
 
   @Override
-  public void setMouseClicks(Map<Integer, Runnable> map) {
-    this.mouseClicks = map;
-  }
-
-  @Override
-  public void setMousePresses(Map<Integer, Runnable> map) {
-    this.mousePresses = map;
-  }
-
-  @Override
-  public void setMouseEnters(Map<Integer, Runnable> map) {
-    this.mouseEnters = map;
-  }
-
-  @Override
-  public void setMouseExits(Map<Integer, Runnable> map) {
-    this.mouseExits = map;
-  }
-
-  @Override
-  public void setMouseReleased(Map<Integer, Runnable> map) {
-    this.mouseReleases = map;
+  public void setMouseEvents(Map<Integer, MouseEventProcessor> map) {
+    this.mouseEvents = map;
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    this.run(this.mouseClicks, e);
+    this.run(mouseEvents, e);
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
-    this.run(this.mousePresses, e);
+    // do nothing
+    return;
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    this.run(this.mouseReleases, e);
+    // do nothing
+    return;
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
-    this.run(this.mouseEnters, e);
+    // do nothing
+    return;
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-    this.run(this.mouseExits, e);
+    // do nothing
+    return;
   }
 
   /**
-   * Runs the {@link Runnable} associated with the given mouse event in the given map.
+   * Runs the {@link MouseEventProcessor} associated with the given mouse event in the given map.
    * @param map map containing mouse event strategies
    * @param e the mouse event to act on
    */
-  private void run(Map<Integer, Runnable> map, MouseEvent e) {
+  private void run(Map<Integer, MouseEventProcessor> map, MouseEvent e) {
     if (map.containsKey(e.getID())) {
-      map.get(e.getID()).run();
+      map.get(e.getID()).process(e);
     }
   }
-
 }

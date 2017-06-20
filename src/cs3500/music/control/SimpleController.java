@@ -10,6 +10,7 @@ import cs3500.music.model.NoteType;
 import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.Octave;
 import cs3500.music.model.OctaveNumber0To10;
+import cs3500.music.model.Pitch;
 import cs3500.music.view.IView;
 
 /**
@@ -177,39 +178,24 @@ public class SimpleController implements IController {
   }
 
   private void setMouseStrategy() {
-    Map<Integer, Runnable> mouseClicks = new HashMap<>();
-    Map<Integer, Runnable> mousePresses = new HashMap<>();
-    Map<Integer, Runnable> mouseEnters = new HashMap<>();
-    Map<Integer, Runnable> mouseExits = new HashMap<>();
-    Map<Integer, Runnable> mouseReleases = new HashMap<>();
+    Map<Integer, MouseEventProcessor> mouseEvents = new HashMap<>();
+
 
     SimpleController sc = this;
-
-    mouseClicks.put(MouseEvent.MOUSE_CLICKED, () -> {
-      if (sc.playing) {
-        return;
-      }
-
-      //TODO get pitch, octave, add note
-
-      //TODO TEMPORARY
-      sc.addNote(OctaveNumber0To10.O6, NoteTypeWestern.A_SHARP, sc.currentBeat,
-              sc.currentBeat + 1, 1, 100);
-      sc.currentBeat++;
-
-      for (IView v : sc.views) {
-        v.setCurrentBeat(sc.currentBeat);
-        v.setNotes(sc.model.getPitches());
+    mouseEvents.put(MouseEvent.MOUSE_CLICKED, new MouseEventProcessor() {
+      @Override
+      public void process(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        Pitch p;
+        //TODO get pitch from view
+        //sc.addNote(p.getOctave(), p.getNote(), 1, 100);
       }
     });
 
 
     this.mouseStrategy = new MouseHandler();
-    mouseStrategy.setMouseClicks(mouseClicks);
-    mouseStrategy.setMousePresses(mousePresses);
-    mouseStrategy.setMouseEnters(mouseEnters);
-    mouseStrategy.setMouseExits(mouseExits);
-    mouseStrategy.setMouseReleased(mouseReleases);
+    mouseStrategy.setMouseEvents(mouseEvents);
   }
 
   /**
