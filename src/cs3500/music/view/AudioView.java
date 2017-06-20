@@ -82,6 +82,7 @@ public class AudioView extends AView {
   @Override
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
     Set<MIDIData> newMidi = new HashSet<>();
+    System.out.println(beat);
 
     for (PitchSequence p : this.pitches) {
       if (p.playingAt(beat)) {

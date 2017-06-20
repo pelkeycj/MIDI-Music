@@ -44,9 +44,9 @@ public class PianoPanel extends JPanel {
     }
     this.panelWidth = width;
     this.panelHeight = height;
-    this.keys = generatePianoKeys(NUMBER_OF_OCTAVES);
-
     setKeyDimensions();
+
+    generatePianoKeys(NUMBER_OF_OCTAVES);
   }
 
   /**
@@ -73,6 +73,22 @@ public class PianoPanel extends JPanel {
         key.unpress();
       }
     }
+  }
+
+  /**
+   * Returns a copy of the pitch that is represented at the given x, y coordinates. If no piano
+   * key is located at that position, a null pitch is returns.
+   * @param x the x coordinate of the piano panel
+   * @param y the y coordinate of the piano panel
+   * @return the pitch object represented at this location
+   */
+  public Pitch keyAt(int x, int y) {
+    for (PianoKey p : this.keys) {
+      if (p.foundAt(x, y)) {
+        return p.pitchCopy();
+      }
+    }
+    return null;
   }
 
   /**
@@ -104,36 +120,31 @@ public class PianoPanel extends JPanel {
    * @param g2d the Graphics object on which to draw the keys
    */
   private void drawLargeKeys(Graphics2D g2d) {
+    for (PianoKey p : this.keys) {
+      if (p.isLargeKey()) {
+        p.draw(g2d);
+      }
+    }
+  }
+
+  private void placeLargeKeys() {
     int yPos = 0;
     int xPos = SIDE_BUFFER;
     for (PianoKey p : this.keys) {
       if (p.isLargeKey()) {
-        Shape key = new Rectangle(xPos, yPos, whiteKeyWidth, whiteKeyHeight);
-        g2d.setColor(p.getBackGroundColor());
-        g2d.fill(key);
-        g2d.setColor(p.getOutlineColor());
-        g2d.draw(key);
+        p.setKeyPos(xPos, yPos);
         xPos += this.whiteKeyWidth;
       }
     }
   }
 
-  /**
-   * Draws the large keys on the panel. Parameters like color are supplied by the info held in the
-   * PianoKey instances.
-   * @param g2d the Graphics object on which to draw the keys
-   */
-  private void drawSmallKeys(Graphics2D g2d) {
+  private void placeSmallKeys() {
     int yPos = 0;
     int xPos = SIDE_BUFFER + whiteKeyWidth - blackKeyWidth / 2;
     int smallKeyInOctave = 1;
     for (PianoKey p : this.keys) {
       if (!(p.isLargeKey())) {
-        Shape key = new Rectangle(xPos, yPos, blackKeyWidth, blackKeyHeight);
-        g2d.setColor(p.getBackGroundColor());
-        g2d.fill(key);
-        g2d.setColor(p.getOutlineColor());
-        g2d.draw(key);
+        p.setKeyPos(xPos, yPos);
         if (smallKeyInOctave == 2) {
           xPos += this.whiteKeyWidth * 2;
         }
@@ -152,18 +163,32 @@ public class PianoPanel extends JPanel {
   }
 
   /**
+   * Draws the large keys on the panel. Parameters like color are supplied by the info held in the
+   * PianoKey instances.
+   * @param g2d the Graphics object on which to draw the keys
+   */
+  private void drawSmallKeys(Graphics2D g2d) {
+    for (PianoKey p : this.keys) {
+      if (!(p.isLargeKey())) {
+        p.draw(g2d);
+      }
+    }
+  }
+
+  /**
    * Generates a full set of piano key objects. One for each key to represented in the gui view.
    * @param numOctaves the number of octaves that this piano panel is representing
    * @return a full set piano keys
    */
-  private PianoKey[] generatePianoKeys(int numOctaves) {
-    PianoKey[] keys = new PianoKey[numOctaves * 12];
+  private void generatePianoKeys(int numOctaves) {
+    this.keys = new PianoKey[numOctaves * 12];
     for (int octave = 0; octave < numOctaves; octave++) {
       for (int note = 0; note < NoteTypeWestern.values().length; note++) {
         keys[octave * 12 + note] = new PianoKey(note, octave + 1);
       }
     }
-    return keys;
+    placeLargeKeys();
+    placeSmallKeys();
   }
 
   /**
@@ -176,6 +201,7 @@ public class PianoPanel extends JPanel {
     private boolean largeKey;
     private boolean pressed;
     private Color pressedColor = Color.ORANGE;
+    Rectangle image;
 
     /**
      * Constructor for use in the GuiViewFrame class to create a instance of a piano key.
@@ -187,6 +213,11 @@ public class PianoPanel extends JPanel {
               OctaveNumber0To10.intToOctave(octaveValue));
       this.largeKey = !(pitch.toString().contains("#"));
       this.pressed = false;
+      if(this.largeKey) {
+        this.image = new Rectangle(whiteKeyWidth, whiteKeyHeight);
+      } else {
+        this.image = new Rectangle(blackKeyWidth, blackKeyHeight);
+      }
     }
 
     /**
@@ -234,6 +265,25 @@ public class PianoPanel extends JPanel {
       else {
         return Color.BLACK;
       }
+    }
+
+    private Pitch pitchCopy() {
+      return new Pitch(this.pitch.getNote(), this.pitch.getOctave());
+    }
+
+    private void draw(Graphics2D g2d) {
+      g2d.setColor(this.getBackGroundColor());
+      g2d.fill(this.image);
+      g2d.setColor(this.getOutlineColor());
+      g2d.draw(this.image);
+    }
+
+    private void setKeyPos(int x, int y) {
+      this.image.setLocation(x, y);
+    }
+
+    private boolean foundAt(int x, int y) {
+      return this.image.contains(x, y);
     }
   }
 
