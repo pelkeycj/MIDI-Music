@@ -2,6 +2,7 @@ package cs3500.music.view;
 
 import cs3500.music.model.PitchSequence;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 /**
@@ -51,5 +52,14 @@ public interface IView {
    * @return true if active
    */
   boolean isActive();
+
+  //CONNOR ADDED ASSIGNMENT 7
+
+  /**
+   * Sets the view with a mouse listenr to allow the program
+   * to process mouse input.
+   * @param mouseListener the mouse listener to connect
+   */
+  void setMouseListener(MouseListener mouseListener);
 
 }

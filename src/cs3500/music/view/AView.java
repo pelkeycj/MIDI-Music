@@ -3,6 +3,7 @@ package cs3500.music.view;
 import cs3500.music.model.PitchSequence;
 
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -13,7 +14,7 @@ import javax.swing.JFrame;
  */
 public abstract class AView extends JFrame implements IView {
   List<PitchSequence> pitches;
-  boolean active = false;
+  boolean active;
 
   @Override
   public void setNotes(List<PitchSequence> pitches) {
@@ -28,6 +29,11 @@ public abstract class AView extends JFrame implements IView {
   @Override
   public void setKeyListener(KeyListener keyListener) {
     this.addKeyListener(keyListener);
+  }
+
+  @Override
+  public void setMouseListener(MouseListener mouseListener) {
+    this.addMouseListener(mouseListener);
   }
 
   @Override

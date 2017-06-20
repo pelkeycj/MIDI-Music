@@ -13,6 +13,7 @@ import cs3500.music.model.MusicOperations;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.util.SheetBuilder;
+import cs3500.music.view.AudioVisualView;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.AudioView;
 import cs3500.music.view.TextView;
@@ -43,13 +44,14 @@ public class MusicEditor {
         controller = new SimpleController(model, true, AudioView.buildSoundView());
         break;
       case "audiovisual":
-        controller = new SimpleController(model, new GuiViewFrame(), AudioView.buildSoundView());
+        controller = new SimpleController(model, new AudioVisualView(new GuiViewFrame(),
+                AudioView.buildSoundView()));
         break;
       default:
         throw new IllegalArgumentException("Unsupported view: " + args[0]);
     }
 
-    String fileName = args[1];
+    String fileName = "res/" + args[1];
     FileReader file;
     try {
       file = new FileReader(fileName);

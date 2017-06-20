@@ -1,23 +1,30 @@
 package cs3500.music.control;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import cs3500.music.model.MusicOperations;
 import cs3500.music.model.NoteType;
+import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.Octave;
+import cs3500.music.model.OctaveNumber0To10;
 import cs3500.music.view.IView;
 
 /**
  * A simple controller to connect the view and the model.
  */
-public class SimpleController implements IController, KeyListener {
+public class SimpleController implements IController {
   private MusicOperations model;
   private IView[] views;
   private int currentBeat;
   private int tempo;
   private boolean playing;
   private boolean terminateAtEnd;
+  private int lastBeat;
+  private KeyStrategy  keyStrategy;
+  private MouseStrategy mouseStrategy;
 
   /**
    * Constructs a simple controller with a model and one or more views.
@@ -31,6 +38,8 @@ public class SimpleController implements IController, KeyListener {
     this.playing = false;
     this.terminateAtEnd = false;
     this.tempo = 1000000; // 1 second per beat default (in microseconds)
+    this.setKeyStrategy();
+    this.setMouseStrategy();
   }
 
   /**
@@ -75,48 +84,119 @@ public class SimpleController implements IController, KeyListener {
 
   @Override
   public void control() {
+    this.setLastBeat();
     for (IView v : views) {
-      v.setKeyListener(this);
+      v.setKeyListener(this.keyStrategy);
+      v.setMouseListener(this.mouseStrategy);
       v.initialize();
     }
 
     this.setViewNotes();
+    this.updateViewBeat();
 
     while (this.allViewsActive()) {
       if (this.playing) {
         this.sleep();
         this.changeBeatBy(1);
       }
+
       for (IView v : views) {
         v.refresh();
       }
 
-      if (terminateAtEnd && this.currentBeat == model.getLastBeat()) {
+      if (terminateAtEnd && this.currentBeat == this.lastBeat) {
         return;
       }
     }
   }
 
-  @Override
-  public void keyPressed(KeyEvent e) {
-    switch (e.getKeyCode()) {
-      case KeyEvent.VK_LEFT:
-        this.playing = false;
-        this.changeBeatBy(-1);
-        break;
-      case KeyEvent.VK_RIGHT:
-        this.playing = false;
-        this.changeBeatBy(1);
-        break;
-      case KeyEvent.VK_SPACE:
-        this.playing = !this.playing;
-        break;
-      default:
+  //TODO scroll up/down
+  /**
+   * Sets the key strategy to use for handling keyboard input. <br>
+   * LEFT/RIGHT     - move the cursor left and right. <br>
+   * SPACE          - play through the piece. <br>
+   * BACKSPACE/HOME - place cursor at start of piece. <br>
+   * ENTER/END      - place cursor at end of piece.
+   */
+  private void setKeyStrategy() {
+    Map<Integer, Runnable> keyTypes = new HashMap<>();
+    Map<Integer, Runnable> keyPresses = new HashMap<>();
+    Map<Integer, Runnable> keyReleases = new HashMap<>();
+
+    SimpleController sc = this;
+    keyPresses.put(KeyEvent.VK_LEFT, () -> {
+      sc.playing = false;
+      sc.changeBeatBy(-1);
+      sc.updateViewBeat();
+    });
+
+    keyPresses.put(KeyEvent.VK_RIGHT, () -> {
+      sc.playing = false;
+      sc.changeBeatBy(1);
+      sc.updateViewBeat();
+    });
+
+    keyPresses.put(KeyEvent.VK_SPACE, () -> sc.playing = !sc.playing);
+
+    Runnable toStart = () -> {
+      sc.playing = false;
+      sc.currentBeat = 0;
+      sc.updateViewBeat();
+    };
+
+    keyPresses.put(KeyEvent.VK_BACK_SPACE, toStart);
+    keyPresses.put(KeyEvent.VK_HOME, toStart);
+
+    Runnable toEnd = () -> {
+      sc.playing = false;
+      sc.currentBeat = sc.lastBeat;
+      sc.updateViewBeat();
+    };
+
+    keyPresses.put(KeyEvent.VK_ENTER, toEnd);
+    keyPresses.put(KeyEvent.VK_END, toEnd);
+
+
+    this.keyStrategy = new KeyHandler();
+    this.keyStrategy.setKeyTypedStrategy(keyTypes);
+    this.keyStrategy.setKeyPressedStrategy(keyPresses);
+    this.keyStrategy.setKeyReleasedStrategy(keyReleases);
+  }
+
+  private void setMouseStrategy() {
+    Map<Integer, Runnable> mouseClicks = new HashMap<>();
+    Map<Integer, Runnable> mousePresses = new HashMap<>();
+    Map<Integer, Runnable> mouseEnters = new HashMap<>();
+    Map<Integer, Runnable> mouseExits = new HashMap<>();
+    Map<Integer, Runnable> mouseReleases = new HashMap<>();
+
+    SimpleController sc = this;
+
+    mouseClicks.put(MouseEvent.MOUSE_CLICKED, () -> {
+      if (sc.playing) {
         return;
-    }
-    for (IView v : views) {
-      v.setCurrentBeat(this.currentBeat);
-    }
+      }
+
+      //TODO get pitch, octave, add note
+
+      //TODO TEMPORARY
+      sc.addNote(OctaveNumber0To10.O6, NoteTypeWestern.A_SHARP, sc.currentBeat,
+              sc.currentBeat + 1, 1, 100);
+      sc.currentBeat++;
+
+      for (IView v : sc.views) {
+        v.setCurrentBeat(sc.currentBeat);
+        v.setNotes(sc.model.getPitches());
+      }
+    });
+
+
+    this.mouseStrategy = new MouseHandler();
+    mouseStrategy.setMouseClicks(mouseClicks);
+    mouseStrategy.setMousePresses(mousePresses);
+    mouseStrategy.setMouseEnters(mouseEnters);
+    mouseStrategy.setMouseExits(mouseExits);
+    mouseStrategy.setMouseReleased(mouseReleases);
   }
 
   /**
@@ -124,13 +204,7 @@ public class SimpleController implements IController, KeyListener {
    * @param delta the amount to change by
    */
   private void changeBeatBy(int delta) {
-    int lastBeat = this.model.getLastBeat();
-    int numMeasures = (lastBeat / 4) + 1;
-    lastBeat = numMeasures * 4;
-
-    for (IView v : views) {
-      v.setCurrentBeat(this.currentBeat);
-    }
+    this.updateViewBeat();
 
     if (this.currentBeat + delta < 0
             || this.currentBeat + delta > lastBeat) {
@@ -165,13 +239,20 @@ public class SimpleController implements IController, KeyListener {
     return true;
   }
 
-  @Override
-  public void keyTyped(KeyEvent e) {
-    return;
+  /**
+   * Sets the last beat of the sheet to be the last beat from the model to avoid
+   * repeated work.
+   */
+  private void setLastBeat() {
+    this.lastBeat = this.model.getLastBeat();
   }
 
-  @Override
-  public void keyReleased(KeyEvent e) {
-    return;
+  /**
+   * Sets the current beat of all views.
+   */
+  private void updateViewBeat() {
+    for (IView v : this.views) {
+      v.setCurrentBeat(this.currentBeat);
+    }
   }
 }
