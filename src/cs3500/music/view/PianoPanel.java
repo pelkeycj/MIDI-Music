@@ -278,6 +278,11 @@ public class PianoPanel extends JPanel {
       g2d.draw(this.image);
     }
 
+    /**
+     * Sets the position of the image of this key.
+     * @param x the x-coordinate of the top left corner of this piano key
+     * @param y the y-coordinate of the top left corner of this piano key
+     */
     private void setKeyPos(int x, int y) {
       this.image.setLocation(x, y);
     }
