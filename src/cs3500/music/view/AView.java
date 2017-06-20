@@ -24,6 +24,7 @@ public abstract class AView extends JFrame implements IView {
   @Override
   public void setTempo(int tempo) {
     //in many views, this info is not needed
+    return;
   }
 
   @Override
@@ -39,5 +40,11 @@ public abstract class AView extends JFrame implements IView {
   @Override
   public boolean isActive() {
     return this.active;
+  }
+
+  @Override
+  public void scrollVertical(int direction) {
+    // in many views, this is not needed
+    return;
   }
 }

@@ -65,4 +65,10 @@ public class AudioVisualView implements IView {
     this.visual.setMouseListener(mouseListener);
     this.audio.setMouseListener(mouseListener);
   }
+
+  @Override
+  public void scrollVertical(int direction) {
+    this.visual.scrollVertical(direction);
+    this.audio.scrollVertical(direction);
+  }
 }

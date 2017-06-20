@@ -62,4 +62,11 @@ public interface IView {
    */
   void setMouseListener(MouseListener mouseListener);
 
+  /**
+   * Scroll the view in the provided direction.
+   * Not all views may need this functionality.
+   * @param direction direction to scroll (-1 for up, 1 for down)
+   */
+  void scrollVertical(int direction);
+
 }

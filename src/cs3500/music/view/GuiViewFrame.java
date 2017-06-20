@@ -114,7 +114,11 @@ public class GuiViewFrame extends AView {
   @Override
   public void setKeyListener(KeyListener keyListener) {
     super.setKeyListener(keyListener);
-    this.scrollingSheet.addKeyListener(keyListener); //TODO move scroll pane with keys
+  }
+
+  @Override
+  public void scrollVertical(int direction) {
+    this.scrollingSheet.scrollVertical(direction);
   }
 
   /**

@@ -98,6 +98,7 @@ public class SimpleController implements IController {
       if (this.playing) {
         this.sleep();
         this.changeBeatBy(1);
+        this.updateViewBeat();
       }
 
       for (IView v : views) {
@@ -157,6 +158,18 @@ public class SimpleController implements IController {
     keyPresses.put(KeyEvent.VK_END, toEnd);
 
 
+    keyPresses.put(KeyEvent.VK_UP, () -> {
+      for (IView v : sc.views) {
+        v.scrollVertical(-1);
+      }
+    });
+
+    keyPresses.put(KeyEvent.VK_DOWN, () -> {
+      for (IView v : sc.views) {
+        v.scrollVertical(1);
+      }
+    });
+
     this.keyStrategy = new KeyHandler();
     this.keyStrategy.setKeyTypedStrategy(keyTypes);
     this.keyStrategy.setKeyPressedStrategy(keyPresses);
@@ -204,8 +217,6 @@ public class SimpleController implements IController {
    * @param delta the amount to change by
    */
   private void changeBeatBy(int delta) {
-    this.updateViewBeat();
-
     if (this.currentBeat + delta < 0
             || this.currentBeat + delta > lastBeat) {
       return;
