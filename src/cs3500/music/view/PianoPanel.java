@@ -184,7 +184,7 @@ public class PianoPanel extends JPanel {
     this.keys = new PianoKey[numOctaves * 12];
     for (int octave = 0; octave < numOctaves; octave++) {
       for (int note = 0; note < NoteTypeWestern.values().length; note++) {
-        keys[octave * 12 + note] = new PianoKey(note, octave + 1);
+        keys[octave * 12 + note] = new PianoKey(note, octave);
       }
     }
     placeLargeKeys();

@@ -11,7 +11,7 @@ import java.util.Map;
 public interface MouseStrategy<T> extends MouseListener {
 
   /**
-   * Sets the mouse event strategy. Mapped from an integer represenation of a mouse event
+   * Sets the mouse event strategy. Mapped from an integer representation of a mouse event
    * to a type T representing a class to handle input.
    * @param map mouse event strategy
    */
