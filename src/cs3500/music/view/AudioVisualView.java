@@ -4,6 +4,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.List;
 
+import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
 
 /**
@@ -70,5 +71,10 @@ public class AudioVisualView implements IView {
   public void scrollVertical(int direction) {
     this.visual.scrollVertical(direction);
     this.audio.scrollVertical(direction);
+  }
+
+  @Override
+  public Pitch getPitchAt(int x, int y) throws IllegalArgumentException {
+    return this.visual.getPitchAt(x, y);
   }
 }

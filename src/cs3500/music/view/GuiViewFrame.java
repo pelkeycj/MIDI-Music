@@ -121,6 +121,21 @@ public class GuiViewFrame extends AView {
     this.scrollingSheet.scrollVertical(direction);
   }
 
+  @Override
+  public Pitch getPitchAt(int x, int y) throws IllegalArgumentException {
+    // modify y to be used by piano panel
+    int bottomPaneLocation = (int) (this.getSize().getHeight()
+            - this.scrollingSheet.getSize().getHeight());
+
+    y = y - bottomPaneLocation;
+
+    if (y < 0) {
+      throw new IllegalArgumentException("Invalid pitch coordinates");
+    }
+
+    return this.pianoPanel.keyAt(x, y);
+  }
+
   /**
    * Gets a deep copy of a list of {@link PitchSequence}s.
    * @param p a list of {@link PitchSequence}s

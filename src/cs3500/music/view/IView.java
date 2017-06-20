@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -69,4 +70,16 @@ public interface IView {
    */
   void scrollVertical(int direction);
 
+
+  /**
+   * Gets the Pitch located at the provided x,y coordinates,
+   * if possible.
+   * @param x horizontal position from left
+   * @param y vertical position from top
+   * @return the specified pitch
+   * @throws IllegalArgumentException if the provided coordinates do not
+   *                                  describe the location a pitch can be
+   *                                  inferred from
+   */
+  Pitch getPitchAt(int x, int y) throws IllegalArgumentException;
 }

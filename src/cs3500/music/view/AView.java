@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
 
 import java.awt.event.KeyListener;
@@ -46,5 +47,10 @@ public abstract class AView extends JFrame implements IView {
   public void scrollVertical(int direction) {
     // in many views, this is not needed
     return;
+  }
+
+  @Override
+  public Pitch getPitchAt(int x, int y) throws IllegalArgumentException {
+    throw new IllegalArgumentException("Invalid pitch coordinates");
   }
 }
