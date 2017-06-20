@@ -110,7 +110,6 @@ public class SimpleController implements IController {
     }
   }
 
-  //TODO scroll up/down
   /**
    * Sets the key strategy to use for handling keyboard input. <br>
    * LEFT/RIGHT     - move the cursor left and right. <br>
@@ -180,25 +179,35 @@ public class SimpleController implements IController {
 
 
     SimpleController sc = this;
-    mouseEvents.put(MouseEvent.MOUSE_CLICKED, new MouseEventProcessor() {
-      @Override
-      public void process(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
+    mouseEvents.put(MouseEvent.MOUSE_CLICKED, e -> {
+      int x = e.getX();
+      int y = e.getY();
 
-        Pitch p = null;
+      System.out.println(x + ", " + y);
+
+      Pitch p = null;
+      for (IView v : sc.views) {
+        p = v.getPitchAt(x, y);
+        if (p != null) {
+          break;
+        }
+      }
+      if (p == null) {
+        return;
+      }
+      
+      try {
+        sc.addNote(p.getOctave(), p.getNote(),
+                sc.currentBeat, sc.currentBeat + 1, 1, 100);
+        sc.currentBeat++;
+        sc.updateViewBeat();
         for (IView v : sc.views) {
-          p = v.getPitchAt(x, y);
-          if (p != null) {
-            break;
-          }
+          v.setNotes(sc.model.getPitches());
         }
-
-        if (p == null) {
-          return;
-        }
-
-        sc.addNote(p.getOctave(), p.getNote(), 1, 100);
+      }
+      catch (IllegalArgumentException exception) {
+        // ignore duplicate notes
+        return;
       }
     });
 
