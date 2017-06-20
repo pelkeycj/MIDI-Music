@@ -5,6 +5,7 @@ import cs3500.music.model.PitchSequence;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 
+import java.awt.event.KeyListener;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -108,6 +109,16 @@ public class GuiViewFrame extends AView {
     int height = currentSize.height;
     this.scrollingSheet.setPreferredSize(new Dimension(width, height - MIN_HEIGHT / 2));
     this.repaint();
+  }
+
+  @Override
+  public void setKeyListener(KeyListener keyListener) {
+    super.setKeyListener(keyListener);
+  }
+
+  @Override
+  public void scrollVertical(int direction) {
+    this.scrollingSheet.scrollVertical(direction);
   }
 
   /**
