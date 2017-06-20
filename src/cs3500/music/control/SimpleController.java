@@ -7,9 +7,7 @@ import java.util.Map;
 
 import cs3500.music.model.MusicOperations;
 import cs3500.music.model.NoteType;
-import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.Octave;
-import cs3500.music.model.OctaveNumber0To10;
 import cs3500.music.model.Pitch;
 import cs3500.music.view.IView;
 
@@ -187,9 +185,20 @@ public class SimpleController implements IController {
       public void process(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        Pitch p;
-        //TODO get pitch from view
-        //sc.addNote(p.getOctave(), p.getNote(), 1, 100);
+
+        Pitch p = null;
+        for (IView v : sc.views) {
+          p = v.getPitchAt(x, y);
+          if (p != null) {
+            break;
+          }
+        }
+
+        if (p == null) {
+          return;
+        }
+
+        sc.addNote(p.getOctave(), p.getNote(), 1, 100);
       }
     });
 

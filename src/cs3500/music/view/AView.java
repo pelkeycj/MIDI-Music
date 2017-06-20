@@ -51,6 +51,6 @@ public abstract class AView extends JFrame implements IView {
 
   @Override
   public Pitch getPitchAt(int x, int y) throws IllegalArgumentException {
-    throw new IllegalArgumentException("Invalid pitch coordinates");
+    return null;
   }
 }

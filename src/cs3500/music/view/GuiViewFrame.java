@@ -122,7 +122,7 @@ public class GuiViewFrame extends AView {
   }
 
   @Override
-  public Pitch getPitchAt(int x, int y) throws IllegalArgumentException {
+  public Pitch getPitchAt(int x, int y){
     // modify y to be used by piano panel
     int bottomPaneLocation = (int) (this.getSize().getHeight()
             - this.scrollingSheet.getSize().getHeight());
@@ -130,7 +130,7 @@ public class GuiViewFrame extends AView {
     y = y - bottomPaneLocation;
 
     if (y < 0) {
-      throw new IllegalArgumentException("Invalid pitch coordinates");
+      return null;
     }
 
     return this.pianoPanel.keyAt(x, y);
