@@ -163,7 +163,7 @@ public class SimpleController implements IController {
 
     Runnable toEnd = () -> {
       sc.playing = false;
-      sc.currentBeat = sc.lastBeat;
+      sc.currentBeat = sc.lastBeat + 1;
       sc.updateViewBeat();
     };
 
@@ -239,7 +239,7 @@ public class SimpleController implements IController {
    */
   private void changeBeatBy(int delta) {
     if (this.currentBeat + delta < 0
-            || this.currentBeat + delta > lastBeat) {
+            || this.currentBeat + delta > lastBeat + 1) {
       return;
     }
     this.currentBeat += delta;
