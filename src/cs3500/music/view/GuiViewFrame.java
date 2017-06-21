@@ -124,10 +124,11 @@ public class GuiViewFrame extends AView {
   @Override
   public Pitch getPitchAt(int x, int y){
     // modify y to be used by piano panel
-    int bottomPaneLocation = (int) (this.getSize().getHeight()
-            - this.scrollingSheet.getSize().getHeight());
+    int bottomPaneLocation = (int) this.scrollingSheet.getSize().getHeight();
 
     y = y - bottomPaneLocation;
+
+    System.out.println("PianoPanel at: " + bottomPaneLocation);
 
     if (y < 0) {
       return null;

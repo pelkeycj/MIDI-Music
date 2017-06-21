@@ -82,7 +82,6 @@ public class AudioView extends AView {
   @Override
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
     Set<MIDIData> newMidi = new HashSet<>();
-    System.out.println(beat);
 
     for (PitchSequence p : this.pitches) {
       if (p.playingAt(beat)) {
@@ -154,7 +153,7 @@ public class AudioView extends AView {
         r.send(start, -1);
         r.send(end, s.getMicrosecondPosition() + duration * noteDurationMicro);
       } catch (InvalidMidiDataException e) {
-        throw new RuntimeException("Note failed to play.");
+        throw new RuntimeException("Note failed to play: " + pitch);
       }
     }
 

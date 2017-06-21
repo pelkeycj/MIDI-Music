@@ -183,8 +183,6 @@ public class SimpleController implements IController {
       int x = e.getX();
       int y = e.getY();
 
-      System.out.println(x + ", " + y);
-
       Pitch p = null;
       for (IView v : sc.views) {
         p = v.getPitchAt(x, y);
@@ -195,12 +193,16 @@ public class SimpleController implements IController {
       if (p == null) {
         return;
       }
-      
+      else if (p.getOctave().getValue() * 10 + p.getNote().getValue() > 127){
+        return; // midi cannot handle
+      }
+
       try {
         sc.addNote(p.getOctave(), p.getNote(),
-                sc.currentBeat, sc.currentBeat + 1, 1, 100);
+                sc.currentBeat, sc.currentBeat + 1, 2, 100);
         sc.currentBeat++;
         sc.updateViewBeat();
+        sc.lastBeat = sc.model.getLastBeat()  +1;
         for (IView v : sc.views) {
           v.setNotes(sc.model.getPitches());
         }
