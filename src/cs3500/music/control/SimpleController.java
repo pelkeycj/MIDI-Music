@@ -41,6 +41,21 @@ public class SimpleController implements IController {
     this.setMouseStrategy();
   }
 
+  public SimpleController(Appendable out, MusicOperations model, IView... view) {
+    this.model = model;
+    this.views = view;
+    this.currentBeat = 0;
+    this.playing = false;
+    this.terminateAtEnd = false;
+
+    //set up the mock key handlers
+    this.keyStrategy = new KeyHandler();
+    this.keyStrategy.setKeyTypedStrategy(MockKeyboardHandler.getKeyTypesMap(out));
+    this.keyStrategy.setKeyPressedStrategy(MockKeyboardHandler.getKeyPressesMap(out));
+    this.keyStrategy.setKeyReleasedStrategy(MockKeyboardHandler.getKeyReleases(out));
+
+  }
+
   /**
    * Constructs a simple controller with a model, one or more views, and a default {@code playing}
    * argument to allow the controller to immediately start playing.
