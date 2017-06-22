@@ -8,7 +8,9 @@ import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
 
 /**
- * Created by connor on 6/19/17.
+ * An audiovisual view for a piece of music. The view contains both an
+ * audio view and a visual view. This 'wrapper' view keeps the two contained
+ * views in sync so that music is heard audibly at the same rate as it is played visually.
  */
 public class AudioVisualView implements IView {
   IView visual;
