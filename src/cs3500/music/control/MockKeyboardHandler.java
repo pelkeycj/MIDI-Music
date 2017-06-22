@@ -45,7 +45,7 @@ public class MockKeyboardHandler {
 
     keyPresses.put(KeyEvent.VK_LEFT, new BackOneBeat(out));
     keyPresses.put(KeyEvent.VK_RIGHT, new ForwardOneBeat(out));
-    keyPresses.put(KeyEvent.VK_BACK_SPACE, new PausePlay(out));
+    keyPresses.put(KeyEvent.VK_SPACE, new PausePlay(out));
     keyPresses.put(KeyEvent.VK_BACK_SPACE, new BackToStart(out));
     keyPresses.put(KeyEvent.VK_HOME, new BackToStart(out));
     keyPresses.put(KeyEvent.VK_ENTER, new ToEnd(out));

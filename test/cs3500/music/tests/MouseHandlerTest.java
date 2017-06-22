@@ -1,4 +1,6 @@
-package cs3500.music.control;
+package cs3500.music.tests;
+
+import cs3500.music.control.MouseHandler;
 
 import static org.junit.Assert.*;
 
