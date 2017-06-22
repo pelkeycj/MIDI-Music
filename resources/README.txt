@@ -58,7 +58,7 @@ ADDITIONS:
     uses the new classes described below to map different MouseEvents to different Runnable-like
     objects that run an action to handle that delegation of data.
     Several changes were also made to the GUIFrame view to translate coordinate data into
-    a Pitch to be ad
+    a Pitch to be added
 
     Event Processing Classes/Interfaces:
         Handling mouse events required the addition of several new classes.
@@ -69,17 +69,27 @@ ADDITIONS:
           define this map.
         MouseHandler : concrete class implements MouseStrategy
           Contains a map of MouseEventProcessors (see below) that map to different MouseEvents and
-          includes a method to run a particular action for a given MouseEvent
+          includes a method to run a particular action for a given MouseEvent.
         MouseEventProcessor : interface
           Similar to a Runnable interface. This interface contains one method, process(...), that
           takes in a MouseEvent as a parameter and uses its data to run the action defined by the
           implementing class.
 
+
+        KeyStrategy : interface extends KeyListener
+            KeyStrategy objects are intended to hold maps from Integers representing KeyEvents
+            to Runnables. Contains methods to set strategies for each type of keyboard input.
+
+        KeyHandler : concrete class implements KeyStrategy
+            Upon user keyboard input, this class runs the Runnable mapped to the keyboard input.
+
+CHANGES:
     Changes to the CONTROLLER
         The SimpleController was updated to hold a map of MouseStrategy objects. A new method,
         setMouseStrategy defines the MouseEventProcessor that extracts coordinate information
         out of the a new MouseEvent and hands the coordinates down to each view to handle as
-        described below.
+        described below. The simple controller was changed to no longer implement KeyListener
+        and instead use the aforementioned KeyStrategy to handle keyboard input.
 
     Changes to the VIEW
         Adding notes through mouse events was really only applicable to the GUI view.
@@ -100,9 +110,7 @@ ADDITIONS:
           On the GUIFrame.java level, the frame simply needed to convert the raw mouse coordinates
         into coordinates relative the PianoPanel location within it and would hand these coordinates
         down the PianoPanel to find the targeted pitch using the process described above.
-
-CHANGES:
-
+    
 
 TESTING:
    The addition of new key stroke commands and handling mouse events required additions to the test
