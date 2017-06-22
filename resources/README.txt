@@ -1,6 +1,13 @@
 CONTENTS:
     1. USAGE
     2. DESIGN
+      - The 3rd Movement
+        - ADDITIONS
+          - Mouse Handling Strategy: Panel, View, Controller, Event Processing
+        - CHANGES
+          - Updated Keyboard Handling Strategy
+        - TESTING
+      - The 2nd Movement
        - MODEL
        - CONTROL
        - UTIL
@@ -38,9 +45,60 @@ CONTENTS:
 
 NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however audio will.
 
----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 
 2. DESIGN
+
+=======================================THE 3RD MOVEMENT=============================================
+
+ADDITIONS:
+  Mouse Handling Strategy:
+    Overview:
+
+    Event Processing Classes/Interfaces:
+        Handling mouse events required the addition of several new classes.
+
+        MouseStrategy : interface parameterized over <T> extends MouseListener
+          MouseStrategy objects are intended to hold a collection of that maps
+          MouseEvents to distinct objects of type T and provides a setMouseEvents method to
+          define this map.
+        MouseHandler : concrete class
+
+
+    Changes to the CONTROLLER
+        The SimpleContoller was updated to hold a map of MouseStrategy objects. A new method,
+        setMouseStrategy defines the MouseEventProcessor that extracts coordinate information
+        out of the a new MouseEvent and hands the coordinates down to each view to handle as
+        described below.
+
+    Changes to the VIEW
+        Adding notes through mouse events was really only applicable to the GUI view.
+        The changes to this view were made to give the view an understanding of where the paino
+        keys are located and which note each represents.
+          On the PianoPanel.java level, the PianoKey class that represents a single piano key was
+        updated to allow each key to store the note it represents, its size, and its location in the
+        panel. Setup methods that initialize the keys were updated to give each key this data and,
+        using this data, it was possible to create two new PianoKey method:
+          draw(...): which allows a key to draw itself on the screen
+          foundAt(...): which determines if the key can be found at the given coordinates of the
+                        PianoPanel
+        draw() means that the panel painting process could be simplified so that each key simply
+        draws itself on the screen.
+        foundAt() leveraged the standard Rectangle API and made it possible to find which note was
+        located at the mouse event coordinates. When a key was found at the given coordinates,
+        its pitch could be exported out of the panel and up to the GUIFrame.
+          On the GUIFrame.java level, the frame simply needed to convert the raw mouse coordinates
+        into coordinates relative the PianoPanel location within it and would hand these coordinates
+        down the PianoPanel to find the targeted pitch using the process described above.
+
+CHANGES:
+
+
+TESTING:
+
+
+
+=======================================THE 2ND MOVEMENT=============================================
 
   MODEL: // all package-private methods/classes were changed to public in assignment 6
       NoteType (interface):
