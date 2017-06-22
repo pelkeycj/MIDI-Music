@@ -9,7 +9,7 @@ import java.util.Map;
  * This implementation for the music editor program  only handles mouse clicks.
  * All other methods remain as stubs.
  */
-public class MouseHandler<M> implements MouseStrategy<MouseEventProcessor> {
+public class MouseHandler implements MouseStrategy<MouseEventProcessor> {
   Map<Integer, MouseEventProcessor> mouseEvents;
 
   /**
