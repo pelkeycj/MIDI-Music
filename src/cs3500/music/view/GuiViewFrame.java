@@ -128,8 +128,6 @@ public class GuiViewFrame extends AView {
 
     y = y - bottomPaneLocation;
 
-    System.out.println("PianoPanel at: " + bottomPaneLocation);
-
     if (y < 0) {
       return null;
     }

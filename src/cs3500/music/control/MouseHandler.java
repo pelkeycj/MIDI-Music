@@ -25,6 +25,11 @@ public class MouseHandler<M> implements MouseStrategy<MouseEventProcessor> {
   }
 
   @Override
+  public Map<Integer, MouseEventProcessor> getMouseEvents() {
+    return this.mouseEvents;
+  }
+
+  @Override
   public void mouseClicked(MouseEvent e) {
     this.run(mouseEvents, e);
   }

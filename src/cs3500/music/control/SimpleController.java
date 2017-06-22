@@ -15,15 +15,15 @@ import cs3500.music.view.IView;
  * A simple controller to connect the view and the model.
  */
 public class SimpleController implements IController {
-  private MusicOperations model;
-  private IView[] views;
-  private int currentBeat;
-  private int tempo;
-  private boolean playing;
-  private boolean terminateAtEnd;
-  private int lastBeat;
-  private KeyStrategy  keyStrategy;
-  private MouseStrategy mouseStrategy;
+  protected MusicOperations model;
+  protected IView[] views;
+  protected int currentBeat;
+  protected int tempo;
+  protected boolean playing;
+  protected boolean terminateAtEnd;
+  protected int lastBeat;
+  protected KeyStrategy  keyStrategy;
+  protected MouseStrategy mouseStrategy;
 
   /**
    * Constructs a simple controller with a model and one or more views.
@@ -39,26 +39,6 @@ public class SimpleController implements IController {
     this.tempo = 1000000; // 1 second per beat default (in microseconds)
     this.setKeyStrategy();
     this.setMouseStrategy();
-  }
-
-  public SimpleController(Appendable out, MusicOperations model, IView... view) {
-    this.model = model;
-    this.views = view;
-    this.currentBeat = 0;
-    this.playing = false;
-    this.terminateAtEnd = false;
-
-    //set up the mock key handlers
-    this.keyStrategy = new KeyHandler();
-    this.keyStrategy.setKeyTypedStrategy(MockKeyboardHandler.getKeyTypesMap(out));
-    this.keyStrategy.setKeyPressedStrategy(MockKeyboardHandler.getKeyPressesMap(out));
-    this.keyStrategy.setKeyReleasedStrategy(MockKeyboardHandler.getKeyReleases(out));
-
-    //set up the mock mouse handler
-    this.mouseStrategy = new MouseHandler();
-    Map<Integer, MouseEventProcessor> mouseEvents = new HashMap<>();
-    mouseEvents.put(MouseEvent.MOUSE_CLICKED, new MockMouseGetPitch(out, view));
-    mouseStrategy.setMouseEvents(mouseEvents);
   }
 
   /**
@@ -137,7 +117,7 @@ public class SimpleController implements IController {
    * BACKSPACE/HOME - place cursor at start of piece. <br>
    * ENTER/END      - place cursor at end of piece.
    */
-  private void setKeyStrategy() {
+  protected void setKeyStrategy() {
     Map<Integer, Runnable> keyTypes = new HashMap<>();
     Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<>();
@@ -194,7 +174,7 @@ public class SimpleController implements IController {
     this.keyStrategy.setKeyReleasedStrategy(keyReleases);
   }
 
-  private void setMouseStrategy() {
+  protected void setMouseStrategy() {
     Map<Integer, MouseEventProcessor> mouseEvents = new HashMap<>();
 
 

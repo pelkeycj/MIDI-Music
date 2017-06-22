@@ -17,4 +17,10 @@ public interface MouseStrategy<T> extends MouseListener {
    */
   void setMouseEvents(Map<Integer, T> map);
 
+  /**
+   * Gets the mouse event strategy. Mapped from an integer representation
+   * of a mouse event to a type T representing a class to handle input.
+   * @return mouse event strategy
+   */
+  Map<Integer, T> getMouseEvents();
 }
