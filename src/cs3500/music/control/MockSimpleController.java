@@ -46,7 +46,7 @@ public class MockSimpleController extends SimpleController {
       }
 
       try {
-        out.append("Found pitch: ").append(p.toString());
+        out.append("Found pitch: ").append(p.toString()).append("\n");
       } catch (IOException exception) {
         throw new RuntimeException("Error appending information.");
       }
