@@ -41,7 +41,7 @@ public class MockMouseHandler {
      */
     public void process(MouseEvent e) {
       try {
-        out.append("Add note\n");
+        out.append("Add note.\n");
       }
       catch (IOException error) {
         throw new RuntimeException("append to out failed.");

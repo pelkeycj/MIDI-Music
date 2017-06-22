@@ -6,11 +6,13 @@ import org.junit.Test;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 
+import cs3500.music.control.MockMouseEvent;
 import cs3500.music.control.MockMouseHandler;
 import cs3500.music.control.MouseEventProcessor;
 import cs3500.music.control.MouseHandler;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Tests for the {@link MouseHandler} class.
@@ -30,12 +32,13 @@ public class MouseHandlerTest {
 
   @Test
   public void testMouseClickAddsNote() {
-    //TODO
+    mouseEvents.get(MouseEvent.MOUSE_CLICKED).process(new MockMouseEvent());
+    assertEquals("Add note.\n", out.toString());
   }
 
   @Test
   public void testInvalidMouseEventDoesNothing() {
-    //TODO
+    assertFalse(mouseEvents.containsKey(MouseEvent.MOUSE_DRAGGED));
   }
 
 }
