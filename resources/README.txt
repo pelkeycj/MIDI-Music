@@ -53,7 +53,12 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
 
 ADDITIONS:
   Mouse Handling Strategy:
-    Overview:
+    Overview: A custom set of interfaces and classes was designed to ferry MouseEvent data and
+    allow the contoller to delegate that data to the Views and Model as neccessary. The controller
+    uses the new classes described below to map different MouseEvents to different Runnable-like
+    objects that run an action to handle that delegation of data.
+    Several changes were also made to the GUIFrame view to translate coordinate data into
+    a Pitch to be ad
 
     Event Processing Classes/Interfaces:
         Handling mouse events required the addition of several new classes.
@@ -62,11 +67,16 @@ ADDITIONS:
           MouseStrategy objects are intended to hold a collection of that maps
           MouseEvents to distinct objects of type T and provides a setMouseEvents method to
           define this map.
-        MouseHandler : concrete class
-
+        MouseHandler : concrete class implements MouseStrategy
+          Contains a map of MouseEventProcessors (see below) that map to different MouseEvents and
+          includes a method to run a particular action for a given MouseEvent
+        MouseEventProcessor : interface
+          Similar to a Runnable interface. This interface contains one method, process(...), that
+          takes in a MouseEvent as a parameter and uses its data to run the action defined by the
+          implementing class.
 
     Changes to the CONTROLLER
-        The SimpleContoller was updated to hold a map of MouseStrategy objects. A new method,
+        The SimpleController was updated to hold a map of MouseStrategy objects. A new method,
         setMouseStrategy defines the MouseEventProcessor that extracts coordinate information
         out of the a new MouseEvent and hands the coordinates down to each view to handle as
         described below.
