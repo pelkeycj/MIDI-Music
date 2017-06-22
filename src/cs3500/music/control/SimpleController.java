@@ -36,7 +36,7 @@ public class SimpleController implements IController {
     this.currentBeat = 0;
     this.playing = false;
     this.terminateAtEnd = false;
-    this.tempo = 1000000; // 1 second per beat default (in microseconds)
+    this.tempo = 1000000; // 1 secocd nd per beat default (in microseconds)
     this.setKeyStrategy();
     this.setMouseStrategy();
   }
