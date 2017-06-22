@@ -54,6 +54,11 @@ public class SimpleController implements IController {
     this.keyStrategy.setKeyPressedStrategy(MockKeyboardHandler.getKeyPressesMap(out));
     this.keyStrategy.setKeyReleasedStrategy(MockKeyboardHandler.getKeyReleases(out));
 
+    //set up the mock mouse handler
+    this.mouseStrategy = new MouseHandler();
+    Map<Integer, MouseEventProcessor> mouseEvents = new HashMap<>();
+    mouseEvents.put(MouseEvent.MOUSE_CLICKED, new MockMouseGetPitch(out, view));
+    mouseStrategy.setMouseEvents(mouseEvents);
   }
 
   /**

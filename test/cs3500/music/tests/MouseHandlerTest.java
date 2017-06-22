@@ -1,5 +1,11 @@
 package cs3500.music.tests;
 
+import cs3500.music.control.IController;
+import cs3500.music.control.SimpleController;
+import cs3500.music.model.MusicOperations;
+import cs3500.music.model.MusicSheet;
+import cs3500.music.view.GuiViewFrame;
+import cs3500.music.view.IView;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,6 +45,16 @@ public class MouseHandlerTest {
   @Test
   public void testInvalidMouseEventDoesNothing() {
     assertFalse(mouseEvents.containsKey(MouseEvent.MOUSE_DRAGGED));
+  }
+
+  @Test
+  public void testMousePitchAcquisition() {
+    MusicOperations model = new MusicSheet();
+    IView guiView = new GuiViewFrame();
+    IController controller = new SimpleController(out, model, guiView);
+
+
+
   }
 
 }
