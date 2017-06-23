@@ -37,7 +37,7 @@ public class AudioViewTests {
    */
   private boolean runAudio(MusicOperations model, String expectedLog) {
     StringBuilder log = new StringBuilder();
-    IView mockAudio = AudioView.buildTestView(log);
+    IView mockAudio = new AudioView(log);
     mockAudio.setTempo(1000000);
 
     int lastBeat = model.getLastBeat();

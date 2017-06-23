@@ -45,28 +45,20 @@ public class AudioView extends AView {
   }
 
   /**
-   * Public factory method to make an audio model that plays sounds to the default chanel
-   * based on the note information passed to the view.
-   * @return a new instance of an AudioView using a synthesizer that produces sounds with the
-   *     midimessages it receives.
+   * Default constructor creates an instance of an AudioView using a standard midi synthesizer.
+   * @throws MidiUnavailableException
    */
-  public static AudioView buildSoundView() {
-    try {
-      return new AudioView(MidiSystem.getSynthesizer());
-    } catch (MidiUnavailableException e) {
-      throw new IllegalArgumentException("Midi Synthesizer failed to open.");
-    }
+  public AudioView() throws MidiUnavailableException {
+    this(MidiSystem.getSynthesizer());
   }
 
   /**
-   * Public factory method to make an audio model that uses its midimessages to keep a log of the
+   * Creates a test version of the AudioView class that uses its midimessages to keep a log of the
    * sound messages it send to its receiver. Used for testing purposes.
-   * @param log the stringbuilder used to keep a log of the messages sent by this audio view
-   * @return a new instance of an AudioView that will keep track of the messages it sends to
-   *      a receiver.
+   * @param log@param log the stringbuilder used to keep a log of the messages sent by this audio view
    */
-  public static AudioView buildTestView(StringBuilder log) {
-    return new AudioView(new MockSynthesizer(log));
+  public AudioView(StringBuilder log) {
+    this(new MockSynthesizer(log));
   }
 
   @Override

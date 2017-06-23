@@ -1,5 +1,6 @@
 package cs3500.music;
 
+import cs3500.music.view.IView;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import cs3500.music.view.AudioVisualView;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.AudioView;
 import cs3500.music.view.TextView;
+import javax.sound.midi.MidiUnavailableException;
 
 public class MusicEditor {
 
@@ -41,11 +43,19 @@ public class MusicEditor {
         break;
       case "audio":
         // play and terminate at last beat
-        controller = new SimpleController(model, true, AudioView.buildSoundView());
+        try {
+          controller = new SimpleController(model, true, new AudioView());
+        } catch (MidiUnavailableException e) {
+          throw new RuntimeException("Audio Unavailable.");
+        }
         break;
       case "audiovisual":
-        controller = new SimpleController(model, new AudioVisualView(new GuiViewFrame(),
-                AudioView.buildSoundView()));
+        try {
+          controller = new SimpleController(model, new AudioVisualView(new GuiViewFrame(),
+              new AudioView()));
+        } catch (MidiUnavailableException e) {
+          throw new RuntimeException("Audio Unavailable.");
+        }
         break;
       default:
         throw new IllegalArgumentException("Unsupported view: " + args[0]);

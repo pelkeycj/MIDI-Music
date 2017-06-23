@@ -27,7 +27,7 @@ public class AudioViewTranscriptTest {
   public static void main(String... args) {
     StringBuilder log = new StringBuilder();
     MusicOperations model = new MusicSheet();
-    IController controller = new SimpleController(model, true, AudioView.buildTestView(log));
+    IController controller = new SimpleController(model, true, new AudioView(log));
 
     String filename = "res/mary-little-lamb.txt";
 
