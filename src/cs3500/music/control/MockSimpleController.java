@@ -15,6 +15,12 @@ import cs3500.music.view.IView;
 public class MockSimpleController extends SimpleController {
   Appendable out;
 
+  /**
+   * Constructs a MockSimpleController.
+   * @param out the appendable to write to
+   * @param model the model to use
+   * @param view the view to use
+   */
   public MockSimpleController(Appendable out, MusicOperations model, IView... view) {
     super(model, view);
     this.out = out;

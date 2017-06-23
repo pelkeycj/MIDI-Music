@@ -1,6 +1,5 @@
 package cs3500.music.tests;
 
-import cs3500.music.control.IController;
 import cs3500.music.control.MockSimpleController;
 import cs3500.music.model.MusicOperations;
 import cs3500.music.model.MusicSheet;
@@ -9,12 +8,11 @@ import cs3500.music.view.IView;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Component;
+
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.*;
 
 import cs3500.music.control.MockMouseEvent;
 import cs3500.music.control.MockMouseHandler;

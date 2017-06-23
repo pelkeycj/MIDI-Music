@@ -6,7 +6,6 @@ import cs3500.music.model.Pitch;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.Rectangle;
 
 import java.util.HashSet;
@@ -213,7 +212,7 @@ public class PianoPanel extends JPanel {
               OctaveNumber0To10.intToOctave(octaveValue));
       this.largeKey = !(pitch.toString().contains("#"));
       this.pressed = false;
-      if(this.largeKey) {
+      if (this.largeKey) {
         this.image = new Rectangle(whiteKeyWidth, whiteKeyHeight);
       } else {
         this.image = new Rectangle(blackKeyWidth, blackKeyHeight);

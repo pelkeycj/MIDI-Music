@@ -91,10 +91,11 @@ public class SimpleController implements IController {
     }
 
     this.setViewNotes();
-    this.updateViewBeat();
+   // this.updateViewBeat();
 
     while (this.allViewsActive()) {
       if (this.playing) {
+        this.updateViewBeat();
         this.sleep();
         this.changeBeatBy(1);
         this.updateViewBeat();
@@ -193,7 +194,7 @@ public class SimpleController implements IController {
       if (p == null) {
         return;
       }
-      else if (p.getOctave().getValue() * 10 + p.getNote().getValue() > 127){
+      else if (p.getOctave().getValue() * 10 + p.getNote().getValue() > 127) {
         return; // midi cannot handle
       }
 
@@ -202,7 +203,7 @@ public class SimpleController implements IController {
                 sc.currentBeat, sc.currentBeat + 1, 2, 100);
         sc.currentBeat++;
         sc.updateViewBeat();
-        sc.lastBeat = sc.model.getLastBeat()  +1;
+        sc.lastBeat = sc.model.getLastBeat()  + 1;
         for (IView v : sc.views) {
           v.setNotes(sc.model.getPitches());
         }
