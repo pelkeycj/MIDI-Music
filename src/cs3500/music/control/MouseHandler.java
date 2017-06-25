@@ -36,26 +36,22 @@ public class MouseHandler implements MouseStrategy<MouseEventProcessor> {
 
   @Override
   public void mousePressed(MouseEvent e) {
-    // do nothing
-    return;
+    this.run(mouseEvents, e);
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    // do nothing
-    return;
+    this.run(mouseEvents, e);
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
-    // do nothing
-    return;
+    this.run(mouseEvents, e);
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-    // do nothing
-    return;
+    this.run(mouseEvents, e);
   }
 
   /**

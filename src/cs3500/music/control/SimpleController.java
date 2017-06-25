@@ -25,8 +25,16 @@ public class SimpleController implements IController {
   protected boolean terminateAtEnd;
   protected boolean practice;
   protected int lastBeat;
+
   protected KeyStrategy  keyStrategy;
   protected MouseStrategy mouseStrategy;
+
+  protected boolean addingNote;
+  protected int mousePressStartBeat;
+  protected long mousePressTime;
+
+  private final int MICRO_TO_NANO = 1000;
+
 
   /**
    * Constructs a simple controller with a model and one or more views.
@@ -40,7 +48,9 @@ public class SimpleController implements IController {
     this.playing = false;
     this.terminateAtEnd = false;
     this.practice = false;
-    this.tempo = 1000000; // 1 secocd nd per beat default (in microseconds)
+    this.addingNote = false;
+    this.mousePressTime = 0;
+    this.mousePressStartBeat = 0;
     this.tempo = 1000000; // 1 second per beat default (in microseconds)
     this.setKeyStrategy();
     this.setMouseStrategy();
@@ -105,6 +115,18 @@ public class SimpleController implements IController {
         this.updateViewBeat();
       }
 
+      // if currently adding a note (mouse was pressed down),
+      // keep moving cursor at a rate of this.tempo until mouse released
+      while (this.addingNote) {
+        long elapsedTime = System.nanoTime() - this.mousePressTime;
+        if (elapsedTime >= this.tempo * MICRO_TO_NANO) {
+          System.out.println("elapsed: " + elapsedTime + " , temp " + tempo * MICRO_TO_NANO);
+          mousePressTime = System.nanoTime();
+          this.changeBeatBy(1);
+          this.updateViewBeat();
+          this.refreshAll();
+        }
+      }
       refreshAll();
 
       if (terminateAtEnd && this.currentBeat == this.lastBeat) {
@@ -118,7 +140,8 @@ public class SimpleController implements IController {
    * LEFT/RIGHT     - move the cursor left and right. <br>
    * SPACE          - play through the piece. <br>
    * BACKSPACE/HOME - place cursor at start of piece. <br>
-   * ENTER/END      - place cursor at end of piece.
+   * ENTER/END      - place cursor at end of piece. <br>
+   * A/D            - decrease/increase tempo by 10% <br.
    */
   protected void setKeyStrategy() {
     Map<Integer, Runnable> keyTypes = new HashMap<>();
@@ -216,12 +239,14 @@ public class SimpleController implements IController {
   }
 
   /**
-   * Sets up the mouse strategy such that a mouse click adds a new note at the current beat.
+   * Sets the mouse strategy to use for handling user mouse input.<br>
+   *
    */
   protected void setMouseStrategy() {
     Map<Integer, MouseEventProcessor> mouseEvents = new HashMap<>();
 
     SimpleController sc = this;
+
     mouseEvents.put(MouseEvent.MOUSE_CLICKED, e -> {
       int x = e.getX();
       int y = e.getY();
@@ -245,21 +270,50 @@ public class SimpleController implements IController {
           v.activateNote(p);
         }
       }
-      else {
-        try {
-          sc.addNote(p.getOctave(), p.getNote(),
-              sc.currentBeat, sc.currentBeat + 1, 2, 100);
-          sc.currentBeat++;
-          sc.updateViewBeat();
-          sc.lastBeat = sc.model.getLastBeat()  + 1;
-          for (IView v : sc.views) {
-            v.setNotes(sc.model.getPitches());
-          }
+    });
+
+    // press down
+    mouseEvents.put(MouseEvent.MOUSE_PRESSED, e -> {
+      sc.addingNote = true;
+      sc.mousePressStartBeat = sc.currentBeat;
+      sc.mousePressTime = System.nanoTime();
+      System.out.println("mouse pressed down");
+    });
+
+    // release
+    mouseEvents.put(MouseEvent.MOUSE_RELEASED, e -> {
+      System.out.println("Mouse released")
+;      sc.addingNote = false;
+      int x = e.getX();
+      int y = e.getY();
+
+      Pitch p = null;
+      for (IView v : sc.views) {
+        p = v.getPitchAt(x, y);
+        if (p != null) {
+          break;
         }
-        catch (IllegalArgumentException exception) {
-          // ignore duplicate notes
-          return;
+      }
+      if (p == null) {
+        return;
+      }
+      else if (p.getOctave().getValue() * 10 + p.getNote().getValue() > 127) {
+        return; // midi cannot handle
+      }
+
+      try {
+        sc.addNote(p.getOctave(), p.getNote(),
+                sc.mousePressStartBeat, sc.currentBeat + 1, 3, 100);
+        sc.currentBeat++;
+        sc.updateViewBeat();
+        sc.lastBeat = sc.model.getLastBeat()  + 1;
+        for (IView v : sc.views) {
+          v.setNotes(sc.model.getPitches());
         }
+      }
+      catch (IllegalArgumentException exception) {
+        // ignore duplicate notes
+        return;
       }
       sc.refreshAll();
     });
@@ -273,8 +327,8 @@ public class SimpleController implements IController {
    * @param delta the amount to change by
    */
   private void changeBeatBy(int delta) {
-    if (this.currentBeat + delta < 0
-            || this.currentBeat + delta > lastBeat + 1) {
+    if (this.currentBeat + delta < 0) {
+            //|| this.currentBeat + delta > lastBeat + 1) {
       return;
     }
     this.currentBeat += delta;
@@ -286,7 +340,6 @@ public class SimpleController implements IController {
   private void sleep() {
     long elapsedTime = 0;
     final long INITIAL_TIME = System.nanoTime();
-    final int MICRO_TO_NANO = 1000;
 
     while (elapsedTime < this.tempo * MICRO_TO_NANO) {
       elapsedTime = System.nanoTime() - INITIAL_TIME;
