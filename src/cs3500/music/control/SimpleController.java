@@ -16,6 +16,7 @@ import cs3500.music.view.IView;
  * A simple controller to connect the view and the model.
  */
 public class SimpleController implements IController {
+  protected final double TEMPO_MULTIPLIER = .1; // 10% of tempo
   protected MusicOperations model;
   protected IView[] views;
   protected int currentBeat;
@@ -40,6 +41,7 @@ public class SimpleController implements IController {
     this.terminateAtEnd = false;
     this.practice = false;
     this.tempo = 1000000; // 1 secocd nd per beat default (in microseconds)
+    this.tempo = 1000000; // 1 second per beat default (in microseconds)
     this.setKeyStrategy();
     this.setMouseStrategy();
   }
@@ -94,7 +96,6 @@ public class SimpleController implements IController {
     }
 
     this.setViewNotes();
-   // this.updateViewBeat();
 
     while (this.allViewsActive()) {
       if (this.playing && allViewsReady()) {
@@ -125,6 +126,20 @@ public class SimpleController implements IController {
     Map<Integer, Runnable> keyReleases = new HashMap<>();
 
     SimpleController sc = this;
+
+    // increase/decrease tempo by 10% seconds per beat
+    keyPresses.put(KeyEvent.VK_A, () -> {
+      sc.tempo += sc.tempo * sc.TEMPO_MULTIPLIER;// increase seconds per beat by 10%
+    });
+
+    keyPresses.put(KeyEvent.VK_D, () -> {
+      int temp =  sc.tempo -  (int) (Math.floor(sc.tempo * sc.TEMPO_MULTIPLIER)); //decrease by 10%
+      if (!(temp < 0)) {
+        sc.tempo = temp;
+      }
+    });
+
+    // move cursor left/right
     keyPresses.put(KeyEvent.VK_LEFT, () -> {
       sc.playing = false;
       sc.changeBeatBy(-1);
@@ -139,11 +154,13 @@ public class SimpleController implements IController {
       sc.refreshAll();
     });
 
+    // toggle play through
     keyPresses.put(KeyEvent.VK_SPACE, () -> {
       sc.playing = !sc.playing;
       sc.refreshAll();
     });
 
+    // move to start of piece
     Runnable toStart = () -> {
       sc.playing = false;
       sc.currentBeat = 0;
@@ -153,6 +170,7 @@ public class SimpleController implements IController {
     keyPresses.put(KeyEvent.VK_BACK_SPACE, toStart);
     keyPresses.put(KeyEvent.VK_HOME, toStart);
 
+    // move to end of piece
     Runnable toEnd = () -> {
       sc.playing = false;
       sc.currentBeat = sc.lastBeat + 1;
@@ -162,6 +180,7 @@ public class SimpleController implements IController {
     keyPresses.put(KeyEvent.VK_ENTER, toEnd);
     keyPresses.put(KeyEvent.VK_END, toEnd);
 
+    // scroll sheet up/down
     keyPresses.put(KeyEvent.VK_UP, () -> {
       for (IView v : sc.views) {
         v.scrollVertical(-1);
