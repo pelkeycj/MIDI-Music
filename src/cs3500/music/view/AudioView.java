@@ -96,20 +96,6 @@ public class AudioView extends AView {
     //do nothing
   }
 
-  @Override
-  public void activateNote(Pitch p) {
-    try {
-      MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON,
-          CHANNEL, p.getValue(), 100);
-      MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF,
-          CHANNEL, p.getValue(), 100);
-      this.receiver.send(start, -1);
-      this.receiver.send(end, this.synth.getMicrosecondPosition() + 1 * noteDurationMicro);
-    } catch (InvalidMidiDataException e) {
-      throw new RuntimeException("Error in audio playback.");
-    }
-  }
-
   /**
    * A private class used to collected all the information needed to send a full midi message to
    * a receiver. Keeps all the midi data in one place and creates its own messages to send to the

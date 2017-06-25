@@ -94,6 +94,12 @@ public class PianoPanel extends JPanel {
     throw new IllegalArgumentException("This is pitch is not contained on the panel.");
   }
 
+  void deactivateAll() {
+    for (PianoKey key : this.keys) {
+      key.activated = false;
+    }
+  }
+
   /**
    * Determines if all keys are currently on are in the activated state.
    * @return true if all on keys are active
@@ -161,6 +167,35 @@ public class PianoPanel extends JPanel {
     }
   }
 
+  /**
+   * Draws the large keys on the panel. Parameters like color are supplied by the info held in the
+   * PianoKey instances.
+   * @param g2d the Graphics object on which to draw the keys
+   */
+  private void drawSmallKeys(Graphics2D g2d) {
+    for (PianoKey p : this.keys) {
+      if (!(p.isLargeKey())) {
+        p.draw(g2d);
+      }
+    }
+  }
+
+  /**
+   * Generates a full set of piano key objects. One for each key to represented in the gui view.
+   * @param numOctaves the number of octaves that this piano panel is representing
+   * @return a full set piano keys
+   */
+  private void generatePianoKeys(int numOctaves) {
+    this.keys = new PianoKey[numOctaves * 12];
+    for (int octave = 0; octave < numOctaves; octave++) {
+      for (int note = 0; note < NoteTypeWestern.values().length; note++) {
+        keys[octave * 12 + note] = new PianoKey(note, octave);
+      }
+    }
+    placeLargeKeys();
+    placeSmallKeys();
+  }
+
   //provide x and y coordinates to each large key on the piano
   private void placeLargeKeys() {
     int yPos = 0;
@@ -196,35 +231,6 @@ public class PianoPanel extends JPanel {
         }
       }
     }
-  }
-
-  /**
-   * Draws the large keys on the panel. Parameters like color are supplied by the info held in the
-   * PianoKey instances.
-   * @param g2d the Graphics object on which to draw the keys
-   */
-  private void drawSmallKeys(Graphics2D g2d) {
-    for (PianoKey p : this.keys) {
-      if (!(p.isLargeKey())) {
-        p.draw(g2d);
-      }
-    }
-  }
-
-  /**
-   * Generates a full set of piano key objects. One for each key to represented in the gui view.
-   * @param numOctaves the number of octaves that this piano panel is representing
-   * @return a full set piano keys
-   */
-  private void generatePianoKeys(int numOctaves) {
-    this.keys = new PianoKey[numOctaves * 12];
-    for (int octave = 0; octave < numOctaves; octave++) {
-      for (int note = 0; note < NoteTypeWestern.values().length; note++) {
-        keys[octave * 12 + note] = new PianoKey(note, octave);
-      }
-    }
-    placeLargeKeys();
-    placeSmallKeys();
   }
 
   /**

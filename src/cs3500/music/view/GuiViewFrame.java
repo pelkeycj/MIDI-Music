@@ -87,6 +87,7 @@ public class GuiViewFrame extends AView {
 
   @Override
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
+    pianoPanel.deactivateAll();
     //check which beats are current playing to toggle them on
     HashSet<Pitch> playingPitches = new HashSet<>();
     for (PitchSequence p : this.pitches) {
