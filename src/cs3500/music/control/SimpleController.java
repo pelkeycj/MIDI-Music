@@ -142,6 +142,7 @@ public class SimpleController implements IController {
    * BACKSPACE/HOME - place cursor at start of piece. <br>
    * ENTER/END      - place cursor at end of piece. <br>
    * A/D            - decrease/increase tempo by 10% <br.
+   * P              - toggle practice/performance modes. <br>
    */
   protected void setKeyStrategy() {
     Map<Integer, Runnable> keyTypes = new HashMap<>();
@@ -150,7 +151,7 @@ public class SimpleController implements IController {
 
     SimpleController sc = this;
 
-    // increase/decrease tempo by 10% seconds per beat
+    // increase/decrease tempo by 10%
     keyPresses.put(KeyEvent.VK_A, () -> {
       sc.tempo += sc.tempo * sc.TEMPO_MULTIPLIER;// increase seconds per beat by 10%
     });
@@ -240,6 +241,9 @@ public class SimpleController implements IController {
 
   /**
    * Sets the mouse strategy to use for handling user mouse input.<br>
+   * Mouse Click - activate note if practicing. <br>
+   * Mouse Press - begin adding note to sheet based on tempo. <br>
+   * Mouse Release - add note to sheet. <br>
    *
    */
   protected void setMouseStrategy() {
@@ -274,16 +278,20 @@ public class SimpleController implements IController {
 
     // press down
     mouseEvents.put(MouseEvent.MOUSE_PRESSED, e -> {
-      sc.addingNote = true;
-      sc.mousePressStartBeat = sc.currentBeat;
-      sc.mousePressTime = System.nanoTime();
-      System.out.println("mouse pressed down");
+      if (!this.practice) {
+        sc.addingNote = true;
+        sc.mousePressStartBeat = sc.currentBeat;
+        sc.mousePressTime = System.nanoTime();
+      }
     });
 
     // release
     mouseEvents.put(MouseEvent.MOUSE_RELEASED, e -> {
-      System.out.println("Mouse released")
-;      sc.addingNote = false;
+      if (!this.addingNote) {
+        return;
+      }
+
+      sc.addingNote = false;
       int x = e.getX();
       int y = e.getY();
 
