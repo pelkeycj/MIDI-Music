@@ -49,6 +49,16 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
 
 2. DESIGN
 
+=========================================EXTRA CREDIT===============================================
+
+TIER 2:
+  CHANGES MADE:
+    ADDED: PlayingState enum that include PRACTICE and PERFORMANCE states
+    SIMPLE CONTROLLER: Added new key handler that toggles PRACTICE and PERFORMANCE modes in the views
+      and changes the what that mouse presses are handled
+    VIEWS: All views now have a way to set the playing state, set a certain pitch to be "activated",
+      and a method to check if the view is ready to advance
+
 =======================================THE 3RD MOVEMENT=============================================
 
 ADDITIONS:

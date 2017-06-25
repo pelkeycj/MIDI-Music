@@ -79,4 +79,12 @@ public interface IView {
    * @return the specified pitch
    */
   Pitch getPitchAt(int x, int y);
+
+
+  //ADAM ADDED EXTRA CREDIT
+  boolean advanceReady();
+
+  void setPlayingMode(PlayingMode mode);
+
+  void activateNote(Pitch p);
 }

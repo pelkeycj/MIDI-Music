@@ -29,6 +29,7 @@ public class PianoPanel extends JPanel {
   private int blackKeyHeight;
 
   private PianoKey[] keys;
+  private HashSet<Pitch> onSet;
 
 
   /**
@@ -63,7 +64,8 @@ public class PianoPanel extends JPanel {
    * are switched to unpressed.
    * @param onPitches the set of pitches are are currently being played in the view
    */
-  void setOnKeys(HashSet<Pitch> onPitches) {
+  public void setOnKeys(HashSet<Pitch> onPitches) {
+    this.onSet = onPitches;
     for (PianoKey key : this.keys) {
       if (onPitches.contains(key.pitch)) {
         key.press();
@@ -72,6 +74,39 @@ public class PianoPanel extends JPanel {
         key.unpress();
       }
     }
+  }
+
+  /**
+   * Sets the key representing the given pitch to the active state.
+   * @param p pitch to be set to the active state.
+   */
+  public void activateKey(Pitch p) {
+    for (PianoKey key : this.keys) {
+      if (key.pitchCopy().equals(p)) {
+        if (this.onSet.contains(key.pitch)) {
+          key.goodPress();
+        } else {
+          key.badPress();
+        }
+        return;
+      }
+    }
+    throw new IllegalArgumentException("This is pitch is not contained on the panel.");
+  }
+
+  /**
+   * Determines if all keys are currently on are in the activated state.
+   * @return true if all on keys are active
+   */
+  public boolean allOnKeysActivated() {
+    for (PianoKey key : this.keys) {
+      if (key.isPressed()) {
+        if (!(key.isActivated())) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   /**
@@ -126,6 +161,7 @@ public class PianoPanel extends JPanel {
     }
   }
 
+  //provide x and y coordinates to each large key on the piano
   private void placeLargeKeys() {
     int yPos = 0;
     int xPos = SIDE_BUFFER;
@@ -137,6 +173,7 @@ public class PianoPanel extends JPanel {
     }
   }
 
+  //provide x and y coordinates to each small key on the piano
   private void placeSmallKeys() {
     int yPos = 0;
     int xPos = SIDE_BUFFER + whiteKeyWidth - blackKeyWidth / 2;
@@ -201,6 +238,10 @@ public class PianoPanel extends JPanel {
     private boolean pressed;
     private Color pressedColor = Color.ORANGE;
     Rectangle image;
+    private boolean activated;
+    private Color activateColor = Color.green;
+    private boolean badPress;
+    private Color badPressColor = Color.red;
 
     /**
      * Constructor for use in the GuiViewFrame class to create a instance of a piano key.
@@ -239,6 +280,38 @@ public class PianoPanel extends JPanel {
      */
     private void unpress() {
       this.pressed = false;
+      this.activated = false;
+      this.badPress = false;
+    }
+
+    /**
+     * Set this key to its active state.
+     */
+    private void goodPress() {
+      this.activated = true;
+    }
+
+    /**
+     * Indicated that this key has been incorrectly pressed.
+     */
+    private void badPress() {
+      this.badPress = true;
+    }
+
+    /**
+     * Determines if this key is pressed.
+     * @return true if the key is pressed.
+     */
+    private boolean isPressed() {
+      return this.pressed;
+    }
+
+    /**
+     * Determines if this key is activated.
+     * @return true is the key is activated.
+     */
+    private boolean isActivated() {
+      return this.activated;
     }
 
     /**
@@ -255,7 +328,13 @@ public class PianoPanel extends JPanel {
      * @return the background color of a key image.
      */
     private Color getBackGroundColor() {
-      if (this.pressed) {
+      if (this.badPress) {
+        return this.badPressColor;
+      }
+      else if (this.activated) {
+        return this.activateColor;
+      }
+      else if (this.pressed) {
         return this.pressedColor;
       }
       else if (this.isLargeKey()) {
@@ -270,6 +349,10 @@ public class PianoPanel extends JPanel {
       return new Pitch(this.pitch.getNote(), this.pitch.getOctave());
     }
 
+    /**
+     * Draws the key onto the panel.
+     * @param g2d graphics object on which to draw the key
+     */
     private void draw(Graphics2D g2d) {
       g2d.setColor(this.getBackGroundColor());
       g2d.fill(this.image);

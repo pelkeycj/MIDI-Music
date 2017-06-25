@@ -34,7 +34,6 @@ public class GuiViewFrame extends AView {
   private SheetPanel sheetPanel;
   private PianoPanel pianoPanel;
   private ScrollingSheet scrollingSheet;
-
   private List<PitchSequence> pitches;
 
   /**
@@ -62,6 +61,8 @@ public class GuiViewFrame extends AView {
     this.scrollingSheet.setPreferredSize(new Dimension(MIN_WIDTH, MIN_HEIGHT / 2));
     this.scrollingSheet.setRowHeaderView(new RowHeaderPanel(this.pitches));
     this.add(scrollingSheet, BorderLayout.NORTH);
+
+    this.mode = PlayingMode.PERFORMANCE;
 
     //this.getContentPane().add(displayPanel);
     this.pack();
@@ -98,6 +99,17 @@ public class GuiViewFrame extends AView {
   }
 
   @Override
+  public void activateNote(Pitch p) {
+    pianoPanel.activateKey(p);
+    this.repaint();
+  }
+
+  @Override
+  public boolean advanceReady() {
+    return this.mode.equals(PlayingMode.PERFORMANCE) || this.pianoPanel.allOnKeysActivated();
+  }
+
+  @Override
   public boolean isActive() {
     return this.isVisible();
   }
@@ -108,6 +120,7 @@ public class GuiViewFrame extends AView {
     int width = currentSize.width;
     int height = currentSize.height;
     this.scrollingSheet.setPreferredSize(new Dimension(width, height - MIN_HEIGHT / 2));
+    this.pianoPanel.resizePanel(width, height);
     this.repaint();
   }
 

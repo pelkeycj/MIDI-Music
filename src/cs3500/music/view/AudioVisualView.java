@@ -79,4 +79,21 @@ public class AudioVisualView implements IView {
   public Pitch getPitchAt(int x, int y) throws IllegalArgumentException {
     return this.visual.getPitchAt(x, y);
   }
+
+  @Override
+  public boolean advanceReady() {
+    return this.visual.advanceReady() && this.audio.advanceReady();
+  }
+
+  @Override
+  public void setPlayingMode(PlayingMode mode) {
+    this.visual.setPlayingMode(mode);
+    this.audio.setPlayingMode(mode);
+  }
+
+  @Override
+  public void activateNote(Pitch p) {
+    this.visual.activateNote(p);
+    this.audio.activateNote(p);
+  }
 }

@@ -35,6 +35,7 @@ public class AudioView extends AView {
    * @param s the kind of synthesizer to be used by this AudioView
    */
   private AudioView(Synthesizer s) {
+    this.mode = PlayingMode.PERFORMANCE;
     try {
       this.synth = s;
       this.receiver = synth.getReceiver();
@@ -93,6 +94,20 @@ public class AudioView extends AView {
   @Override
   public void refresh() {
     //do nothing
+  }
+
+  @Override
+  public void activateNote(Pitch p) {
+    try {
+      MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON,
+          CHANNEL, p.getValue(), 100);
+      MidiMessage end = new ShortMessage(ShortMessage.NOTE_OFF,
+          CHANNEL, p.getValue(), 100);
+      this.receiver.send(start, -1);
+      this.receiver.send(end, this.synth.getMicrosecondPosition() + 1 * noteDurationMicro);
+    } catch (InvalidMidiDataException e) {
+      throw new RuntimeException("Error in audio playback.");
+    }
   }
 
   /**

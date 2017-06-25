@@ -17,7 +17,7 @@ import java.util.List;
  * beat at which each note is located.
  */
 public class TextView extends AView {
-  Appendable out;
+  private Appendable out;
 
   /**
    * Public constructor for the text view. The view is appended to the given Appendable item so that
@@ -26,6 +26,7 @@ public class TextView extends AView {
    */
   public TextView(Appendable out) {
     this.out = out;
+    this.mode = PlayingMode.PERFORMANCE;
   }
 
   @Override

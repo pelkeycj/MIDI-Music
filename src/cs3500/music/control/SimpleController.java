@@ -1,5 +1,6 @@
 package cs3500.music.control;
 
+import cs3500.music.view.PlayingMode;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class SimpleController implements IController {
   protected int tempo;
   protected boolean playing;
   protected boolean terminateAtEnd;
+  protected boolean practice;
   protected int lastBeat;
   protected KeyStrategy  keyStrategy;
   protected MouseStrategy mouseStrategy;
@@ -36,6 +38,7 @@ public class SimpleController implements IController {
     this.currentBeat = 0;
     this.playing = false;
     this.terminateAtEnd = false;
+    this.practice = false;
     this.tempo = 1000000; // 1 secocd nd per beat default (in microseconds)
     this.setKeyStrategy();
     this.setMouseStrategy();
@@ -94,16 +97,14 @@ public class SimpleController implements IController {
    // this.updateViewBeat();
 
     while (this.allViewsActive()) {
-      if (this.playing) {
+      if (this.playing && allViewsReady()) {
         this.updateViewBeat();
         this.sleep();
         this.changeBeatBy(1);
         this.updateViewBeat();
       }
 
-      for (IView v : views) {
-        v.refresh();
-      }
+      refreshAll();
 
       if (terminateAtEnd && this.currentBeat == this.lastBeat) {
         return;
@@ -128,15 +129,20 @@ public class SimpleController implements IController {
       sc.playing = false;
       sc.changeBeatBy(-1);
       sc.updateViewBeat();
+      sc.refreshAll();
     });
 
     keyPresses.put(KeyEvent.VK_RIGHT, () -> {
       sc.playing = false;
       sc.changeBeatBy(1);
       sc.updateViewBeat();
+      sc.refreshAll();
     });
 
-    keyPresses.put(KeyEvent.VK_SPACE, () -> sc.playing = !sc.playing);
+    keyPresses.put(KeyEvent.VK_SPACE, () -> {
+      sc.playing = !sc.playing;
+      sc.refreshAll();
+    });
 
     Runnable toStart = () -> {
       sc.playing = false;
@@ -156,7 +162,6 @@ public class SimpleController implements IController {
     keyPresses.put(KeyEvent.VK_ENTER, toEnd);
     keyPresses.put(KeyEvent.VK_END, toEnd);
 
-
     keyPresses.put(KeyEvent.VK_UP, () -> {
       for (IView v : sc.views) {
         v.scrollVertical(-1);
@@ -169,15 +174,33 @@ public class SimpleController implements IController {
       }
     });
 
+    keyPresses.put(KeyEvent.VK_P, () -> {
+      if (sc.practice) {
+        for (IView v : sc.views) {
+          v.setPlayingMode(PlayingMode.PERFORMANCE);
+        }
+        sc.practice = false;
+      } else {
+        for (IView v : sc.views) {
+          v.setPlayingMode(PlayingMode.PRACTICE);
+        }
+        sc.practice = true;
+        sc.playing = true;
+      }
+      sc.refreshAll();
+    });
+
     this.keyStrategy = new KeyHandler();
     this.keyStrategy.setKeyTypedStrategy(keyTypes);
     this.keyStrategy.setKeyPressedStrategy(keyPresses);
     this.keyStrategy.setKeyReleasedStrategy(keyReleases);
   }
 
+  /**
+   * Sets up the mouse strategy such that a mouse click adds a new note at the current beat.
+   */
   protected void setMouseStrategy() {
     Map<Integer, MouseEventProcessor> mouseEvents = new HashMap<>();
-
 
     SimpleController sc = this;
     mouseEvents.put(MouseEvent.MOUSE_CLICKED, e -> {
@@ -198,22 +221,29 @@ public class SimpleController implements IController {
         return; // midi cannot handle
       }
 
-      try {
-        sc.addNote(p.getOctave(), p.getNote(),
-                sc.currentBeat, sc.currentBeat + 1, 2, 100);
-        sc.currentBeat++;
-        sc.updateViewBeat();
-        sc.lastBeat = sc.model.getLastBeat()  + 1;
-        for (IView v : sc.views) {
-          v.setNotes(sc.model.getPitches());
+      if (sc.practice) {
+        for (IView v : this.views) {
+          v.activateNote(p);
         }
       }
-      catch (IllegalArgumentException exception) {
-        // ignore duplicate notes
-        return;
+      else {
+        try {
+          sc.addNote(p.getOctave(), p.getNote(),
+              sc.currentBeat, sc.currentBeat + 1, 2, 100);
+          sc.currentBeat++;
+          sc.updateViewBeat();
+          sc.lastBeat = sc.model.getLastBeat()  + 1;
+          for (IView v : sc.views) {
+            v.setNotes(sc.model.getPitches());
+          }
+        }
+        catch (IllegalArgumentException exception) {
+          // ignore duplicate notes
+          return;
+        }
       }
+      sc.refreshAll();
     });
-
 
     this.mouseStrategy = new MouseHandler();
     mouseStrategy.setMouseEvents(mouseEvents);
@@ -272,5 +302,26 @@ public class SimpleController implements IController {
     for (IView v : this.views) {
       v.setCurrentBeat(this.currentBeat);
     }
+  }
+
+  /**
+   * Refresh all views at once.
+   */
+  private void refreshAll() {
+    for (IView v : this.views) {
+      v.refresh();
+    }
+  }
+
+  /**
+   * Determines if all views are ready to play.
+   * @return true of all views are ready to play.
+   */
+  private boolean allViewsReady() {
+    boolean output = true;
+    for (IView v : this.views) {
+      output = output && v.advanceReady();
+    }
+    return output;
   }
 }
