@@ -46,7 +46,7 @@ public class AudioView extends AView {
 
   /**
    * Default constructor creates an instance of an AudioView using a standard midi synthesizer.
-   * @throws MidiUnavailableException
+   * @throws MidiUnavailableException if the midi is unavailable
    */
   public AudioView() throws MidiUnavailableException {
     this(MidiSystem.getSynthesizer());
@@ -55,7 +55,7 @@ public class AudioView extends AView {
   /**
    * Creates a test version of the AudioView class that uses its midimessages to keep a log of the
    * sound messages it send to its receiver. Used for testing purposes.
-   * @param log@param log the stringbuilder used to keep a log of the messages sent by this audio view
+   * @param log the stringbuilder used to keep a log of the messages sent by this audio view
    */
   public AudioView(StringBuilder log) {
     this(new MockSynthesizer(log));
