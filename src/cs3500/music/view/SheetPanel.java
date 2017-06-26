@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import cs3500.music.model.PitchSequence;
+import cs3500.music.model.RepeatInstr;
 
 import static cs3500.music.util.ViewConstants.SHEET_START_Y;
 import static cs3500.music.util.ViewConstants.MEASURE_BORDER_HEIGHT;
@@ -28,6 +29,7 @@ import static cs3500.music.util.ViewConstants.BEAT_BORDER_HEIGHT;
  */
 public class SheetPanel extends JPanel {
   private List<PitchSequence> pitches;
+  private List<RepeatInstr> repeats;
   private int numMeasures;
   private int currentBeat;
   private int pitchHeight;
@@ -46,6 +48,7 @@ public class SheetPanel extends JPanel {
    */
   public SheetPanel() {
     this.pitches = new ArrayList<>();
+    this.repeats = new ArrayList<>();
   }
 
   @Override
@@ -61,6 +64,9 @@ public class SheetPanel extends JPanel {
     }
 
     this.drawMeasures(g2d);
+
+    this.drawRepeats(g2d);
+
     this.drawCursor(g2d);
   }
 
@@ -76,6 +82,14 @@ public class SheetPanel extends JPanel {
     // sort and reverse for displaying
     Collections.sort(pitches);
     Collections.reverse(this.pitches); // so that higher pitches are on top
+  }
+
+  /**
+   * Sets the repeats to display.
+   * @param repeats the list of repeats
+   */
+  public void setRepeats(List<RepeatInstr> repeats) {
+    this.repeats = repeats;
   }
 
   /**
@@ -208,6 +222,45 @@ public class SheetPanel extends JPanel {
       g2d.drawLine(xStart, yStart, xEnd, yEnd);
     }
 
+  }
+
+  /**
+   * Draws the repeats to the sheet.
+   * @param g2d the graphics 2d object to draw to
+   */
+  private void drawRepeats(Graphics2D g2d) {
+    int numMeasures;
+    int remainingBeats;
+    int xStart;
+    int xEnd;
+    int yStart;
+    int yEnd;
+
+    for (RepeatInstr r : this.repeats) {
+      // draw start line
+      numMeasures = r.firstBeat() / 4;
+      remainingBeats = r.firstBeat() - numMeasures * 4;
+      xStart = numMeasures * MEASURE_BORDER_WIDTH + remainingBeats * BEAT_WIDTH
+              + this.getScrollDelta();
+      xEnd = xStart;
+
+      yStart = SHEET_START_Y - 10;
+      yEnd = this.pitchHeight + 10;
+
+      g2d.setColor(Color.magenta);
+      g2d.drawLine(xStart, yStart, xEnd, yEnd);
+
+      // draw stop line
+      numMeasures = r.lastBeat() / 4;
+      remainingBeats = r.lastBeat() - numMeasures * 4;
+
+      xStart = numMeasures * MEASURE_BORDER_WIDTH + remainingBeats * BEAT_WIDTH
+              + this.getScrollDelta();
+      xEnd = xStart;
+
+      g2d.setColor(Color.blue);
+      g2d.drawLine(xStart, yStart, xEnd, yEnd);
+    }
   }
 
   /**

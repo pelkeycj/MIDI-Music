@@ -16,7 +16,7 @@ import javax.swing.JFrame;
  */
 public abstract class AView extends JFrame implements IView {
   List<PitchSequence> pitches;
-//  List<RepeatInstr> repeats;
+  List<RepeatInstr> repeats;
   boolean active;
   PlayingMode mode;
 
@@ -25,10 +25,10 @@ public abstract class AView extends JFrame implements IView {
     this.pitches = pitches;
   }
 
-//  @Override
-//  public void setRepeats(List<RepeatInstr> repeats) {
-//    this.repeats = repeats;
-//  }
+  @Override
+  public void setRepeats(List<RepeatInstr> repeats) {
+    this.repeats = repeats;
+ }
 
   @Override
   public boolean advanceReady() {

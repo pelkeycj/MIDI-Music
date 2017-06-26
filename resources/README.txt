@@ -1,6 +1,10 @@
 CONTENTS:
     1. USAGE
     2. DESIGN
+      - EXTRA CREDIT
+        - TIER 1
+        - TIER 2
+        - TIER 3
       - The 3rd Movement
         - ADDITIONS
           - Mouse Handling Strategy: Panel, View, Controller, Event Processing
@@ -42,6 +46,8 @@ CONTENTS:
         5. mystery-3.txt
         6. zoot-lw.txt
         7. zoot-zl.txt
+        8. mary-little-lamb.txt
+        9. mary-little-lamb-repeats.txt
 
 NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however audio will.
 
@@ -50,6 +56,16 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
 2. DESIGN
 
 =========================================EXTRA CREDIT===============================================
+TIER 1:
+  CHANGES MADE:
+    MOUSEHANDLER: Changed mouse listener methods so that all of them run the associated
+                    MouseEventProcessor.
+    SIMPLECONTROLLER: Added two new keyboard events ('A' to slow tempo, 'D' to speed up).
+                      Added mouse events to handle mouse presses (start adding note)
+                      and mouse releases (add note based on duration held). While the controller
+                      is in a state of addingNote, it enters a while loop that moves the current
+                      beat forward at a rate based on the tempo until the mouse is released,
+                      adding a note.
 
 TIER 2:
   CHANGES MADE:

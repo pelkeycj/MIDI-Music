@@ -3,6 +3,8 @@ package cs3500.music.view;
 import cs3500.music.model.Note;
 import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
+import cs3500.music.model.RepeatInstr;
+
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 
@@ -139,6 +141,11 @@ public class GuiViewFrame extends AView {
   @Override
   public void scrollVertical(int direction) {
     this.scrollingSheet.scrollVertical(direction);
+  }
+
+  @Override
+  public void setRepeats(List<RepeatInstr> repeats) {
+    this.sheetPanel.setRepeats(repeats);
   }
 
   @Override
