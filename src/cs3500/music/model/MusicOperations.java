@@ -31,6 +31,25 @@ public interface MusicOperations {
   void addNote(Octave o, NoteType nt, int start, int end, int instrument, int loudness);
 
   /**
+   * Addes a repeat instruction to this piece of music.
+   * @param r the repeat instruction to add
+   * @throws IllegalArgumentException if the addition causes a nested repeat or is out of bounds.
+   */
+  void addRepeat(RepeatInstr r) throws IllegalArgumentException;
+
+  /**
+   * Resets all repeat instructions to uncompleted.
+   */
+  void resetRepeats();
+
+  /**
+   * Gets the repeat instruction that contains the given beat.
+   * @param beat desired beat
+   * @return repeat instruction at that beat. null if there is none.
+   */
+  RepeatInstr repeatAt(int beat);
+
+  /**
    * Removes the note from beats {@code start} to {@code end} at the pitch
    * specified by octave {@code o} and note type {@code nt}.
    * @param o the octave to remove from
@@ -81,6 +100,12 @@ public interface MusicOperations {
    * @return a list of pitch sequences
    */
   ArrayList<PitchSequence> getPitches();
+
+  /**
+   * Get the list of {@link RepeatInstr}s for this piece of music.
+   * @return a copied list of repeat instructions.
+   */
+  ArrayList<RepeatInstr> getRepeats();
 
   /**
    * Gets the last beat of this sheet.

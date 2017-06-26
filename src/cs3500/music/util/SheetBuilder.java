@@ -3,6 +3,7 @@ package cs3500.music.util;
 import cs3500.music.control.IController;
 import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.OctaveNumber0To10;
+import cs3500.music.model.RepeatInstr;
 
 /**
  * Builds a sheet of music by adding notes and setting the tempo. These modifications are passed
@@ -40,6 +41,12 @@ public class SheetBuilder implements CompositionBuilder<IController> {
 
     this.controller.addNote(OctaveNumber0To10.intToOctave(octaveNum),
             NoteTypeWestern.intToNote(noteNum), start, end, instrument, volume);
+    return this;
+  }
+
+  @Override
+  public CompositionBuilder<IController> addRepeat(int firstBeat, int lastBeat) {
+    this.controller.addRepeat(new RepeatInstr(firstBeat, lastBeat));
     return this;
   }
 }

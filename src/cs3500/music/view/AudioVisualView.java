@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import cs3500.music.model.RepeatInstr;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.List;
@@ -27,6 +28,12 @@ public class AudioVisualView implements IView {
     this.visual.setNotes(pitches);
     this.audio.setNotes(pitches);
   }
+
+//  @Override
+//  public void setRepeats(List<RepeatInstr> repeats) {
+//    this.visual.setRepeats(repeats);
+//    this.audio.setRepeats(repeats);
+//  }
 
   @Override
   public void initialize() {

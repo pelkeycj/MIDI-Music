@@ -2,6 +2,7 @@ package cs3500.music.view;
 
 import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
+import cs3500.music.model.RepeatInstr;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.List;
@@ -16,6 +17,12 @@ public interface IView {
    * @param pitches the note information for the view
    */
   void setNotes(List<PitchSequence> pitches);
+
+//  /**
+//   * Provide the view with the repeats to be enacted on this music.
+//   * @param repeats the repeats instructions for the view.
+//   */
+//  void setRepeats(List<RepeatInstr> repeats);
 
   /**
    * Make the view visible.

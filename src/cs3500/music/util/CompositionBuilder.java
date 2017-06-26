@@ -31,4 +31,12 @@ public interface CompositionBuilder<T> {
    * @return this builder
    */
   CompositionBuilder<T> addNote(int start, int end, int instrument, int pitch, int volume);
+
+  /**
+   * Add a new repeat instruction to the piece.
+   * @param firstBeat the first beat of the repeat (i.e. the beat to go back to)
+   * @param lastBeat the last beat of the repeat (i.e. the last beat played before going back)
+   * @return this builder
+   */
+  CompositionBuilder<T> addRepeat(int firstBeat, int lastBeat);
 }

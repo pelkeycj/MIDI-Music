@@ -55,6 +55,19 @@ public class MusicReader {
             throw new IllegalArgumentException("Malformed note line: " + scanner.nextLine());
           }
           break;
+        case "repeat":
+          try {
+            int firstBeat = scanner.nextInt();
+            int lastBeat = scanner.nextInt();
+            try {
+              piece.addRepeat(firstBeat, lastBeat);
+            } catch (IllegalArgumentException e) {
+              System.out.println("bad repeat: " + firstBeat + ", " + lastBeat);
+            }
+          } catch (NoSuchElementException e) {
+            throw new IllegalArgumentException("Malformed repeat line");
+          }
+          break;
         default:
           throw new IllegalArgumentException("Bad line type: " + lineType);
       }

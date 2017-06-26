@@ -3,6 +3,7 @@ package cs3500.music.view;
 import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
 
+import cs3500.music.model.RepeatInstr;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.swing.JFrame;
  */
 public abstract class AView extends JFrame implements IView {
   List<PitchSequence> pitches;
+//  List<RepeatInstr> repeats;
   boolean active;
   PlayingMode mode;
 
@@ -22,6 +24,11 @@ public abstract class AView extends JFrame implements IView {
   public void setNotes(List<PitchSequence> pitches) {
     this.pitches = pitches;
   }
+
+//  @Override
+//  public void setRepeats(List<RepeatInstr> repeats) {
+//    this.repeats = repeats;
+//  }
 
   @Override
   public boolean advanceReady() {

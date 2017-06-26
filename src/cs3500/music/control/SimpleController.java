@@ -1,5 +1,6 @@
 package cs3500.music.control;
 
+import cs3500.music.model.RepeatInstr;
 import cs3500.music.view.PlayingMode;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -98,6 +99,11 @@ public class SimpleController implements IController {
   }
 
   @Override
+  public void addRepeat(RepeatInstr r) {
+    this.model.addRepeat(r);
+  }
+
+  @Override
   public void control() {
     this.setLastBeat();
     for (IView v : views) {
@@ -113,6 +119,7 @@ public class SimpleController implements IController {
         this.updateViewBeat();
         this.sleep();
         this.changeBeatBy(1);
+        repeatCheck();
       }
 
       // if currently adding a note (mouse was pressed down),
@@ -191,6 +198,7 @@ public class SimpleController implements IController {
       //sc.playing = false; TODO change state or not to change state...
       sc.currentBeat = 0;
       sc.updateViewBeat();
+      sc.model.resetRepeats();
     };
 
     keyPresses.put(KeyEvent.VK_BACK_SPACE, toStart);
@@ -343,6 +351,17 @@ public class SimpleController implements IController {
       return;
     }
     this.currentBeat += delta;
+  }
+
+  /**
+   * Sets the song to the repeat beat if the current beat is the last beat of an uncompleted beat.
+   */
+  private void repeatCheck() {
+    RepeatInstr r = model.repeatAt(this.currentBeat);
+    if (r != null && !(r.isCompleted()) && this.currentBeat == r.lastBeat()) {
+      this.currentBeat = r.firstBeat();
+      r.complete();
+    }
   }
 
   /**

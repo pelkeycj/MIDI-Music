@@ -70,7 +70,23 @@ TIER 2:
         - added activateKey(...) and deactivateKey(...) that modified the key that represents a
             given pitch
 
-
+TIER 3
+  CHANGES MADE:
+    ADDED: RepeatInstr data structure that holds repeat instructions.
+    MODEL:
+      Added a list of repeat instructions and added methods to add and manipulate repeats as
+      well as get access to a repeat instruction at a specific point in the song
+    CONTROLLER:
+      Added method to interact with the repeats instructions of the model.
+      Added a private method to check for repeats on the current beat and skip to the start of the
+      repeat and mark that repeat as completed.
+    MUSIC COMPOSITION:
+      Added an addRepeat method to the Composition builder interface and implemented in the
+        MusicReader concrete class
+      Added a clause in the switch case statement to parse and add repeat instructions to the model
+      currently being built.
+    VIEW
+      Option to add a set of repeat instructions for the views to store and use for rendering.
 
 =======================================THE 3RD MOVEMENT=============================================
 

@@ -2,6 +2,7 @@ package cs3500.music.control;
 
 import cs3500.music.model.NoteType;
 import cs3500.music.model.Octave;
+import cs3500.music.model.RepeatInstr;
 
 /**
  * Controller interface for the MusicEditor program.
@@ -40,6 +41,12 @@ public interface IController {
    * @param loudness the loudness to play at
    */
   void addNote(Octave o, NoteType nt, int start, int end, int instrument, int loudness);
+
+  /**
+   * Adds a repeat instruction to the model.
+   * @param r the repeat instruction to add
+   */
+  void addRepeat(RepeatInstr r);
 
   /**
    * Provide the controller with control, start the program.

@@ -1,5 +1,6 @@
 package cs3500.music.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -11,9 +12,11 @@ import cs3500.music.util.StringUtilities;
  */
 public class MusicSheet implements MusicOperations {
   private ArrayList<PitchSequence> pitches;
+  private ArrayList<RepeatInstr> repeats;
 
   public MusicSheet() {
-    this.pitches = new ArrayList<PitchSequence>();
+    this.pitches = new ArrayList<>();
+    this.repeats = new ArrayList<>();
   }
 
   //FOR GRADER'S USE IN ASSIGNMENT 5
@@ -40,6 +43,40 @@ public class MusicSheet implements MusicOperations {
     else {
       this.pitches.add(new PitchSequence(o, nt)
               .addNote(new Note(start, end, instrument, loudness)));
+    }
+  }
+
+  @Override
+  public void addRepeat(RepeatInstr r) throws IllegalArgumentException {
+    if (r.lastBeat() > this.getLastBeat()) {
+      throw new IllegalArgumentException("Repeat instructions are out of bounds.");
+    }
+    for (RepeatInstr curr : repeats) {
+      if ((r.firstBeat() <= curr.firstBeat() && r.firstBeat() >= curr.lastBeat())
+          || (r.lastBeat() <= curr.firstBeat() && r.lastBeat() >= curr.lastBeat())) {
+        throw new IllegalArgumentException("Nested repeats not accepted.");
+      }
+    }
+    repeats.add(r);
+  }
+
+  @Override
+  public RepeatInstr repeatAt(int beat) {
+    if (beat < 0) {
+      return null;
+    }
+    for (RepeatInstr r : repeats) {
+      if (beat >= r.firstBeat() && beat <= r.lastBeat()) {
+        return r;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public void resetRepeats() {
+    for (RepeatInstr r : repeats) {
+      r.uncomplete();
     }
   }
 
@@ -178,6 +215,14 @@ public class MusicSheet implements MusicOperations {
     return copy;
   }
 
+  @Override
+  public ArrayList<RepeatInstr> getRepeats() {
+    ArrayList<RepeatInstr> copy = new ArrayList<>();
+    for (RepeatInstr r : repeats) {
+      copy.add(r.copy());
+    }
+    return copy;
+  }
 
   /**
    * Removes empty {@link PitchSequence}s from {@code pitches}.
