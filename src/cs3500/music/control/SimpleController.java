@@ -68,6 +68,7 @@ public class SimpleController implements IController {
     this(model, view);
     this.playing = true;
     this.terminateAtEnd = true;
+    this.practice = false;
   }
 
 
@@ -394,6 +395,9 @@ public class SimpleController implements IController {
       v.refresh();
     }
   }
+
+
+  //NEW FOR HW 9=================================================================
 
   /**
    * Determines if all views are ready to play.

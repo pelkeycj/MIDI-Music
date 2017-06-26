@@ -107,13 +107,7 @@ public class PianoPanel extends JPanel {
         return;
       }
     }
-    throw new IllegalAccessError("This pitch is not contained on the panel.");
-  }
-
-  void deactivateAll() {
-    for (PianoKey key : this.keys) {
-      key.activated = false;
-    }
+    throw new IllegalArgumentException("This pitch is not contained on the panel.");
   }
 
   /**

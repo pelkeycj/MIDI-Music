@@ -54,10 +54,23 @@ NOTE: visual, audiovisual views may not handle the size of df-ttfaf.txt, however
 TIER 2:
   CHANGES MADE:
     ADDED: PlayingState enum that include PRACTICE and PERFORMANCE states
-    SIMPLE CONTROLLER: Added new key handler that toggles PRACTICE and PERFORMANCE modes in the views
-      and changes the what that mouse presses are handled
+    SIMPLE CONTROLLER: Added new key handler for "p" that toggles PRACTICE and PERFORMANCE modes in the views
+      and changes the what that mouse presses are handled.
+      - added method to check if all views are ready to continue
+      - modified the mouse strategy such that when in practice mode, it "activates" notes rather
+        than adding them
     VIEWS: All views now have a way to set the playing state, set a certain pitch to be "activated",
       and a method to check if the view is ready to advance
+      - GUI VIEW
+        - modifies visual presentation (puts it one step before the audio view)
+        - implemented additions to the IView interface
+        - modified rules in setCurrentBeat to deactivate when necessary
+      -  PIANO PANEL
+        - added "active" state to the keys with a separate color for "good presses" and "bad presses"
+        - added activateKey(...) and deactivateKey(...) that modified the key that represents a
+            given pitch
+
+
 
 =======================================THE 3RD MOVEMENT=============================================
 
