@@ -133,6 +133,7 @@ public class SimpleController implements IController {
           this.updateViewBeat();
           this.refreshAll();
         }
+        repeatCheck();
       }
       refreshAll();
 
