@@ -1,5 +1,8 @@
 package cs3500.music.tests;
 
+import cs3500.music.model.Octave;
+import cs3500.music.model.OctaveNumber0To10;
+import cs3500.music.model.RepeatInstr;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,6 +12,7 @@ import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.OctaveNumber1To10;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Tests for the MusicSheet class.
@@ -71,7 +75,7 @@ public class MusicSheetTest {
 
   @Test(expected = IllegalArgumentException.class)
   // remove note does not exist
-  public void testRemoveNonExistant() {
+  public void testRemoveNonExistent() {
     m1.removeNote(OctaveNumber1To10.O2, NoteTypeWestern.C_SHARP, 0, 12);
   }
 
@@ -134,6 +138,69 @@ public class MusicSheetTest {
     m1.mergeSheet(m2);
 
     assertEquals(longBoye, m1.getSheet());
+  }
+
+  //HW 9 TESTS
+  @Test
+  public void addRepeatDoesNotDisrupt() {
+    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 1);
+    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP, 10, 11);
+    m1.addNote(OctaveNumber1To10.O5, NoteTypeWestern.D_SHARP, 6, 9);
+    m2.addNote(OctaveNumber1To10.O5, NoteTypeWestern.D_SHARP, 8, 10);
+    m1.mergeSheet(m2);
+
+    m2.addRepeat(new RepeatInstr(0, 1));
+    assertEquals(longBoye, m1.getSheet());
+
+    String expection = "";
+
+    try {
+      m2.addRepeat(new RepeatInstr(0, 1000));
+    } catch (IllegalArgumentException e) {
+      expection = e.getMessage();
+    }
+
+    assertNotEquals("", expection);
+  }
+
+  @Test
+  public void mergeRepeatsOverlap() {
+    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.C, 0, 1);
+    m1.addNote(OctaveNumber1To10.O1, NoteTypeWestern.A_SHARP, 10, 11);
+    m1.addNote(OctaveNumber1To10.O5, NoteTypeWestern.D_SHARP, 6, 9);
+    m2.addNote(OctaveNumber1To10.O5, NoteTypeWestern.D_SHARP, 8, 10);
+
+    m2.addRepeat(new RepeatInstr(0, 4));
+    m1.addRepeat(new RepeatInstr(4, 5));
+
+    String exception = "";
+    try {
+      m1.mergeSheet(m2);
+    } catch (IllegalArgumentException e) {
+      exception = e.getMessage();
+    }
+
+    assertNotEquals("", exception);
+  }
+
+  @Test
+  public void addRepeatOutOfBounds() {
+    String exception = "";
+    try {
+      m1.addRepeat(new RepeatInstr(0,1));
+    } catch (IllegalArgumentException e) {
+      exception = e.getMessage();
+    }
+    assertNotEquals("", exception);
+
+    exception = "";
+    m1.addNote(OctaveNumber0To10.O3, NoteTypeWestern.G, 0, 12);
+    try {
+      m1.addRepeat(new RepeatInstr(0,13));
+    } catch (IllegalArgumentException e) {
+      exception = e.getMessage();
+    }
+    assertNotEquals("", exception);
   }
 
 }

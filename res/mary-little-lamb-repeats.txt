@@ -33,5 +33,5 @@ note 52 54 1 64 81
 note 54 56 1 62 70
 note 56 64 1 52 72
 note 56 64 1 60 73
-repeat 8 15
+repeat 7 15
 repeat 55 63

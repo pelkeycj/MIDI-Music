@@ -61,7 +61,6 @@ public class SheetPanel extends JPanel {
     }
 
     this.drawMeasures(g2d);
-
     this.drawCursor(g2d);
   }
 
