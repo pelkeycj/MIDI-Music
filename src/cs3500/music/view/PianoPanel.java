@@ -79,8 +79,9 @@ public class PianoPanel extends JPanel {
   /**
    * Sets the key representing the given pitch to the active state.
    * @param p pitch to be set to the active state.
+   * @throws IllegalArgumentException if the pitch is not represented by this panel.
    */
-  public void activateKey(Pitch p) {
+  public void activateKey(Pitch p) throws IllegalArgumentException {
     for (PianoKey key : this.keys) {
       if (key.pitchCopy().equals(p)) {
         if (this.onSet.contains(key.pitch)) {
@@ -92,6 +93,21 @@ public class PianoPanel extends JPanel {
       }
     }
     throw new IllegalArgumentException("This is pitch is not contained on the panel.");
+  }
+
+  /**
+   * Sets the key representing the given pitch to the inactive state.
+   * @param p pitch to be set to the active state.
+   * @throws IllegalArgumentException if the pitch is not represented by this panel.
+   */
+  public void deactivateKey(Pitch p) throws IllegalArgumentException {
+    for (PianoKey key : this.keys) {
+      if (key.pitchCopy().equals(p)) {
+        key.activated = false;
+        return;
+      }
+    }
+    throw new IllegalAccessError("This pitch is not contained on the panel.");
   }
 
   void deactivateAll() {

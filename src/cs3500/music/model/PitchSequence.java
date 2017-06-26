@@ -210,16 +210,15 @@ public class PitchSequence implements Comparable<PitchSequence> {
   /**
    * Gets the note playing at the given beat.
    * @param beat the beat to search
-   * @return a copy of the note playing at the given beat
-   * @throws IllegalArgumentException if a note does not exist at {@code beat}
+   * @return a copy of the note playing at the given beat. null if no note is present.
    */
-  public Note noteAt(int beat) throws IllegalArgumentException {
+  public Note noteAt(int beat) {
     for (Note n : this.notes) {
       if (beat >= n.getStart() && beat < n.getEnd()) {
         return new Note(n.getStart(), n.getEnd(), n.getInstrument(), n.getLoudness());
       }
     }
-    throw new IllegalArgumentException("No note playing at this beat.");
+    return null;
   }
 
   /**

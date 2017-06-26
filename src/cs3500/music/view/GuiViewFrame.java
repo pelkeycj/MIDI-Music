@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Note;
 import cs3500.music.model.Pitch;
 import cs3500.music.model.PitchSequence;
 import java.awt.Dimension;
@@ -29,7 +30,6 @@ public class GuiViewFrame extends AView {
 
   private final int MIN_WIDTH = 1000;
   private final int MIN_HEIGHT = 500;
-
 
   private SheetPanel sheetPanel;
   private PianoPanel pianoPanel;
@@ -64,7 +64,6 @@ public class GuiViewFrame extends AView {
 
     this.mode = PlayingMode.PERFORMANCE;
 
-    //this.getContentPane().add(displayPanel);
     this.pack();
   }
 
@@ -87,12 +86,19 @@ public class GuiViewFrame extends AView {
 
   @Override
   public void setCurrentBeat(int beat) throws IllegalArgumentException {
-    pianoPanel.deactivateAll();
+    //if this is in practice mode, move the gui view on place ahead of the actual time of the song
+    if (this.mode.equals(PlayingMode.PRACTICE)) {
+      beat++;
+    }
     //check which beats are current playing to toggle them on
     HashSet<Pitch> playingPitches = new HashSet<>();
     for (PitchSequence p : this.pitches) {
-      if (p.playingAt(beat)) {
+      Note n = p.noteAt(beat);
+      if (n != null) {
         playingPitches.add(p.getPitchCopy());
+        if (n.getStart() == beat) {
+          pianoPanel.deactivateKey(p.getPitchCopy());
+        }
       }
     }
     pianoPanel.setOnKeys(playingPitches);

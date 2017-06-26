@@ -108,11 +108,10 @@ public class SimpleController implements IController {
     this.setViewNotes();
 
     while (this.allViewsActive()) {
-      if (this.playing && allViewsReady()) {
+      if (this.playing || (this.practice && allViewsReady())) {
         this.updateViewBeat();
         this.sleep();
         this.changeBeatBy(1);
-        this.updateViewBeat();
       }
 
       // if currently adding a note (mouse was pressed down),
@@ -180,13 +179,15 @@ public class SimpleController implements IController {
 
     // toggle play through
     keyPresses.put(KeyEvent.VK_SPACE, () -> {
-      sc.playing = !sc.playing;
+      if (!(this.practice)) {
+        sc.playing = !sc.playing;
+      }
       sc.refreshAll();
     });
 
     // move to start of piece
     Runnable toStart = () -> {
-      sc.playing = false;
+      //sc.playing = false; TODO change state or not to change state...
       sc.currentBeat = 0;
       sc.updateViewBeat();
     };
@@ -223,12 +224,13 @@ public class SimpleController implements IController {
           v.setPlayingMode(PlayingMode.PERFORMANCE);
         }
         sc.practice = false;
+        sc.playing = true;
       } else {
         for (IView v : sc.views) {
           v.setPlayingMode(PlayingMode.PRACTICE);
         }
         sc.practice = true;
-        sc.playing = true;
+        sc.playing = false;
       }
       sc.refreshAll();
     });
@@ -287,7 +289,7 @@ public class SimpleController implements IController {
 
     // release
     mouseEvents.put(MouseEvent.MOUSE_RELEASED, e -> {
-      if (!this.addingNote) {
+      if (!this.addingNote || this.practice) {
         return;
       }
 
