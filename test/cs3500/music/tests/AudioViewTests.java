@@ -7,6 +7,7 @@ import cs3500.music.model.MusicSheet;
 import cs3500.music.model.NoteTypeWestern;
 import cs3500.music.model.OctaveNumber0To10;
 import cs3500.music.model.Pitch;
+import cs3500.music.model.RepeatInstr;
 import cs3500.music.view.IView;
 import cs3500.music.view.AudioView;
 import java.io.IOException;
@@ -152,6 +153,30 @@ public class AudioViewTests {
     expectedLog.append(addMidiStartStop(0, d, 13, 2));
     expectedLog.append(addMidiStartStop(0, dSharp, 14, 2));
     expectedLog.append(addMidiStartStop(0, e, 15, 2));
+
+    assertTrue(runAudio(model, expectedLog.toString()));
+  }
+
+  @Test
+  public void repeatTest() {
+    model = new MusicSheet();
+    StringBuilder expectedLog = new StringBuilder();
+
+    Pitch cSharp = new Pitch(NoteTypeWestern.C_SHARP, OctaveNumber0To10.O1);
+    Pitch c = new Pitch(NoteTypeWestern.C, OctaveNumber0To10.O1);
+    Pitch d = new Pitch(NoteTypeWestern.D, OctaveNumber0To10.O1);
+
+    model.addNote(OctaveNumber0To10.O1, NoteTypeWestern.C_SHARP, 1, 3, 2, 11);
+    model.addNote(OctaveNumber0To10.O1, NoteTypeWestern.D, 1, 3, 1, 13);
+    model.addNote(OctaveNumber0To10.O1, NoteTypeWestern.C, 4, 7, 1, 12);
+
+    model.addRepeat(new RepeatInstr(1, 3));
+
+    expectedLog.append(addMidiStartStop(0, cSharp, 11, 2));
+    expectedLog.append(addMidiStartStop(0, d, 13, 2));
+    expectedLog.append(addMidiStartStop(0, cSharp, 11, 2));
+    expectedLog.append(addMidiStartStop(0, d, 13, 2));
+    expectedLog.append(addMidiStartStop(0, c, 12, 3));
 
     assertTrue(runAudio(model, expectedLog.toString()));
   }

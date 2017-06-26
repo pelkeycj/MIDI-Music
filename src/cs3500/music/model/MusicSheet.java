@@ -126,6 +126,16 @@ public class MusicSheet implements MusicOperations {
       throw new IllegalArgumentException("delta must be non-negative");
     }
 
+    //check for nesting repeats
+    for (RepeatInstr mRep : m.getRepeats()) {
+      for (RepeatInstr thisRep : this.getRepeats()) {
+        if ((mRep.firstBeat() >= thisRep.firstBeat() && mRep.firstBeat() <= thisRep.lastBeat())
+          || (mRep.lastBeat() >= thisRep.firstBeat() && mRep.lastBeat() <= thisRep.lastBeat())) {
+          throw new IllegalArgumentException("Invalid modification. Cannot overlap repeats.");
+        }
+      }
+    }
+
     for (PitchSequence mPitch : m.getPitches()) {
       if (this.hasPitch(mPitch.getOctave(), mPitch.getNoteType())) {
         this.getPitch(mPitch.getOctave(), mPitch.getNoteType()).addAll(mPitch, delta);
