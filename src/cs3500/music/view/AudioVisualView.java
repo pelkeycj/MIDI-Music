@@ -29,11 +29,12 @@ public class AudioVisualView implements IView {
     this.audio.setNotes(pitches);
   }
 
-//  @Override
-//  public void setRepeats(List<RepeatInstr> repeats) {
-//    this.visual.setRepeats(repeats);
-//    this.audio.setRepeats(repeats);
-//  }
+
+  @Override
+  public void setRepeats(List<RepeatInstr> repeats) {
+    this.visual.setRepeats(repeats);
+    this.audio.setRepeats(repeats);
+  }
 
   @Override
   public void initialize() {

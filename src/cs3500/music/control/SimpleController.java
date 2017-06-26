@@ -17,7 +17,6 @@ import cs3500.music.view.IView;
  * A simple controller to connect the view and the model.
  */
 public class SimpleController implements IController {
-  protected final double TEMPO_MULTIPLIER = .1; // 10% of tempo
   protected MusicOperations model;
   protected IView[] views;
   protected int currentBeat;
@@ -34,7 +33,8 @@ public class SimpleController implements IController {
   protected int mousePressStartBeat;
   protected long mousePressTime;
 
-  private final int MICRO_TO_NANO = 1000;
+  protected final double TEMPO_MULTIPLIER = .1; // 10% of tempo
+  protected final int MICRO_TO_NANO = 1000;
 
 
   /**
@@ -85,6 +85,7 @@ public class SimpleController implements IController {
   public void setViewNotes() {
     for (IView v : views) {
       v.setNotes(this.model.getPitches());
+      v.setRepeats(this.model.getRepeats());
     }
   }
 
@@ -195,7 +196,7 @@ public class SimpleController implements IController {
 
     // move to start of piece
     Runnable toStart = () -> {
-      //sc.playing = false; TODO change state or not to change state...
+      //sc.playing = false;
       sc.currentBeat = 0;
       sc.updateViewBeat();
       sc.model.resetRepeats();

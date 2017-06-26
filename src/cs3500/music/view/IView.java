@@ -18,11 +18,11 @@ public interface IView {
    */
   void setNotes(List<PitchSequence> pitches);
 
-//  /**
-//   * Provide the view with the repeats to be enacted on this music.
-//   * @param repeats the repeats instructions for the view.
-//   */
-//  void setRepeats(List<RepeatInstr> repeats);
+  /**
+   * Provide the view with the repeats to be enacted on this music.
+   * @param repeats the repeats instructions for the view.
+   */
+  void setRepeats(List<RepeatInstr> repeats);
 
   /**
    * Make the view visible.
