@@ -195,7 +195,6 @@ public class SimpleController implements IController {
 
     // move to start of piece
     Runnable toStart = () -> {
-      //sc.playing = false; TODO change state or not to change state...
       sc.currentBeat = 0;
       sc.updateViewBeat();
       sc.model.resetRepeats();
