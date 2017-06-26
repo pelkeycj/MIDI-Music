@@ -128,7 +128,6 @@ public class SimpleController implements IController {
       while (this.addingNote) {
         long elapsedTime = System.nanoTime() - this.mousePressTime;
         if (elapsedTime >= this.tempo * MICRO_TO_NANO) {
-          System.out.println("elapsed: " + elapsedTime + " , temp " + tempo * MICRO_TO_NANO);
           mousePressTime = System.nanoTime();
           this.changeBeatBy(1);
           this.updateViewBeat();
