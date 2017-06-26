@@ -49,4 +49,23 @@ public class RepeatInstr {
     return r;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o instanceof RepeatInstr) {
+      RepeatInstr oRep = (RepeatInstr) o;
+      return oRep.isCompleted() == this.isCompleted() && oRep.firstBeat() == this.firstBeat()
+          && oRep.lastBeat() == this.lastBeat();
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    int boolInt = completed ? 1 : 0;
+    return this.firstBeat * 1000000 + this.lastBeat() * 10 + boolInt;
+  }
+
 }

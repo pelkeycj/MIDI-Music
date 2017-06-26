@@ -131,10 +131,10 @@ public class PitchSequenceTest {
     p1D.playingAt(-1);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   // invalid beat argument
   public void testNoteAtFail() {
-    p1D.noteAt(-5);
+    assertEquals(p1D.noteAt(-5), null);
   }
 
   @Test
