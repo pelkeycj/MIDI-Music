@@ -24,8 +24,8 @@ Valid [song] arguments:
 - mystery-1.txt
 - mystery-2.txt
 - mystery-3.txt
-- zoot.lw.txt
-- zoot.zl.txt
+- zoot-lw.txt
+- zoot-zl.txt
 - mary-little-lamb.txt
 - mary-little-lamb-repeats.txt
 
