@@ -6,7 +6,7 @@ An interactive sheet music player and editor.
 Usage
 ------
 To run the MIDIMusic jar file:
-`java -jar MIDIMusic.jar [view] [song]`
+`java -jar MIDIMusic.jar [view] [song (optional)]`
 
 Valid [view] arguments:
 - console: a text rendering of the sheet of music to the console.
