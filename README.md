@@ -1,7 +1,7 @@
 # MIDI-Music
 An interactive sheet music player and editor.
 
-![GIF of MIDI program](res/sample.gif)
+![GIF of MIDI program](https://github.com/pelkeycj/MIDI-Music/blob/master/res/sample.gif)
 
 Usage
 ------
