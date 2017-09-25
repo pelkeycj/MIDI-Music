@@ -60,17 +60,18 @@ public class MusicEditor {
         throw new IllegalArgumentException("Unsupported view: " + args[0]);
     }
 
-    String fileName = args[1];
     FileReader file;
     try {
+      String fileName = args[1];
       file = new FileReader(fileName);
+
+      CompositionBuilder<IController> builder = new SheetBuilder(controller);
+      MusicReader.parseFile(file, builder).control();
     }
-    catch (FileNotFoundException e) {
-      e.printStackTrace();
-      return;
+    catch (Exception e) {
+      System.out.println("Invalid filename or none specified. Opening empty sheet . . .");
+      controller.control();
     }
 
-    CompositionBuilder<IController> builder = new SheetBuilder(controller);
-    MusicReader.parseFile(file, builder).control();
   }
 }
